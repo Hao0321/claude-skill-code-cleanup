@@ -1,5 +1,66 @@
 # Changelog
 
+## v0.4.1 — 2026-08-09 (外部 review 精準度修正)
+
+v0.4 由外部 review（Claude session）在**沒見過的 repo** 上實測抓出 3 個問題，全數修正。
+這版自己就是 D12 教條的案例：**selftest 全綠 ≠ 當工具跑不炸**。
+
+### Fixed
+- **cp950 crash**（CRITICAL）— selftest 全綠，真掃第一發就 `UnicodeEncodeError`：
+  findings 含簡體字（如 `户`），Windows cp950 stdout 編不出來。
+  修法：`__main__` 進場先 `sys.stdout.reconfigure(encoding="utf-8", errors="replace")`
+- **D10 誤報 ×11** — `.py` 註解裡的規則**引用**（`# M115: ...`）被當成競爭定義。
+  引用天生比定義短，重疊率必低 → 對比等於保證誤報。修法：**定義只住在 `.md`**，
+  程式碼引用歸 D13 家族的「有沒有落地」問題
+- **D7 誤報 ×2** — `[hi](某段中文筆記)` 這種**偽連結記法**被當 CRITICAL 斷鏈。
+  修法：target 要長得像路徑（含斜線或副檔名）才進判定
+
+### Added
+- selftest 17 → **20 項**：D7 偽連結反向案例、D10 程式碼引用反向案例、
+  **cp950 子行程真 corpus 回歸**（把掃描器當子行程跑、fixture 塞簡體字、斷言 exit 0 ——
+  以後這類「in-process 測不到的 I/O 層炸裂」不再漏）
+
+**實測**（同一 repo，200 檔 / 39k 行）：CRITICAL **13 → 0**
+（13 個裡 11+2 是上述兩類誤報；剩下 1 個真規則漂移是以對齊文案方式修掉，不是靠濾掉）。
+
+## v0.4.0 — 2026-08-07 (可執行掃描器 + 語意層維度)
+
+最大一次改版。從「一份給人抄的 bash checklist」變成「一支能跑的工具」。
+
+### Added
+- **`cleanup_scan.py` — 可執行掃描器**（純 Python，跨平台）
+  - 機械掃 9 個維度，依 **severity 排序**（CRITICAL / HIGH / MED / LOW）輸出
+  - `--selftest`（雙向自測）／`--json`／`--max-files`
+  - v0.3 以前全是 bash snippet，作者本人是 Windows 用戶，貼上去跑不動
+- **D10 規則內容漂移** — 同命名空間內同一規則 ID 在不同檔案講不同話
+  - 起因：作者一條規則（R21）降級後，3 個 skill 仍寫舊版。版本號沒變、連結沒壞，D7/D8 全抓不到
+- **D11 孤島 / SoT 缺失** — 該互相引用卻零 cross-reference 的姊妹模組
+  - 起因：兩個描述同一件事兩半的 skill，grep 互提 0 次
+- **D12 gate 自我認證** — 只有 self-test、沒有真 corpus 回歸的 gate
+  - 起因：一支 voice gate self-test 35/35 綠，真樣本一掃 5/5 誤報
+  - 附「corpus 是標準 vs corpus 是現況」的區分（量作者自評最弱的維度時不可對齊現況）
+- **D13 裁決無機械落地** — 台帳有規則但沒 gate 撐
+- **Dogfood 紀律章節** — 本 skill 自己必須先過自己那關
+- **門檻誠實聲明** — D4 長度門檻是未校準的經驗值，標明「當提示不當判決」
+
+### Changed
+- D1 同一父目錄的重複自動降級為 LOW（樣板家族＝設計如此，不是技術債）
+- D2 依副檔名分流：規則編號＝文件層（.md），命名風格＝程式層（.py/.ts/…）
+- D7 只掃 `.md`（原本連 `.py` 原始碼裡的字串都當 markdown 連結）
+- D8 只認**版本宣告**（`## v1.2.3` / `version:` / `__version__`），不認散文提及
+- SKILL.md 380 → 約 250 行，細節下沉到 `cleanup_scan.py` docstring
+
+### Fixed（全部由 dogfood 抓出，皆為「掃描器讀到自己的範例」同一形狀）
+- D10 跨模組撞 ID 誤報 15 個 CRITICAL — 規則 ID 是**每個模組各自的命名空間**
+- D10 中文未斷詞 — `\w+` 把整串中文當一個 token，兩句不同規則算出 50% 相似 → 改字元 bigram
+- D10 吃到 changelog 與輪次標籤 — 改成只認**定義行**不認**談論行**
+- D8 把數值常數（`0.30`、`1.0`）當版本號
+- D8 把 docstring 裡舉例用的假版本號當成真版本（憑空造出 v9.0.0）
+- D2 把掃描器自己的正則字面值當成「有人在用這種命名」
+
+**實測**：作者的 skills repo（166 檔 / 45k 行）CRITICAL **15 → 0**、HIGH **119 → 30**；
+自掃自己 CRITICAL 0 / HIGH 0。
+
 ## v0.3.1 — 2026-06-10
 
 ### Added — Dimension 9e: 個人化設定當預設（源自 M90）

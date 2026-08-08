@@ -43,22 +43,37 @@
 
 ---
 
-## 兩模式 / 9 dimension
+## v0.4：可執行掃描器 + 13 個維度
 
-### Mode A — Codebase Cleanup（v0.1 base）
+v0.4 起附**跨平台 Python 掃描器** [`cleanup_scan.py`](code-cleanup-helper/cleanup_scan.py)（不需 bash）——
+機械掃 9 類、人工判 4 類，依 severity（CRITICAL → LOW）排序輸出：
 
-1. **重複內容**（DRY 違反）— 同 keyword / substring 散落幾個檔案
-2. **命名不一致**（同 concept 多種寫法）
+```bash
+python code-cleanup-helper/cleanup_scan.py <目標資料夾>    # 掃描（--json / --max-files 可選）
+```
+
+```bash
+python code-cleanup-helper/cleanup_scan.py --selftest      # 20 項雙向自測
+```
+
+### 檔案層（v0.1–v0.3）
+
+1. **重複內容**（DRY 違反）— 跨檔一字不差的行、同 keyword 散落 ✅機械
+2. **命名不一致**（同 concept 多種寫法，`R5` vs `規則 5`）✅機械
 3. **可抽 reusable 模組**（重複 ≥ 3 次 + 邏輯獨立）
-4. **過長檔案 / 函數**（> 800 行 / > 100 行警告）
-
-### Mode B — Repo Audit（v0.2 NEW）
-
+4. **過長檔案 / 函數** ✅機械
 5. **私公版 sync GAP**（適用 dual-repo skill）
 6. **Release 一致性**（git tag / gh release / CHANGELOG / README 對齊）
-7. **Cross-link 完整性**（broken markdown link / cross-repo ref）
-8. **版本標記漂移**（多檔案 version drift）
-9. **開源/交接文件健檢**（主力定位顛倒 / 隱性依賴沒標需求 / onboarding 無 minimum-viable，源自 video-autopilot-kit 開源實戰）
+7. **Cross-link 完整性**（markdown 連結指向不存在的檔案）✅機械
+8. **版本標記漂移**（只認版本**宣告**，不認散文提及）✅機械
+9. **開源/交接文件健檢**（主力定位顛倒 / 隱性依賴沒標需求 / 個資烤進 default，源自 video-autopilot-kit 開源實戰）
+
+### ⭐ 語意層（v0.4 NEW — 檔案層全綠也抓得到的債）
+
+10. **規則內容漂移** — 同一規則 ID 在不同檔案講不同話（版本號沒變、連結沒壞，D7/D8 全抓不到）✅機械
+11. **孤島 / SoT 缺失** — 該互相引用卻零 cross-reference 的姊妹模組 ✅機械
+12. **gate 自我認證** — 只有 self-test、沒有真 corpus 回歸的 gate（fixture 照規則寫，規則錯 fixture 一起錯）✅機械
+13. **裁決無機械落地** — 決策台帳有規則但沒 gate 撐 ✅機械
 
 詳見 [`code-cleanup-helper/SKILL.md`](code-cleanup-helper/SKILL.md)。
 
@@ -143,8 +158,8 @@ A: MIT License，可改可商用，保留 LICENSE 檔即可。
 
 - 主要為**中文 / 英文混合 markdown prompt** 設計
 - 一般 source code cleanup 建議搭配真正的 linter
-- Phase 1 掃描依賴 `Bash` + `Grep` 工具
-- 大型 codebase（> 50 檔案）掃描可能 > 30 sec
+- 掃描器只覆蓋 9/13 維度；D3 / D5 / D6 / D9 是判斷題，照 SKILL.md 人工跑
+- **掃描綠 ≠ 專案健康** — D4 長度門檻是未校準經驗值，當提示不當判決
 
 ---
 
