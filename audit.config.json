@@ -1,0 +1,19 @@
+{
+  "length_exceptions": [
+    "code-cleanup-helper/cleanup_scan.py",
+    "code-cleanup-helper/scripts/audit_core.py"
+  ],
+  "sync": {
+    "public_root": null,
+    "ignore": []
+  },
+  "privacy": {
+    "tokens": [
+      "C:/Users/Hao0321",
+      "C:\\Users\\Hao0321"
+    ],
+    "allow": [
+      "audit.config.json"
+    ]
+  }
+}

@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.5.0 — 2026-08-11 (deterministic audit engine)
+
+### Added
+
+- 新增跨平台 `scripts/audit.py` 與可重用 `audit_core.py`。
+- 新增 link、drift、sync 專用檢查器與 dependency-free self-test。
+- 統一 PASS／FAIL／NOT_CHECKED，支援 human／JSON report 與 `--strict` CI mode。
+- 新增 `audit.config.json` schema、privacy allowlist、自訂 fact assertions 與公開 example。
+- Release audit 同時偵測「文件落後 tag」與「文件版本已前進但 tag 尚未建立」。
+- 新增 Codex `agents/openai.yaml` metadata。
+
+### Changed
+
+- SKILL.md 改為 progressive disclosure，詳細規則下沉到 references。
+- 保留 v0.4.1 `cleanup_scan.py` 作為 semantic deep scanner；新引擎不是替代品。
+- Windows UTF-8 成為正式執行規格。
+- README 同時說明 Codex 與 Claude Code 安裝方式。
+
 ## v0.4.1 — 2026-08-09 (外部 review 精準度修正)
 
 v0.4 由外部 review（Claude session）在**沒見過的 repo** 上實測抓出 3 個問題，全數修正。
