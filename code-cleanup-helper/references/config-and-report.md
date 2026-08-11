@@ -27,6 +27,7 @@
   },
   "sync": {
     "public_root": null,
+    "normalize_text": true,
     "ignore": ["style_profile.md", "content_plan.md", "data/**"]
   },
   "drift_assertions": [
@@ -40,12 +41,17 @@
   ],
   "privacy": {
     "tokens": ["C:/Users/作者名", "私人品牌詞"],
+    "patterns": ["C:[/\\\\]Users[/\\\\][^/\\\\]+"],
     "allow": ["private/**"]
   }
 }
 ```
 
+`privacy.tokens` 是 literal 字串；Windows 反斜線不會被當 regex escape。需要正則時使用 `privacy.patterns`；無效 regex 會回報 FAIL，不會讓 audit crash。
+
 `drift_assertions` 的 `pattern` 是 Python regex；`files` 使用 glob；`expected_count` 預設 0。把穩定、可機械驗證的事實放這裡，不把分析推論硬寫成 assertion。
+
+`sync.normalize_text` 預設為 `true`，因此 LF／CRLF 與 UTF-8 BOM 差異不會製造假 desync；若需要 byte-for-byte 發布驗證才設為 `false`。
 
 JSON report 欄位：
 

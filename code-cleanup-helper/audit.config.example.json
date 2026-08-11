@@ -27,11 +27,13 @@
   },
   "sync": {
     "public_root": null,
+    "normalize_text": true,
     "ignore": ["private/**", "data/**"]
   },
   "drift_assertions": [],
   "privacy": {
     "tokens": ["/Users/example-user", "C:/Users/example-user"],
+    "patterns": [],
     "allow": ["audit.config.example.json"]
   }
 }

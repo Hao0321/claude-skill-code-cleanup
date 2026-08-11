@@ -9,6 +9,11 @@
 - 統一 PASS／FAIL／NOT_CHECKED，支援 human／JSON report 與 `--strict` CI mode。
 - 新增 `audit.config.json` schema、privacy allowlist、自訂 fact assertions 與公開 example。
 - Release audit 同時偵測「文件落後 tag」與「文件版本已前進但 tag 尚未建立」。
+- Repo root audit 會遞迴檢查 nested `SKILL.md`、相鄰 `agents/openai.yaml` 與 nested references。
+- Privacy 支援 literal `tokens` 與明確的 regex `patterns`；無效 regex 回報 FAIL，不再讓 audit crash。
+- Markdown duplicate 掃描正確忽略 fenced code 的開、關標記。
+- Sync 預設正規化 LF／CRLF 與 UTF-8 BOM；symlink 不會把 audit 範圍帶出目標根目錄。
+- 無效 drift assertion regex 回報結構化 FAIL，不再中止整場 audit。
 - 新增 Codex `agents/openai.yaml` metadata。
 
 ### Changed

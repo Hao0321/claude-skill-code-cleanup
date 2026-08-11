@@ -38,9 +38,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "navigation_exceptions": [],
     "id_definition_scopes": {},
     "range_claim_scopes": {},
-    "sync": {"public_root": None, "ignore": []},
+    "sync": {"public_root": None, "ignore": [], "normalize_text": True},
     "drift_assertions": [],
-    "privacy": {"tokens": [], "allow": []},
+    "privacy": {"tokens": [], "patterns": [], "allow": []},
 }
 
 
@@ -80,8 +80,13 @@ def is_excluded(relative: str, patterns: Iterable[str]) -> bool:
 
 def collect_files(root: Path, config: dict[str, Any]) -> list[Path]:
     files: list[Path] = []
+    resolved_root = root.resolve()
     for path in root.rglob("*"):
-        if not path.is_file() or path.suffix.lower() not in TEXT_EXTENSIONS:
+        if path.is_symlink() or not path.is_file() or path.suffix.lower() not in TEXT_EXTENSIONS:
+            continue
+        try:
+            path.resolve().relative_to(resolved_root)
+        except ValueError:
             continue
         relative = path.relative_to(root).as_posix()
         if not is_excluded(relative, config["exclude"]):
@@ -119,6 +124,7 @@ def normalized_paragraphs(text: str, min_chars: int) -> list[tuple[int, str, str
     for line_no, line in enumerate(lines + [""], start=1):
         if line.strip().startswith("```"):
             in_fence = not in_fence
+            continue
         if in_fence:
             continue
         if line.strip():
@@ -238,9 +244,10 @@ def audit_lengths(root: Path, inventory: list[dict[str, Any]], config: dict[str,
         if any(fnmatch.fnmatch(path, pattern) for pattern in exceptions):
             continue
         lines = item["lines"]
-        if path == "SKILL.md":
+        parts = Path(path).parts
+        if Path(path).name == "SKILL.md":
             warning, severe = t["skill_warning"], t["skill_severe"]
-        elif path.startswith("references/") and path.endswith(".md"):
+        elif "references" in parts and path.endswith(".md"):
             warning, severe = t["reference_warning"], t["reference_severe"]
         elif Path(path).suffix.lower() in {".py", ".js", ".ts", ".tsx", ".jsx"}:
             warning, severe = t["code_warning"], t["code_severe"]
@@ -298,7 +305,15 @@ def audit_assertions(root: Path, files: list[Path], config: dict[str, Any]) -> l
     assertions = config.get("drift_assertions", [])
     for assertion in assertions:
         assertion_id = assertion.get("id", "custom-assertion")
-        pattern = re.compile(assertion["pattern"], re.I | re.M)
+        try:
+            pattern = re.compile(assertion["pattern"], re.I | re.M)
+        except (KeyError, re.error) as exc:
+            findings.append(Finding(
+                8, "FAIL", "assertion-pattern-invalid",
+                f"drift assertion {assertion_id} regex 無效：{exc}",
+                details={"assertion_id": assertion_id},
+            ))
+            continue
         globs = assertion.get("files", ["**/*"])
         matches: list[dict[str, Any]] = []
         for path, text in file_map.items():
@@ -322,24 +337,36 @@ def audit_assertions(root: Path, files: list[Path], config: dict[str, Any]) -> l
 
 def audit_skill_package(root: Path, files: list[Path], config: dict[str, Any]) -> list[Finding]:
     findings: list[Finding] = []
-    skill = root / "SKILL.md"
-    if skill.exists():
+    skills = [path for path in files if path.name == "SKILL.md"]
+    for skill in skills:
         text = read_text(skill)
         frontmatter = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
-        name_match = re.search(r"^name:\s*([^\n]+)", frontmatter.group(1), re.M) if frontmatter else None
-        if not frontmatter or not name_match:
-            findings.append(Finding(9, "FAIL", "skill-frontmatter", "SKILL.md 缺少有效 name／description frontmatter", "SKILL.md", 1))
+        body = frontmatter.group(1) if frontmatter else ""
+        name_match = re.search(r"^name:\s*([^\n]+)", body, re.M)
+        description_match = re.search(r"^description:\s*(\S.*)$", body, re.M)
+        relative_skill = rel(root, skill)
+        if not frontmatter or not name_match or not description_match:
+            findings.append(Finding(
+                9, "FAIL", "skill-frontmatter",
+                "SKILL.md 缺少有效 name／description frontmatter", relative_skill, 1,
+            ))
         else:
             name = name_match.group(1).strip().strip("\"'")
-            agents = root / "agents" / "openai.yaml"
+            agents = skill.parent / "agents" / "openai.yaml"
             if not agents.exists():
-                findings.append(Finding(9, "FAIL", "agents-metadata", "缺少 agents/openai.yaml"))
+                findings.append(Finding(
+                    9, "FAIL", "agents-metadata", "缺少 agents/openai.yaml",
+                    rel(root, skill.parent),
+                ))
             elif f"${name}" not in read_text(agents):
-                findings.append(Finding(9, "FAIL", "default-prompt", f"agents/openai.yaml 的 default_prompt 未提及 ${name}", "agents/openai.yaml"))
+                findings.append(Finding(
+                    9, "FAIL", "default-prompt",
+                    f"agents/openai.yaml 的 default_prompt 未提及 ${name}", rel(root, agents),
+                ))
     navigation_exceptions = config.get("navigation_exceptions", [])
     for path in files:
         relative = rel(root, path)
-        if not relative.startswith("references/") or path.suffix.lower() != ".md":
+        if "references" not in Path(relative).parts or path.suffix.lower() != ".md":
             continue
         if any(fnmatch.fnmatch(relative, pattern) for pattern in navigation_exceptions):
             continue
@@ -364,6 +391,26 @@ def audit_skill_package(root: Path, files: list[Path], config: dict[str, Any]) -
                     9, "FAIL", "privacy-token", f"公開候選檔案含個人 token：{token}",
                     relative, text.count("\n", 0, match.start()) + 1,
                 ))
+    for raw_pattern in privacy.get("patterns", []):
+        try:
+            pattern = re.compile(raw_pattern, re.I)
+        except re.error as exc:
+            findings.append(Finding(
+                9, "FAIL", "privacy-pattern-invalid", f"privacy regex 無效：{exc}",
+                details={"pattern": raw_pattern},
+            ))
+            continue
+        for path in files:
+            relative = rel(root, path)
+            if any(fnmatch.fnmatch(relative, item) for item in allow):
+                continue
+            text = read_text(path)
+            match = pattern.search(text)
+            if match:
+                findings.append(Finding(
+                    9, "FAIL", "privacy-pattern", f"公開候選檔案符合隱私 pattern：{raw_pattern}",
+                    relative, text.count("\n", 0, match.start()) + 1,
+                ))
     if not findings:
         findings.append(Finding(9, "PASS", "skill-package", "Skill metadata、reference 導航與隱私規則通過"))
     return findings
@@ -380,6 +427,7 @@ def audit_sync(root: Path, config: dict[str, Any]) -> list[Finding]:
     if not public_root.exists():
         return [Finding(5, "NOT_CHECKED", "sync-root-missing", f"公開版路徑不存在：{public_root}")]
     ignore = sync.get("ignore", [])
+    normalize_text = bool(sync.get("normalize_text", True))
     findings: list[Finding] = []
     for private in collect_files(root, config):
         relative = rel(root, private)
@@ -388,7 +436,10 @@ def audit_sync(root: Path, config: dict[str, Any]) -> list[Finding]:
         public = public_root / relative
         if not public.exists():
             findings.append(Finding(5, "FAIL", "sync-missing", "公開版缺少檔案", relative))
-        elif private.read_bytes() != public.read_bytes():
+        elif (
+            read_text(private) != read_text(public)
+            if normalize_text else private.read_bytes() != public.read_bytes()
+        ):
             findings.append(Finding(5, "FAIL", "sync-diff", "私版與公開版內容不同", relative))
     if not findings:
         findings.append(Finding(5, "PASS", "sync", "私版與公開版同步"))

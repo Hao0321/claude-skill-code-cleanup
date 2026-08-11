@@ -13,6 +13,8 @@
 - PASS／FAIL／NOT_CHECKED 三態，不再把「沒辦法查」算成通過。
 - Human／JSON report、`--strict` CI mode、跨平台 UTF-8。
 - `audit.config.json` 的 exclude、threshold、sync、drift assertion、privacy allowlist。
+- 從 repo root 遞迴檢查 nested skills、各自的 `agents/openai.yaml` 與 reference 導航。
+- Privacy literal token 與 regex pattern 分流；錯誤 regex 變成可讀 FAIL，不會炸掉 audit。
 - link、drift、sync 專用 CLI 與 dependency-free self-test。
 - 保留 v0.4.1 的 `cleanup_scan.py`，不讓新 deterministic engine 取代既有語意掃描能力。
 
