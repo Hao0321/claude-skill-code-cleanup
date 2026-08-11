@@ -1,4 +1,4 @@
-# 個人測試 / cache
+# Personal tests and caches
 *.log
 .DS_Store
 Thumbs.db
@@ -7,6 +7,11 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Node / temp
+# Node and temp files
 node_modules/
 *.tmp
+
+# Python and generated reports
+__pycache__/
+*.pyc
+audit-report.json

@@ -1,0 +1,14 @@
+{
+  "length_exceptions": [
+    "cleanup_scan.py",
+    "scripts/audit_core.py"
+  ],
+  "sync": {
+    "public_root": null,
+    "ignore": []
+  },
+  "privacy": {
+    "tokens": [],
+    "allow": []
+  }
+}
