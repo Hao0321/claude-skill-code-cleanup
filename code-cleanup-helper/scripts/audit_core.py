@@ -271,7 +271,7 @@ def audit_lengths(root: Path, inventory: list[dict[str, Any]], config: dict[str,
         if lines > severe:
             findings.append(Finding(4, "FAIL", "file-too-long", f"{lines} 行，超過嚴重線 {severe}", path))
         elif lines > warning:
-            findings.append(Finding(4, "FAIL", "file-long", f"{lines} 行，超過警告線 {warning}", path))
+            findings.append(Finding(4, "REVIEW", "file-long", f"{lines} 行，超過警告線 {warning}", path))
     if not findings:
         findings.append(Finding(4, "PASS", "file-lengths", "所有受管檔案皆在長度警告線內"))
     return findings

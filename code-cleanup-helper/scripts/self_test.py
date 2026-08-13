@@ -160,6 +160,25 @@ def test_function_thresholds() -> None:
             raise AssertionError(f"valid bounded exception should prevent severe FAIL: {excepted}")
 
 
+def test_file_thresholds() -> None:
+    with tempfile.TemporaryDirectory(prefix="cleanup-file-threshold-") as raw:
+        root = Path(raw) / "file-threshold-project"
+        root.mkdir()
+        write(root / "warning.py", "\n".join(f"warning_{index} = {index}" for index in range(5)) + "\n")
+        write(root / "severe.py", "\n".join(f"severe_{index} = {index}" for index in range(8)) + "\n")
+        write(root / "audit.config.json", json.dumps({"thresholds": {
+            "code_warning": 3,
+            "code_severe": 6,
+        }}))
+        report = run_audit(root, "a")
+        warning = [item for item in report["findings"] if item["path"] == "warning.py"]
+        severe = [item for item in report["findings"] if item["path"] == "severe.py"]
+        if len(warning) != 1 or warning[0]["code"] != "file-long" or warning[0]["status"] != "REVIEW":
+            raise AssertionError(f"warning-size file must be REVIEW: {warning}")
+        if len(severe) != 1 or severe[0]["code"] != "file-too-long" or severe[0]["status"] != "FAIL":
+            raise AssertionError(f"severe-size file must be FAIL: {severe}")
+
+
 def test_json_contract() -> None:
     with tempfile.TemporaryDirectory(prefix="cleanup-json-contract-") as raw:
         root = Path(raw) / "json-project"
@@ -185,6 +204,7 @@ def main() -> int:
     test_architecture_graph()
     test_import_resolution()
     test_function_thresholds()
+    test_file_thresholds()
     test_json_contract()
     print("self-test passed")
     return 0

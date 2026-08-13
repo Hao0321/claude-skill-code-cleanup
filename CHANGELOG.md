@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased — Cleanup ↔ R&D integration
+
+### Added
+
+- 新增 `run-benchmark-driven-rd` sibling skill，與 Cleanup 組成 evaluator／orchestrator 雙層架構。
+- 新增 machine contract adapter，驗證 Cleanup JSON schema、status/count、target/mode，並保存 evaluator/config SHA-256。
+- 新增 baseline／promotion semantics：baseline 可保存既有 FAIL；promotion 阻擋 FAIL 與 required `NOT_CHECKED`。
+- 新增 GitHub／外部系統 canonical-target、最終授權、mobile interaction 與 authoritative postcondition gate。
+
+### Changed
+
+- Cleanup 保持 read-only；原始請求已明確授權 R&D 實作時，不再因 audit 被調用而要求第二次確認。
+- Release audit 明確限於本地 repository evidence；遠端發布目標與權限交由 R&D external-change gate。
+
+### Fixed
+
+- 檔案長度介於 warning 與 severe 時改為 `REVIEW`；只有超過 severe 才是 `FAIL`，與函式門檻及文件契約一致。
+- Semantic D1 將每個 Python 檔必要的 `__future__` 與 argparse 宣告式樣板降為 LOW，並新增反向 fixture，避免把語法樣板誤判為跨模組重複責任。
+
+### Validation
+
+- Cleanup private/public self-test、Skill validation、sync audit 與 R&D adapter 正反 promotion fixtures 全數通過。
+- 新增真 provider regression corpus：實際掃描 R&D skill、阻擋 dependency cycle，並驗證 benchmark provenance mismatch。
+
 ## v0.6.0 — 2026-08-13 (dependency calibration)
 
 ### Added
