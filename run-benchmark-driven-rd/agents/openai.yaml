@@ -1,0 +1,7 @@
+interface:
+  display_name: "Benchmark-Driven R&D"
+  short_description: "Benchmark-gated R&D with safe external changes"
+  default_prompt: "Use $run-benchmark-driven-rd to calibrate evaluation tools, resolve canonical external targets, preflight final authorization, run falsifiable experiments, and retain reusable engineering knowledge."
+
+policy:
+  allow_implicit_invocation: true

@@ -62,6 +62,9 @@ LENGTH_LIMITS = [
 
 DUP_MIN_LEN = 30          # 重複行最短長度
 DUP_MIN_FILES = 3         # 出現在幾個不同檔案才算 DRY 違反
+DUPLICATION_DECLARATIVE_RE = re.compile(
+    r"^(?:from __future__ import annotations|parser\.add_argument\()"
+)
 LONG_FUNC_WARN = 50
 LONG_FUNC_FAIL = 100
 
@@ -154,13 +157,19 @@ def d1_duplication(files):
         parents = {w.rsplit("/", 2)[0] if w.count("/") >= 2 else w.split("/")[0]
                    for w in where}
         template_family = len(parents) == 1
-        if template_family:
+        declarative = bool(DUPLICATION_DECLARATIVE_RE.search(line))
+        if template_family or declarative:
             sev = "LOW"
         else:
             sev = "HIGH" if len(where) >= 5 else "MED"
+        suffix = ""
+        if template_family:
+            suffix = "（同一樣板家族，可能是設計如此）"
+        elif declarative:
+            suffix = "（每檔必要的宣告式樣板）"
         out.append(_finding(
             "D1", sev, "跨 %d 檔重複同一行%s"
-            % (len(where), "（同一樣板家族，可能是設計如此）" if template_family else ""),
+            % (len(where), suffix),
             line[:90] + ("..." if len(line) > 90 else ""),
             ", ".join(sorted(where)[:5])))
     out.sort(key=lambda x: -len(x["where"]))
@@ -671,6 +680,24 @@ def _assert_clean_fixture(failed):
     _run_temp_fixture("cleanupclean_", run)
 
 
+def _assert_declarative_duplicate_fixture(failed):
+    def run(root):
+        for index in range(5):
+            _write_fixture(
+                root,
+                "tool%d/cli.py" % index,
+                "from __future__ import annotations\n"
+                "parser.add_argument(\"--config\", type=Path)\n",
+            )
+        findings = [item for item in scan(root)["findings"] if item["dim"] == "D1"]
+        _check(
+            failed,
+            "D1 declarative boilerplate is non-blocking",
+            bool(findings) and all(item["severity"] == "LOW" for item in findings),
+        )
+    _run_temp_fixture("cleanupdeclarative_", run)
+
+
 def _assert_console_fixture(failed):
     import subprocess
 
@@ -695,6 +722,7 @@ def _selftest():
     _run_temp_fixture("cleanupscan_", run_detection)
     _assert_version_parser(failed)
     _assert_clean_fixture(failed)
+    _assert_declarative_duplicate_fixture(failed)
     _assert_console_fixture(failed)
     print("-" * 62)
     if failed:

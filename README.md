@@ -1,11 +1,27 @@
-# code-cleanup-helper
+# Code Cleanup + Benchmark-Driven R&D
 
-一個可安裝到 Codex 或 Claude Code 的 read-only code／skill／repository audit skill。
+一套可安裝到 Codex 或 Claude Code 的雙 Skill 工程系統：
 
-目前版本：**v0.6.0**。它把兩種互補能力放在同一套工作流：
+- `code-cleanup-helper`：read-only code／skill／repository evaluator。
+- `run-benchmark-driven-rd`：定義可證偽目標、保存 baseline、執行實驗、控制 promotion 與外部變更的 orchestrator。
+
+目前穩定 release：**v0.6.0**。`main` 另包含尚未標記 release 的 Cleanup ↔ R&D machine contract：
 
 - deterministic audit：重複段落、永久 ID、長檔、private/public sync、release、broken links、版本／事實漂移、skill metadata 與 privacy token。
 - semantic scan：規則內容漂移、SoT 孤島、gate 自我認證與「文件裁決沒有機械落地」。
+- benchmark gate：驗證 Cleanup JSON schema、status/count、target/mode，並凍結 evaluator/config hash。
+- external-change gate：在 GitHub／雲端 create、publish、rename、archive、delete 前鎖定 canonical target、最終權限與 postconditions。
+
+## Cleanup ↔ R&D contract
+
+Cleanup 永遠只量測；R&D 是唯一修改與 promotion 控制面。Baseline 可以保存既有 `FAIL`，promotion 則會阻擋 `FAIL`；`REVIEW` 保持可見但不自動阻擋，required dimension 的 `NOT_CHECKED` 會阻擋 promotion。
+
+```powershell
+python run-benchmark-driven-rd/scripts/run_cleanup_gate.py C:\path\to\repo --mode architecture --phase baseline
+python run-benchmark-driven-rd/scripts/run_cleanup_gate.py C:\path\to\repo --mode architecture --phase promotion --require-checked 10
+```
+
+完整契約見 [`rd-integration.md`](code-cleanup-helper/references/rd-integration.md)。
 
 ## v0.6.0 新增什麼
 
@@ -26,6 +42,7 @@ Codex（Windows PowerShell）：
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
 Copy-Item -Recurse ".\claude-skill-code-cleanup\code-cleanup-helper" "$env:USERPROFILE\.codex\skills\code-cleanup-helper"
+Copy-Item -Recurse ".\claude-skill-code-cleanup\run-benchmark-driven-rd" "$env:USERPROFILE\.codex\skills\run-benchmark-driven-rd"
 ```
 
 Claude Code：把 `.codex\skills` 改成 `.claude\skills`。macOS／Linux 可複製到 `~/.codex/skills/` 或 `~/.claude/skills/`。
@@ -61,6 +78,8 @@ python scripts/audit.py C:\path\to\repo --mode all --strict
 | 同一規則 ID 在不同文件講不同話 | `cleanup_scan.py` |
 | 姊妹模組互不引用、gate 只有自建 fixture | `cleanup_scan.py` |
 | Release 前完整健檢 | 兩個都跑 |
+| 定義 baseline、promotion、實驗與可重用決策 | `run-benchmark-driven-rd` |
+| GitHub／雲端發布、刪除或權限變更前的 canonical-target gate | `run-benchmark-driven-rd` |
 
 ## 設定
 
@@ -70,13 +89,16 @@ python scripts/audit.py C:\path\to\repo --mode all --strict
 
 ## 安全邊界
 
-Audit 本身只讀。skill 會先報告，再等你確認修改範圍；不會自動刪檔、改 `.git/`、改 CI／license、commit、push 或發布 release。
+Cleanup 引擎永遠只讀。單獨 audit 時先報告再等修復授權；若原始請求已明確要求 R&D 實作，Cleanup 只把證據交回 orchestrator，不重複索取授權。外部 create／publish／delete 仍必須通過 canonical-target、技術權限與 postcondition gate。
 
 ## 驗證
 
 ```powershell
 python code-cleanup-helper/scripts/self_test.py
 python code-cleanup-helper/cleanup_scan.py --selftest
+python run-benchmark-driven-rd/scripts/self_test.py
+python run-benchmark-driven-rd/scripts/run_cleanup_gate.py --self-test
+python run-benchmark-driven-rd/scripts/regression_corpus.py
 ```
 
 ## License
