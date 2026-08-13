@@ -27,7 +27,6 @@
   },
   "sync": {
     "public_root": null,
-    "normalize_text": true,
     "ignore": ["style_profile.md", "content_plan.md", "data/**"]
   },
   "drift_assertions": [
@@ -41,24 +40,50 @@
   ],
   "privacy": {
     "tokens": ["C:/Users/作者名", "私人品牌詞"],
-    "patterns": ["C:[/\\\\]Users[/\\\\][^/\\\\]+"],
     "allow": ["private/**"]
+  },
+  "architecture": {
+    "enabled": true,
+    "layers": [
+      {"name": "domain", "patterns": ["domain/**"], "may_depend_on": []},
+      {"name": "application", "patterns": ["application/**"], "may_depend_on": ["domain"]},
+      {"name": "interface", "patterns": ["cli/**", "api/**"], "may_depend_on": ["application", "domain"]}
+    ],
+    "forbidden_dependencies": [
+      {"source": "domain/**", "target": "cli/**", "message": "Domain 不可反向依賴 CLI"}
+    ],
+    "required_dependencies": [
+      {"source": "cli/log_outcome.py", "target": "storage/store.py", "message": "寫入器必須經過鎖與 revision guard"}
+    ],
+    "ignore_edges": [],
+    "function_warning_lines": 80,
+    "function_severe_lines": 160,
+    "function_exceptions": [
+      {
+        "path": "cli/legacy.py",
+        "name": "run_linear_gate",
+        "max_lines": 130,
+        "reason": "線性驗收步驟拆分後反而降低可讀性",
+        "expires_on": "2026-12-31"
+      }
+    ],
+    "max_module_out_degree": 18,
+    "max_module_fan_in": 24,
+    "duplicate_function_min_lines": 8,
+    "duplicate_function_min_nodes": 24
   }
 }
 ```
 
-`privacy.tokens` 是 literal 字串；Windows 反斜線不會被當 regex escape。需要正則時使用 `privacy.patterns`；無效 regex 會回報 FAIL，不會讓 audit crash。
-
-`drift_assertions` 的 `pattern` 是 Python regex；`files` 使用 glob；`expected_count` 預設 0。把穩定、可機械驗證的事實放這裡，不把分析推論硬寫成 assertion。
-
-`sync.normalize_text` 預設為 `true`，因此 LF／CRLF 與 UTF-8 BOM 差異不會製造假 desync；若需要 byte-for-byte 發布驗證才設為 `false`。
+`drift_assertions` 的 `pattern` 是 Python regex；`files` 使用 glob；`expected_count` 預設 0。把穩定、可機械驗證的事實放這裡，不把分析推論硬寫成 assertion。`required_dependencies` 是量測校準 gate：預期 edge 消失時直接 FAIL，適合保護關鍵資料路徑，不用來強迫所有模組互相依賴。
 
 JSON report 欄位：
 
 - `schema_version`：報告格式版本。
 - `target／mode／config`：執行範圍。
-- `summary`：files、lines、bytes、PASS、FAIL、NOT_CHECKED。
+- `summary`：files、lines、bytes、PASS、FAIL、REVIEW、NOT_CHECKED。
 - `inventory`：每檔行數、bytes、SHA-256。
+- `architecture`：module／edge、SCC cycles、layer violations、forbidden／missing-required edges、hotspots、long functions、duplicate function bodies 與 parse errors。
 - `findings`：dimension、status、code、message、path、line、details。
 
 `details` 是機器可讀證據；人類報告只顯示前 N 筆，避免把 terminal 塞滿。

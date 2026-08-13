@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.6.0 — 2026-08-13 (dependency calibration)
+
+### Added
+
+- 新增 bare sibling import resolution，支援以 `python scripts/tool.py` 直接執行的常見結構。
+- 新增 `architecture.required_dependencies`；已知應存在的內部 edge 若不可觀測，明確回報 FAIL。
+- 新增 sibling positive、missing required edge、real root module 與 stdlib negative controls。
+- 新增 config-driven `sync_public.py`，公開輸出可 dry-run 並依 allowlist 同步。
+
+### Changed
+
+- Import resolution 先尊重真正 top-level／stdlib module，再做限定 package prefix 的 sibling fallback。
+- Self-test 拆成小型責任函式，避免一支超長測試主函式本身形成熱點。
+- PASS 數量不再被描述成「架構最優」；稀疏圖與已知缺邊先視為 measurement failure。
+- 移除通用 cleanup skill 對作者私人 voice 的預設依賴。
+
+### Validation
+
+- 新 evaluator 已先自測，再 dogfood 掃描 Social Post 私版與公開版。
+
 ## v0.5.0 — 2026-08-11 (deterministic audit engine)
 
 ### Added

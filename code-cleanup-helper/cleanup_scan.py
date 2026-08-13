@@ -584,133 +584,123 @@ def format_report(rep, limit=25):
 # ═══════════════════════════════════════════════ self-test
 # 吃自己的狗糧：本檔自己就是「叫別人測試的工具要先測自己」的示範（M114）。
 
-def _selftest():
+def _check(failed, name, cond):
+    print("[%s] %s" % ("PASS" if cond else "FAIL", name))
+    if not cond:
+        failed.append(name)
+
+
+def _write_fixture(root, rel, content):
+    path = os.path.join(root, rel.replace("/", os.sep))
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with io.open(path, "w", encoding="utf-8") as handle:
+        handle.write(content)
+    return path
+
+
+def _build_detection_fixture(root):
+    dup = "這一整行內容夠長而且會在好幾個檔案裡面重複出現造成 DRY 違反"
+    _write_fixture(root, "alpha/SKILL.md",
+                   "# alpha\n%s\nR5：所有的決定都必須先經過圓桌會議才可以執行下去\n"
+                   "見 [壞掉](./nope.md)\n還有 [hi](摳luma>200亮部) 這種筆記記法\nv0.9.0\n" % dup)
+    _write_fixture(root, "alpha/notes.md",
+                   "%s\n規則 5 講的是另一件事\nR5：只有策略級才需要開圓桌其餘直接做\n" % dup)
+    _write_fixture(root, "alpha/helper.py",
+                   "# R5：這裡只是程式碼註解在引用規則五順便講實作細節跟定義無關\n"
+                   "def helper():\n    return 0\n")
+    _write_fixture(root, "beta/README.md",
+                   "%s\nv0.1.0\nR5：本模組的第五條規則規定所有輸出必須先寫入暫存區再落盤\n" % dup)
+    _write_fixture(root, "beta/thing_gate.py",
+                   "def _selftest():\n    return 0\n\ndef big():\n" + "    x = 1\n" * 120)
+    _write_fixture(root, "beta/ledger.md", "# 裁決台帳\n| 規則 A | 2026 | ⬜ 待建 | doc |\n")
+
+
+def _assert_detection_fixture(failed, rep):
+    findings = rep["findings"]
+    dims = {finding["dim"] for finding in findings}
+    expected_dims = ("D1", "D2", "D7", "D8", "D11", "D13")
+    for dim in expected_dims:
+        _check(failed, "%s detected" % dim, dim in dims)
+    _check(failed, "D4 long function detected", any(
+        f["dim"] == "D4" and "函數過長" in f["title"] for f in findings))
+    _check(failed, "D12 gate without corpus detected", any(
+        f["dim"] == "D12" and "corpus" in f["title"] for f in findings))
+    d10 = [f for f in findings if f["dim"] == "D10"]
+    _check(failed, "D10 rule drift detected", any("R5" in f["title"] for f in d10))
+    _check(failed, "D10 scoped to one namespace", all("alpha" in f["title"] for f in d10))
+    _check(failed, "D10 ignores changelog rows", not any("訪談落地" in f["detail"] for f in d10))
+    _check(failed, "D10 ignores code-file rule citations", not any("helper.py" in f["where"] for f in d10))
+    _check(failed, "D7 skips non-markdown files", all(
+        f["where"].endswith(".md") for f in findings if f["dim"] == "D7"))
+    _check(failed, "D7 skips prose pseudo-links", not any(
+        "摳luma" in f["detail"] for f in findings if f["dim"] == "D7"))
+    _check(failed, "D7 is CRITICAL", all(
+        f["severity"] == "CRITICAL" for f in findings if f["dim"] == "D7"))
+    order = [SEVERITY_ORDER[f["severity"]] for f in findings]
+    _check(failed, "findings sorted by severity", order == sorted(order))
+    _check(failed, "report renders", len(format_report(rep)) > 200)
+    _check(failed, "report is json-serializable", bool(json.dumps(findings)))
+
+
+def _assert_version_parser(failed):
+    _check(failed, "D8 ignores bare numeric constants",
+           _versions("THRESHOLD = 0.30\nratio 1.0\n") == set())
+    _check(failed, "D8 ignores prose mentions of a version",
+           _versions("算出全庫最新 v9.0.0 這種不存在的版本\n為什麼 v0.4 要有這支檔\n") == set())
+    declarations = (_versions("## v0.7.3 - notes") == {(0, 7, 3)}
+                    and _versions("version: 0.5.1") == {(0, 5, 1)}
+                    and _versions('__version__ = "1.2.3"') == {(1, 2, 3)})
+    _check(failed, "D8 accepts declarations only", declarations)
+
+
+def _run_temp_fixture(prefix, callback):
     import shutil
     import tempfile
+    root = tempfile.mkdtemp(prefix=prefix)
+    try:
+        callback(root)
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
 
+
+def _assert_clean_fixture(failed):
+    def run(root):
+        _write_fixture(root, "solo/SKILL.md",
+                       "# solo\n\n單一模組，簡短乾淨，沒有重複也沒有壞連結。\n")
+        _check(failed, "clean project produces no findings", not scan(root)["findings"])
+    _run_temp_fixture("cleanupclean_", run)
+
+
+def _assert_console_fixture(failed):
+    import subprocess
+
+    def run(root):
+        _write_fixture(root, "gamma/SKILL.md", "# gamma\n[用户资料](./缺失的档案.md)\n")
+        env = os.environ.copy()
+        env.pop("PYTHONIOENCODING", None)
+        env.pop("PYTHONUTF8", None)
+        proc = subprocess.run([sys.executable, os.path.abspath(__file__), root],
+                              capture_output=True, env=env, timeout=60)
+        _check(failed, "subprocess survives cp950 console (real-corpus)", proc.returncode == 0)
+    _run_temp_fixture("cleanupcp950_", run)
+
+
+def _selftest():
     failed = []
 
-    def check(name, cond):
-        print("[%s] %s" % ("PASS" if cond else "FAIL", name))
-        if not cond:
-            failed.append(name)
+    def run_detection(root):
+        _build_detection_fixture(root)
+        _assert_detection_fixture(failed, scan(root))
 
-    tmp = tempfile.mkdtemp(prefix="cleanupscan_")
-    try:
-        def w(rel, text):
-            p = os.path.join(tmp, rel.replace("/", os.sep))
-            os.makedirs(os.path.dirname(p), exist_ok=True)
-            with io.open(p, "w", encoding="utf-8") as f:
-                f.write(text)
-            return p
-
-        dup = "這一整行內容夠長而且會在好幾個檔案裡面重複出現造成 DRY 違反"
-        w("alpha/SKILL.md",
-          "# alpha\n%s\nR5：所有的決定都必須先經過圓桌會議才可以執行下去\n"
-          "見 [壞掉](./nope.md)\n還有 [hi](摳luma>200亮部) 這種筆記記法\nv0.9.0\n" % dup)
-        w("alpha/notes.md", "%s\n規則 5 講的是另一件事\nR5：只有策略級才需要開圓桌其餘直接做\n" % dup)
-        # v0.4.1 反向 fixture：.py 註解引用 R5 講的是完全不同的事 —— 不得進 D10
-        w("alpha/helper.py",
-          "# R5：這裡只是程式碼註解在引用規則五順便講實作細節跟定義無關\n"
-          "def helper():\n    return 0\n")
-        # beta 的 R5 是**另一個命名空間**的規則，內容完全不同 —— 不得被判成漂移
-        w("beta/README.md",
-          "%s\nv0.1.0\nR5：本模組的第五條規則規定所有輸出必須先寫入暫存區再落盤\n" % dup)
-        w("beta/thing_gate.py",
-          "def _selftest():\n    return 0\n\n"
-          "def big():\n" + "    x = 1\n" * 120)
-        w("beta/ledger.md", "# 裁決台帳\n| 規則 A | 2026 | ⬜ 待建 | doc |\n")
-
-        rep = scan(tmp)
-        dims = {f["dim"] for f in rep["findings"]}
-
-        check("D1 duplication detected", "D1" in dims)
-        check("D2 naming rivalry detected", "D2" in dims)
-        check("D4 long function detected", any(
-            f["dim"] == "D4" and "函數過長" in f["title"] for f in rep["findings"]))
-        check("D7 broken link detected", "D7" in dims)
-        check("D8 version drift detected", "D8" in dims)
-        # dogfood 回歸（三連踩，見 _versions docstring）
-        check("D8 ignores bare numeric constants",
-              _versions("THRESHOLD = 0.30\nratio 1.0\n") == set())
-        check("D8 ignores prose mentions of a version",
-              _versions("算出全庫最新 v9.0.0 這種不存在的版本\n"
-                        "為什麼 v0.4 要有這支檔\n") == set())
-        check("D8 accepts declarations only",
-              _versions("## v0.7.3 - notes") == {(0, 7, 3)}
-              and _versions("version: 0.5.1") == {(0, 5, 1)}
-              and _versions('__version__ = "1.2.3"') == {(1, 2, 3)})
-        check("D10 rule drift detected (R5 says two different things)",
-              any(f["dim"] == "D10" and "R5" in f["title"] for f in rep["findings"]))
-        # dogfood 回歸：跨命名空間撞同一個 ID **不得**判成漂移
-        d10 = [f for f in rep["findings"] if f["dim"] == "D10"]
-        check("D10 scoped to one namespace (no cross-skill collision)",
-              all("alpha" in f["title"] for f in d10))
-        check("D10 ignores changelog rows", not any(
-            "訪談落地" in f["detail"] for f in d10))
-        # dogfood 回歸：.py 原始碼裡的字串不是 markdown 連結
-        check("D7 skips non-markdown files", all(
-            f["where"].endswith(".md")
-            for f in rep["findings"] if f["dim"] == "D7"))
-        # v0.4.1 外部 review 回歸：中文偽連結記法≠斷鏈；.py 引用≠競爭定義
-        check("D7 skips prose pseudo-links", not any(
-            "摳luma" in f["detail"] for f in rep["findings"] if f["dim"] == "D7"))
-        check("D10 ignores code-file rule citations", not any(
-            "helper.py" in f["where"] for f in rep["findings"] if f["dim"] == "D10"))
-        check("D11 island detected", "D11" in dims)
-        check("D12 gate without corpus detected", any(
-            f["dim"] == "D12" and "corpus" in f["title"] for f in rep["findings"]))
-        check("D13 unlanded ruling detected", "D13" in dims)
-        check("D7 is CRITICAL", all(
-            f["severity"] == "CRITICAL" for f in rep["findings"] if f["dim"] == "D7"))
-        check("findings sorted by severity", [SEVERITY_ORDER[f["severity"]]
-                                              for f in rep["findings"]]
-              == sorted(SEVERITY_ORDER[f["severity"]] for f in rep["findings"]))
-        check("report renders", len(format_report(rep)) > 200)
-        check("report is json-serializable", bool(json.dumps(rep["findings"])))
-    finally:
-        shutil.rmtree(tmp, ignore_errors=True)
-
-    # 反向對照：乾淨專案不得亂報（誤殺比漏抓貴 — M114 rule 1）
-    tmp2 = tempfile.mkdtemp(prefix="cleanupclean_")
-    try:
-        p = os.path.join(tmp2, "solo")
-        os.makedirs(p)
-        with io.open(os.path.join(p, "SKILL.md"), "w", encoding="utf-8") as f:
-            f.write("# solo\n\n單一模組，簡短乾淨，沒有重複也沒有壞連結。\n")
-        rep2 = scan(tmp2)
-        check("clean project produces no findings", not rep2["findings"])
-    finally:
-        shutil.rmtree(tmp2, ignore_errors=True)
-
-    # 真 corpus 級回歸（自家 D12 教條）：in-process 全綠 ≠ 當工具跑不炸。
-    # v0.4 翻車實錄：selftest 17/17 綠，真掃第一發 UnicodeEncodeError ——
-    # findings 含簡體 '户'（户），cp950 stdout 編不出來。這裡把掃描器當
-    # **子行程**跑（stdout=pipe，Windows 預設 ANSI code page），fixture 塞
-    # 會進 findings 的簡體字，斷言 returncode 0。
-    import subprocess
-    tmp3 = tempfile.mkdtemp(prefix="cleanupcp950_")
-    try:
-        p3 = os.path.join(tmp3, "gamma")
-        os.makedirs(p3)
-        with io.open(os.path.join(p3, "SKILL.md"), "w", encoding="utf-8") as f:
-            f.write("# gamma\n[用户资料](./缺失的档案.md)\n")
-        env = os.environ.copy()
-        env.pop("PYTHONIOENCODING", None)   # 還原「沒人幫忙救」的真實終端
-        env.pop("PYTHONUTF8", None)
-        proc = subprocess.run(
-            [sys.executable, os.path.abspath(__file__), tmp3],
-            capture_output=True, env=env, timeout=60)
-        check("subprocess survives cp950 console (real-corpus)",
-              proc.returncode == 0)
-    finally:
-        shutil.rmtree(tmp3, ignore_errors=True)
-
+    _run_temp_fixture("cleanupscan_", run_detection)
+    _assert_version_parser(failed)
+    _assert_clean_fixture(failed)
+    _assert_console_fixture(failed)
     print("-" * 62)
     if failed:
         print("SELFTEST RED: %d failed" % len(failed))
-        for f in failed:
-            print("  - " + f)
+        for failure in failed:
+            print("  - " + failure)
         return 1
     print("SELFTEST GREEN: all checks passed")
     return 0

@@ -2,21 +2,18 @@
 
 一個可安裝到 Codex 或 Claude Code 的 read-only code／skill／repository audit skill。
 
-目前版本：**v0.5.0**。它把兩種互補能力放在同一套工作流：
+目前版本：**v0.6.0**。它把兩種互補能力放在同一套工作流：
 
 - deterministic audit：重複段落、永久 ID、長檔、private/public sync、release、broken links、版本／事實漂移、skill metadata 與 privacy token。
 - semantic scan：規則內容漂移、SoT 孤島、gate 自我認證與「文件裁決沒有機械落地」。
 
-## v0.5.0 新增什麼
+## v0.6.0 新增什麼
 
-- `scripts/audit.py` 與可重用的 `audit_core.py`。
-- PASS／FAIL／NOT_CHECKED 三態，不再把「沒辦法查」算成通過。
-- Human／JSON report、`--strict` CI mode、跨平台 UTF-8。
-- `audit.config.json` 的 exclude、threshold、sync、drift assertion、privacy allowlist。
-- 從 repo root 遞迴檢查 nested skills、各自的 `agents/openai.yaml` 與 reference 導航。
-- Privacy literal token 與 regex pattern 分流；錯誤 regex 變成可讀 FAIL，不會炸掉 audit。
-- link、drift、sync 專用 CLI 與 dependency-free self-test。
-- 保留 v0.4.1 的 `cleanup_scan.py`，不讓新 deterministic engine 取代既有語意掃描能力。
+- Python module graph 支援直接執行 script 的 bare sibling imports，同時保留真正 top-level 與標準庫 imports。
+- `required_dependencies` 可把「架構理應存在的邊」寫成 gate；缺邊是 FAIL，不再把稀疏空圖誤報成乾淨。
+- 新增 sibling positive、missing-edge、root-module 與 stdlib negative fixtures。
+- Self-test 依責任拆分，完整涵蓋 dependency、cycle、layer、duplicate、function-size 與 JSON contract。
+- 新增 config-driven public sync，且通用 skill 不再預設載入作者私人 voice。
 
 ## 安裝
 

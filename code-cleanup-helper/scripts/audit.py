@@ -14,7 +14,7 @@ from audit_core import render_human, run_audit
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run a read-only, cross-platform code/skill audit.")
     parser.add_argument("target", type=Path)
-    parser.add_argument("--mode", choices=("a", "b", "all"), default="all")
+    parser.add_argument("--mode", choices=("a", "b", "architecture", "all"), default="all")
     parser.add_argument("--config", type=Path)
     parser.add_argument("--format", choices=("human", "json"), default="human")
     parser.add_argument("--max-findings", type=int, default=30)

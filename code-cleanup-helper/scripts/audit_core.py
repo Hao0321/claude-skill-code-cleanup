@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import ast
 import fnmatch
 import hashlib
 import json
@@ -10,6 +11,7 @@ import re
 import subprocess
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
+from datetime import date
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -41,6 +43,19 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "sync": {"public_root": None, "ignore": [], "normalize_text": True},
     "drift_assertions": [],
     "privacy": {"tokens": [], "patterns": [], "allow": []},
+    "architecture": {
+        "enabled": True,
+        "layers": [],
+        "forbidden_dependencies": [],
+        "ignore_edges": [],
+        "function_warning_lines": 80,
+        "function_severe_lines": 160,
+        "function_exceptions": [],
+        "max_module_out_degree": 18,
+        "max_module_fan_in": 24,
+        "duplicate_function_min_lines": 8,
+        "duplicate_function_min_nodes": 24,
+    },
 }
 
 
@@ -260,6 +275,339 @@ def audit_lengths(root: Path, inventory: list[dict[str, Any]], config: dict[str,
     if not findings:
         findings.append(Finding(4, "PASS", "file-lengths", "所有受管檔案皆在長度警告線內"))
     return findings
+
+
+def _python_module_name(relative: str) -> str:
+    path = Path(relative)
+    parts = list(path.with_suffix("").parts)
+    if parts and parts[-1] == "__init__":
+        parts.pop()
+    return ".".join(parts)
+
+
+def _match_any(value: str, patterns: Iterable[str]) -> bool:
+    normalized = value.replace("\\", "/")
+    return any(fnmatch.fnmatch(normalized, pattern) for pattern in patterns)
+
+
+def _resolve_module(candidate: str, modules: set[str]) -> str | None:
+    value = candidate.strip(".")
+    while value:
+        if value in modules:
+            return value
+        if "." not in value:
+            break
+        value = value.rsplit(".", 1)[0]
+    return None
+
+
+def _resolve_import_candidate(
+    candidate: str,
+    module: str,
+    is_package: bool,
+    modules: set[str],
+    *,
+    allow_sibling: bool,
+) -> str | None:
+    """Resolve normal absolute imports first, then script-style sibling imports.
+
+    Python files executed directly commonly use ``from sibling import name`` even
+    when the repository module name is ``scripts.sibling``.  The normal absolute
+    lookup must remain first so a real top-level module is never shadowed by the
+    fallback.
+    """
+    resolved = _resolve_module(candidate, modules)
+    if resolved or not allow_sibling or not candidate:
+        return resolved
+    package = module if is_package else module.rpartition(".")[0]
+    if not package:
+        return None
+    sibling = f"{package}.{candidate}"
+    package_prefix = package + "."
+    value = sibling
+    while value.startswith(package_prefix):
+        if value in modules:
+            return value
+        if "." not in value:
+            break
+        value = value.rsplit(".", 1)[0]
+    return None
+
+
+def _import_targets(node: ast.AST, module: str, is_package: bool, modules: set[str]) -> set[str]:
+    targets: set[str] = set()
+    if isinstance(node, ast.Import):
+        for alias in node.names:
+            resolved = _resolve_import_candidate(
+                alias.name, module, is_package, modules, allow_sibling=True,
+            )
+            if resolved:
+                targets.add(resolved)
+        return targets
+    if not isinstance(node, ast.ImportFrom):
+        return targets
+    if node.level:
+        package = module.split(".") if is_package else module.split(".")[:-1]
+        ascend = max(0, node.level - 1)
+        if ascend:
+            package = package[:-ascend] if ascend <= len(package) else []
+        prefix = ".".join(package)
+        base = ".".join(part for part in (prefix, node.module or "") if part)
+    else:
+        base = node.module or ""
+    for alias in node.names:
+        candidates = []
+        if alias.name != "*":
+            candidates.append(".".join(part for part in (base, alias.name) if part))
+        candidates.append(base)
+        for candidate in candidates:
+            resolved = _resolve_import_candidate(
+                candidate, module, is_package, modules, allow_sibling=not node.level,
+            )
+            if resolved:
+                targets.add(resolved)
+                break
+    return targets
+
+
+def _strongly_connected_components(graph: dict[str, set[str]]) -> list[list[str]]:
+    index = 0
+    stack: list[str] = []
+    indices: dict[str, int] = {}
+    lowlinks: dict[str, int] = {}
+    on_stack: set[str] = set()
+    components: list[list[str]] = []
+
+    def visit(node: str) -> None:
+        nonlocal index
+        indices[node] = index
+        lowlinks[node] = index
+        index += 1
+        stack.append(node)
+        on_stack.add(node)
+        for target in sorted(graph.get(node, set())):
+            if target not in indices:
+                visit(target)
+                lowlinks[node] = min(lowlinks[node], lowlinks[target])
+            elif target in on_stack:
+                lowlinks[node] = min(lowlinks[node], indices[target])
+        if lowlinks[node] != indices[node]:
+            return
+        component: list[str] = []
+        while stack:
+            member = stack.pop()
+            on_stack.remove(member)
+            component.append(member)
+            if member == node:
+                break
+        if len(component) > 1 or node in graph.get(node, set()):
+            components.append(sorted(component))
+
+    for node in sorted(graph):
+        if node not in indices:
+            visit(node)
+    return components
+
+
+def _function_fingerprint(node: ast.FunctionDef | ast.AsyncFunctionDef) -> tuple[str, int]:
+    body = list(node.body)
+    if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) and isinstance(body[0].value.value, str):
+        body = body[1:]
+    module = ast.Module(body=body, type_ignores=[])
+    return ast.dump(module, annotate_fields=True, include_attributes=False), sum(1 for _ in ast.walk(module))
+
+
+def _layer_for(path: str, layers: list[dict[str, Any]]) -> str | None:
+    for layer in layers:
+        if _match_any(path, layer.get("patterns", [])):
+            return str(layer.get("name"))
+    return None
+
+
+def _parse_architecture_sources(root: Path, python_files: list[Path]) -> dict[str, Any]:
+    paths = {rel(root, path): path for path in python_files}
+    module_by_path = {relative: _python_module_name(relative) for relative in paths}
+    path_by_module = {module: relative for relative, module in module_by_path.items() if module}
+    modules = set(path_by_module)
+    graph: dict[str, set[str]] = {module: set() for module in modules}
+    errors: list[dict[str, Any]] = []
+    functions: list[dict[str, Any]] = []
+    for relative, path in paths.items():
+        module = module_by_path[relative]
+        if not module:
+            continue
+        try:
+            tree = ast.parse(read_text(path), filename=relative)
+        except SyntaxError as exc:
+            errors.append({"path": relative, "line": exc.lineno, "message": exc.msg})
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.Import, ast.ImportFrom)):
+                graph[module].update(_import_targets(node, module, path.name == "__init__.py", modules))
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                fingerprint, node_count = _function_fingerprint(node)
+                functions.append({
+                    "module": module, "path": relative, "name": node.name, "line": node.lineno,
+                    "lines": getattr(node, "end_lineno", node.lineno) - node.lineno + 1,
+                    "nodes": node_count,
+                    "fingerprint": hashlib.sha256(fingerprint.encode("utf-8")).hexdigest(),
+                })
+    return {"modules": modules, "graph": graph, "path_by_module": path_by_module, "parse_errors": errors, "functions": functions}
+
+
+def _finalize_architecture_edges(model: dict[str, Any], settings: dict[str, Any]) -> list[dict[str, Any]]:
+    graph, path_by_module = model["graph"], model["path_by_module"]
+    ignored = settings.get("ignore_edges", [])
+    edges: list[dict[str, Any]] = []
+    for source in sorted(graph):
+        graph[source].discard(source)
+        retained: set[str] = set()
+        for target in sorted(graph[source]):
+            source_path, target_path = path_by_module[source], path_by_module[target]
+            skip = any(
+                _match_any(source_path, [rule.get("source", "")])
+                and _match_any(target_path, [rule.get("target", "")]) for rule in ignored
+            )
+            if skip:
+                continue
+            retained.add(target)
+            edges.append({"source": source, "target": target, "source_path": source_path, "target_path": target_path})
+        graph[source] = retained
+    return edges
+
+
+def _dependency_findings(model: dict[str, Any], edges: list[dict[str, Any]], settings: dict[str, Any]) -> tuple[list[Finding], dict[str, Any]]:
+    graph, paths, modules = model["graph"], model["path_by_module"], model["modules"]
+    findings = [Finding(10, "FAIL", "architecture-parse-error", f"無法解析 Python AST：{item['message']}", item["path"], item["line"]) for item in model["parse_errors"]]
+    cycles = _strongly_connected_components(graph)
+    for cycle in cycles:
+        cycle_paths = [paths[item] for item in cycle]
+        findings.append(Finding(10, "FAIL", "dependency-cycle", "模組形成循環依賴：" + " -> ".join(cycle), cycle_paths[0], details={"modules": cycle, "paths": cycle_paths}))
+    layers = settings.get("layers", [])
+    layer_map = {module: _layer_for(path, layers) for module, path in paths.items()}
+    allowed = {str(layer.get("name")): set(layer.get("may_depend_on", [])) for layer in layers}
+    layer_violations: list[dict[str, Any]] = []
+    forbidden_hits: list[dict[str, Any]] = []
+    required_missing: list[dict[str, Any]] = []
+    for edge in edges:
+        source_layer, target_layer = layer_map.get(edge["source"]), layer_map.get(edge["target"])
+        if source_layer and target_layer and source_layer != target_layer and target_layer not in allowed.get(source_layer, set()):
+            violation = dict(edge, source_layer=source_layer, target_layer=target_layer)
+            layer_violations.append(violation)
+            findings.append(Finding(10, "FAIL", "layer-violation", f"{source_layer} 不可依賴 {target_layer}：{edge['source']} -> {edge['target']}", edge["source_path"], details=violation))
+        for rule in settings.get("forbidden_dependencies", []):
+            if _match_any(edge["source_path"], [rule.get("source", "")]) and _match_any(edge["target_path"], [rule.get("target", "")]):
+                hit = dict(edge, rule=rule)
+                forbidden_hits.append(hit)
+                findings.append(Finding(10, "FAIL", "forbidden-dependency", rule.get("message", f"禁止依賴：{edge['source']} -> {edge['target']}"), edge["source_path"], details=hit))
+    for rule in settings.get("required_dependencies", []):
+        matched = any(
+            _match_any(edge["source_path"], [rule.get("source", "")])
+            and _match_any(edge["target_path"], [rule.get("target", "")])
+            for edge in edges
+        )
+        if not matched:
+            missing = {"source": rule.get("source"), "target": rule.get("target"), "rule": rule}
+            required_missing.append(missing)
+            findings.append(Finding(
+                10,
+                "FAIL",
+                "required-dependency-missing",
+                rule.get("message", f"預期依賴不存在：{rule.get('source')} -> {rule.get('target')}"),
+                details=missing,
+            ))
+    fan_in = Counter(edge["target"] for edge in edges)
+    hotspots = [{"module": item, "path": paths[item], "out_degree": len(graph[item]), "fan_in": fan_in[item]} for item in sorted(modules) if len(graph[item]) > int(settings.get("max_module_out_degree", 18)) or fan_in[item] > int(settings.get("max_module_fan_in", 24))]
+    findings.extend(Finding(10, "FAIL", "dependency-hotspot", f"依賴熱點 out={item['out_degree']} / in={item['fan_in']}", item["path"], details=item) for item in hotspots)
+    return findings, {
+        "cycles": cycles,
+        "layers": layer_map,
+        "layer_violations": layer_violations,
+        "forbidden_dependencies": forbidden_hits,
+        "required_dependencies_missing": required_missing,
+        "hotspots": hotspots,
+    }
+
+
+def _active_function_exception(item: dict[str, Any], settings: dict[str, Any]) -> dict[str, Any] | None:
+    """Return a documented and bounded exception, without hiding the debt."""
+    for rule in settings.get("function_exceptions", []):
+        if not fnmatch.fnmatch(item["path"], rule.get("path", "")):
+            continue
+        if not fnmatch.fnmatch(item["name"], rule.get("name", "*")):
+            continue
+        if not rule.get("reason") or not rule.get("expires_on"):
+            continue
+        try:
+            if date.fromisoformat(rule["expires_on"]) < date.today():
+                continue
+        except (TypeError, ValueError):
+            continue
+        if item["lines"] > int(rule.get("max_lines", 0)):
+            continue
+        return rule
+    return None
+
+
+def _function_findings(functions: list[dict[str, Any]], settings: dict[str, Any]) -> tuple[list[Finding], dict[str, Any]]:
+    warning, severe = int(settings.get("function_warning_lines", 80)), int(settings.get("function_severe_lines", 160))
+    long_functions = [item for item in functions if item["lines"] > warning]
+    findings: list[Finding] = []
+    for item in sorted(long_functions, key=lambda value: value["lines"], reverse=True):
+        is_severe = item["lines"] > severe
+        details = {key: value for key, value in item.items() if key != "fingerprint"}
+        exception = _active_function_exception(item, settings)
+        if exception:
+            details["exception"] = exception
+            findings.append(Finding(
+                10, "REVIEW", "function-exception-active",
+                f"函式 {item['name']} 有 {item['lines']} 行；有期限例外到 {exception['expires_on']}",
+                item["path"], item["line"], details,
+            ))
+        elif is_severe:
+            findings.append(Finding(
+                10, "FAIL", "function-too-long",
+                f"函式 {item['name']} 有 {item['lines']} 行，超過嚴重門檻 {severe}",
+                item["path"], item["line"], details,
+            ))
+        else:
+            findings.append(Finding(
+                10, "REVIEW", "function-long",
+                f"函式 {item['name']} 有 {item['lines']} 行；先審查可讀性再決定是否拆分",
+                item["path"], item["line"], details,
+            ))
+    buckets: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for item in functions:
+        if item["lines"] >= int(settings.get("duplicate_function_min_lines", 8)) and item["nodes"] >= int(settings.get("duplicate_function_min_nodes", 24)):
+            buckets[item["fingerprint"]].append(item)
+    duplicates: list[list[dict[str, Any]]] = []
+    for matches in buckets.values():
+        if len({item["path"] for item in matches}) < 2:
+            continue
+        cleaned = [{key: value for key, value in item.items() if key != "fingerprint"} for item in matches]
+        duplicates.append(cleaned)
+        findings.append(Finding(10, "FAIL", "duplicate-function-body", f"相同函式實作跨 {len({item['path'] for item in cleaned})} 個檔案出現 {len(cleaned)} 次", cleaned[0]["path"], cleaned[0]["line"], {"locations": cleaned}))
+    return findings, {"long_functions": [{key: value for key, value in item.items() if key != "fingerprint"} for item in long_functions], "duplicate_functions": duplicates}
+
+
+def audit_architecture(root: Path, files: list[Path], config: dict[str, Any]) -> tuple[list[Finding], dict[str, Any]]:
+    settings = config.get("architecture", {})
+    if not settings.get("enabled", True):
+        return [Finding(10, "NOT_CHECKED", "architecture-disabled", "架構稽核已由設定停用")], {}
+    python_files = [path for path in files if path.suffix.lower() == ".py"]
+    if not python_files:
+        return [Finding(10, "NOT_CHECKED", "python-architecture-empty", "沒有 Python 模組可建立依賴圖")], {}
+    model = _parse_architecture_sources(root, python_files)
+    edges = _finalize_architecture_edges(model, settings)
+    findings, dependency_details = _dependency_findings(model, edges, settings)
+    function_findings, function_details = _function_findings(model["functions"], settings)
+    findings.extend(function_findings)
+    if not findings:
+        findings.append(Finding(10, "PASS", "architecture", "依賴圖無循環、分層違規、熱點或重複函式實作"))
+    details = {"modules": len(model["modules"]), "edges": edges, "parse_errors": model["parse_errors"]}
+    details.update(dependency_details)
+    details.update(function_details)
+    return findings, details
 
 
 MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -516,10 +864,14 @@ def run_audit(root: Path, mode: str, config_path: Path | None = None) -> dict[st
     files = collect_files(root, config)
     inventory = file_inventory(root, files)
     findings: list[Finding] = []
+    architecture: dict[str, Any] = {}
     if mode in {"a", "all"}:
         findings.extend(audit_duplicates(root, files, config))
         findings.extend(audit_ids_and_ranges(root, files, config))
         findings.extend(audit_lengths(root, inventory, config))
+    if mode in {"a", "all", "architecture"}:
+        architecture_findings, architecture = audit_architecture(root, files, config)
+        findings.extend(architecture_findings)
     if mode in {"b", "all"}:
         findings.extend(audit_sync(root, config))
         findings.extend(audit_release(root))
@@ -531,7 +883,7 @@ def run_audit(root: Path, mode: str, config_path: Path | None = None) -> dict[st
 
     counts = Counter(item.status for item in findings)
     return {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "target": str(root),
         "mode": mode,
         "config": str(loaded_config) if loaded_config else None,
@@ -541,9 +893,11 @@ def run_audit(root: Path, mode: str, config_path: Path | None = None) -> dict[st
             "bytes": sum(item["bytes"] for item in inventory),
             "pass": counts["PASS"],
             "fail": counts["FAIL"],
+            "review": counts["REVIEW"],
             "not_checked": counts["NOT_CHECKED"],
         },
         "inventory": inventory,
+        "architecture": architecture,
         "findings": [asdict(item) for item in findings],
     }
 
@@ -553,7 +907,7 @@ def render_human(report: dict[str, Any], max_findings: int = 30) -> str:
     lines = [
         f"=== Cleanup Audit — {report['target']} ===",
         f"files={summary['files']} lines={summary['lines']} bytes={summary['bytes']}",
-        f"PASS={summary['pass']} FAIL={summary['fail']} NOT_CHECKED={summary['not_checked']}",
+        f"PASS={summary['pass']} FAIL={summary['fail']} REVIEW={summary.get('review', 0)} NOT_CHECKED={summary['not_checked']}",
         "",
     ]
     actionable = [item for item in report["findings"] if item["status"] != "PASS"]
