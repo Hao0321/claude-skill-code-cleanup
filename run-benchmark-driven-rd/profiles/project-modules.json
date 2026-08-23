@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "projectTypes": ["skill", "web", "database", "game", "software"],
+  "overlayModules": ["public-release", "security", "media", "commerce"],
+  "modules": {
+    "core": {
+      "cleanupMode": "architecture",
+      "references": [
+        "references/protocol.md",
+        "references/metrics.md",
+        "references/tooling-and-architecture-gates.md",
+        "references/capability-obligations.md"
+      ],
+      "gates": ["evaluator-calibration", "capability-ledger", "completion-closure"]
+    },
+    "cleanup": {
+      "cleanupMode": "architecture",
+      "references": ["../code-cleanup-helper/references/rd-integration.md"],
+      "gates": ["cleanup-baseline", "cleanup-promotion", "cleanup-evidence-freshness"]
+    },
+    "skill": {
+      "cleanupMode": "all",
+      "references": [
+        "references/model-and-reasoning-gates.md",
+        "../code-cleanup-helper/references/model-context-contract-audit.md"
+      ],
+      "gates": ["skill-self-test", "skill-validation", "context-routing", "public-private-sync"]
+    },
+    "web": {
+      "cleanupMode": "architecture",
+      "references": ["references/web-commerce-acceptance.md"],
+      "gates": ["browser-geometry", "keyboard-dialog-lifecycle", "responsive-journey"]
+    },
+    "database": {
+      "cleanupMode": "architecture",
+      "references": ["references/security-hardening-gates.md"],
+      "gates": ["schema-migration", "transaction-integrity", "backup-restore", "least-privilege"]
+    },
+    "game": {
+      "cleanupMode": "architecture",
+      "references": [
+        "references/delivery-artifact-gates.md",
+        "references/media-artifact-evidence.md"
+      ],
+      "gates": ["deterministic-simulation", "save-load-reset", "asset-provenance", "delivered-build-journey"]
+    },
+    "software": {
+      "cleanupMode": "all",
+      "references": ["references/delivery-artifact-gates.md"],
+      "gates": ["unit-integration-journey", "installer-envelope", "upgrade-rollback"]
+    },
+    "public-release": {
+      "cleanupMode": "all",
+      "references": [
+        "references/external-change-gates.md",
+        "references/completion-closure.md",
+        "references/security-hardening-gates.md"
+      ],
+      "gates": ["privacy-preflight", "canonical-target", "tag-release-remote-hash"]
+    },
+    "security": {
+      "cleanupMode": "all",
+      "references": ["references/security-hardening-gates.md"],
+      "gates": ["threat-model", "negative-security-fixtures", "delivered-security-audit"]
+    },
+    "media": {
+      "cleanupMode": "architecture",
+      "references": [
+        "references/media-artifact-evidence.md",
+        "references/delivery-artifact-gates.md"
+      ],
+      "gates": ["decoded-output", "source-identity", "rights-provenance"]
+    },
+    "commerce": {
+      "cleanupMode": "architecture",
+      "references": ["references/web-commerce-acceptance.md"],
+      "gates": ["price-disclosure", "checkout-state", "commercial-rights"]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "managed_paths": [
+    "agents/openai.yaml",
+    "audit.config.example.json",
+    "CHANGELOG.md",
+    "references/build-receipt-audit.md",
+    "references/capability-obligations.md",
+    "references/config-and-report.md",
+    "references/cross-system-integration-audit.md",
+    "references/mode-a.md",
+    "references/mode-b.md",
+    "references/model-context-contract-audit.md",
+    "references/rd-integration.md",
+    "references/security-and-release-hygiene.md",
+    "scripts/audit.py",
+    "scripts/audit_core.py",
+    "scripts/check_audit_snapshot.py",
+    "scripts/check_build_receipt.py",
+    "scripts/check_drift.py",
+    "scripts/check_links.py",
+    "scripts/check_skill_revision.py",
+    "scripts/check_sync.py",
+    "scripts/self_test.py",
+    "scripts/sync_public.py",
+    "SKILL.md"
+  ]
+}

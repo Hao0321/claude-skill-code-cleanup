@@ -6,7 +6,7 @@
   ],
   "sync": {"public_root": null, "ignore": []},
   "privacy": {
-    "tokens": ["C:/Users/Hao0321", "C:\\Users\\Hao0321"],
+    "tokens": ["/Users/example-user/private", "C:/Users/example-user/private"],
     "allow": ["audit.config.json"]
   }
 }

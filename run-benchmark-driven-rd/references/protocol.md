@@ -1,5 +1,14 @@
 # Benchmark-Driven R&D Protocol
 
+## Table of contents
+
+1. Claim
+2. Provenance lock
+3. Benchmark shape
+4. Experiment loop
+5. Failure taxonomy
+6. Evidence hierarchy
+
 ## 1. Claim
 
 Write a one-sentence statement that can be false. Name the competitor or baseline, product surface, users, and constrained environment.
@@ -25,6 +34,8 @@ Freeze dataset identity from a canonical manifest plus the cryptographic hash an
 For perception systems, “same dataset” means every engine consumes the exact frozen input bytes. Re-recording the same physical scene changes motion, exposure, blur, timing, and pixels, so treat it as field telemetry rather than same-provenance benchmark evidence.
 
 Long campaigns must use globally unique trial identities, resumable durable state, and payload-level deduplication when partial runs merge. Never concatenate evidence files by hand.
+
+Promotion evidence has a last-mutation boundary. Freeze it only after the final in-scope source, test, config, documentation and packaging change, then run the saved-evidence freshness verifier. A previously green report becomes stale when any audited byte or file set changes, even if summary counts remain identical.
 
 ## 3. Benchmark shape
 
@@ -61,6 +72,8 @@ Header availability is not build provenance. Emit a content-addressed build rece
 For multi-gigabyte SDK/toolchain downloads, lock the official URL, version, release identity or changeset, expected byte length, and vendor checksum or ETag before execution. Transport retries, resume, or range assembly may change; artifact identity may not.
 
 When an installer is only a delivery envelope around a standard package, inspect the envelope before executing its code. Verify the inner package name and version, hash both layers, install through the underlying package manager when supported, and retain a receipt that binds source envelope, inner artifact, and project dependency.
+
+Do not promote from a build-directory executable when the user receives a different envelope. Re-hash the live envelope, inspect and closed-world compare its extracted payload, treat the extracted executable as the identity authority, and require the canonical build to run this gate automatically. A build receipt needs two distinct checks: exact raw bytes for an embedding claim and semantic fields for cross-language runtime readback. See `delivery-artifact-gates.md`.
 
 If engines cannot share an in-memory decoder, hash both the identical frozen source bytes and a canonical decoded frame pack with explicit pixel format, timestamps, calibration, and decoder version. Require one observation per unique staged frame. The common target source belongs to dataset provenance; engine-specific compiled target artifacts may differ but must be hashed and locked within each engine.
 

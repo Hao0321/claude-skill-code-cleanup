@@ -9,6 +9,16 @@ from pathlib import Path
 
 
 FILES = {
+    ".rd/project.json": json.dumps(
+        {
+            "schemaVersion": 1,
+            "autoDetect": True,
+            "projectTypes": [],
+            "modules": [],
+        },
+        indent=2,
+    )
+    + "\n",
     ".rd/CHARTER.md": """# R&D Charter
 
 ## Falsifiable claim

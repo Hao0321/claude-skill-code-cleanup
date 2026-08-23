@@ -18,6 +18,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from external_change_fixture import valid_plan_template
+
 
 EXTERNAL_ACTIONS = {
     "create",
@@ -332,64 +334,8 @@ def validate(plan: Any) -> Report:
     return report
 
 
-def template() -> dict[str, Any]:
-    return {
-        "operation_id": "ext-001",
-        "system": "github",
-        "action": "update",
-        "destructive": False,
-        "user_context": {"availability": "desktop"},
-        "namespace_inventory": {
-            "performed": True,
-            "method": "authoritative API list/search",
-            "resources": [
-                {"id": "owner/canonical-repo", "possible_canonical": True}
-            ],
-            "similar_resources_reviewed": ["owner/canonical-repo"],
-        },
-        "target_resolution": {
-            "canonical_survivor": "owner/canonical-repo",
-            "mutation_target": "owner/canonical-repo",
-            "ambiguous": False,
-            "evidence": "remote, history, releases, and user intent agree",
-        },
-        "user_authorization": {
-            "granted": True,
-            "action": "update",
-            "target": "owner/canonical-repo",
-        },
-        "technical_authorization": {
-            "verified": True,
-            "required_capabilities": ["repo_write"],
-            "available_capabilities": ["repo_write"],
-            "interaction_flow": "none",
-            "flow_process_alive": False,
-        },
-        "recovery": {
-            "plan": "reviewable branch and revertable commit",
-            "irreversible_acknowledged": False,
-        },
-        "preconditions": {
-            "privacy_audit": True,
-            "canonical_changes_recovered": True,
-        },
-        "postconditions": [
-            {
-                "name": "canonical_updated",
-                "method": "authoritative API query",
-                "authoritative": True,
-            },
-            {
-                "name": "unrelated_resources_unchanged",
-                "method": "namespace inventory diff",
-                "authoritative": True,
-            },
-        ],
-    }
-
-
 def run_self_test() -> None:
-    good_update = template()
+    good_update = valid_plan_template()
     assert validate(good_update).allowed
 
     guessed_create = copy.deepcopy(good_update)
@@ -494,7 +440,7 @@ def main() -> int:
         print("external change gate self-test passed")
         return 0
     if args.print_template:
-        print(json.dumps(template(), ensure_ascii=False, indent=2))
+        print(json.dumps(valid_plan_template(), ensure_ascii=False, indent=2))
         return 0
     if not args.plan:
         raise SystemExit("plan path is required unless --self-test or --print-template is used")

@@ -17,6 +17,7 @@ Use this reference for responsive web apps, PWAs, hybrid shells, installed web a
 11. Installation is a retained capability
 12. Release identity and bounded recovery
 13. Cross-major supply-chain upgrades are product migrations
+14. Permanent QR device binding
 
 ## 1. Start from the user task, not a device mockup
 
@@ -138,6 +139,8 @@ Reusable failure patterns:
 - **Viewport listener sprawl:** each page interprets keyboard and browser chrome differently. Centralize measurement and expose a stable state contract.
 - **Modal shell duplication:** drawers look similar but disagree on focus, scroll lock, and Escape. Migrate content into one lifecycle primitive before multiplying overlays.
 
+For commerce-specific product cards, preview-versus-purchase state, generated imagery, and normalized dialog evidence, also read [web-commerce-acceptance.md](web-commerce-acceptance.md).
+
 ## 10. Browser history and PWA lifecycle are product state
 
 Mobile productization is incomplete when React knows the visible screen but the browser does not.
@@ -218,3 +221,17 @@ Reusable failure patterns:
 - **In-place peer deadlock:** the old plugin and new bundler each constrain the other. Replace the coupled set atomically without bypassing peer checks.
 - **Audit-only confidence:** advisories reach zero while product journeys or bundle budgets regress. Security, behavior, and delivery cost are separate gates.
 - **Compatible-update bundle inflation:** a routine dependency update silently enlarges a named chunk. Treat the bundle budget as a release blocker and retain the measured version.
+
+## 14. Permanent QR device binding
+
+“Scan once” is a durable authorization claim, not a longer in-memory session. Use a short-lived, single-purpose QR bootstrap to exchange for a random per-device credential. Remove the bootstrap from browser history immediately; store only a one-way credential hash on the host, keep the raw credential in an HttpOnly／SameSite cookie or OS credential vault, and use `Secure` whenever the origin is HTTPS.
+
+Promotion requires one same-device journey that pairs, removes the QR secret from the URL, restarts the Remote service or desktop app, reconnects without another QR, performs an authorized action, revokes that exact device, and then receives an authorization failure with the old credential. Also prove that stopping Remote preserves trust, while explicit revoke—not ordinary shutdown—removes it. Device names/IDs are labels, never authenticators.
+
+Keep stable reachability separate from durable authorization. A remembered credential cannot reconnect to an unavailable or changed origin by itself. Prefer an owned stable HTTPS URL for cross-network use and a stable local port/hostname for LAN; if the product falls back to an ephemeral port, explain that authorization remains valid but the user may need the current link. Public tunnel ownership, TLS, background availability and real-device browser storage eviction remain separate obligations.
+
+For different-network control, both desktop and phone should normally make outbound authenticated `wss://` connections to an owned stable relay origin; this avoids requiring inbound ports, same-LAN discovery, or exposing private file paths. LAN fallback is diagnostic availability, not cross-network completion. The permanent room identity and per-device authorization are separate: the stable room may be retained, but bootstrap secrets must expire and raw long-lived device credentials belong in an HttpOnly／Secure／SameSite cookie or OS vault, never URL, Web Storage, logs, receipts, worker source, or installer configuration. Relay messages must be bounded, origin-checked where HTTP is used, and revalidated against host-side revocation rather than trusted merely because a socket survived.
+
+Before treating deployment failure as a product defect, preflight the actual cloud account identity, target zone/domain ownership, and write scopes required by the provider. A local Durable Object／relay smoke can close protocol behavior; it cannot close DNS, TLS, service ownership, provider availability, or real 5G-to-home-device acceptance. Quick/development tunnels with random hostnames remain test fixtures even when they happen to work across networks.
+
+Required controls include per-device listing/rename/revoke, bounded device count, credential rotation when the same device re-pairs, fail-closed malformed store handling, atomic persistence, no plaintext credential at rest or in logs/receipts, and a lost-device recovery path. “Permanent” means until user revocation, browser/site-data deletion, host reset or policy expiry; it never means irrevocable.
