@@ -13,6 +13,10 @@ from typing import Any, Callable
 
 STATUSES = {"verified", "blocked_external", "planned", "unmeasured"}
 SCOPES = {"internal", "public", "parity"}
+REQUIRED_SCOPE_FLOORS = {
+    "update.client-check": {"internal", "public"},
+    "update.release-channel": {"public"},
+}
 PRIVATE_PATTERN = re.compile(
     r"(?:[a-z]:\\|\\\\|/Users/|/home/|\.claude[\\/]skills|\.codex[\\/]skills|(?:api[_-]?key|token|secret|password)\s*[:=])",
     re.IGNORECASE,
@@ -126,6 +130,14 @@ def validate_obligation(
     if not isinstance(required_for, list) or any(item not in SCOPES for item in required_for):
         fail("invalid-required-for", "requiredFor must contain only internal/public/parity", obligation_id)
         required_for = []
+    missing_scopes = sorted(REQUIRED_SCOPE_FLOORS.get(obligation_id, set()) - set(required_for))
+    if missing_scopes:
+        fail(
+            "required-scope-floor",
+            "default update obligation omitted required completion scopes: "
+            + ", ".join(missing_scopes),
+            obligation_id,
+        )
     if status == "verified":
         validate_verified(obligation, obligation_id, root, package, package_scripts, fail)
     elif status == "blocked_external":
@@ -189,10 +201,13 @@ def run_self_test() -> None:
             "schemaVersion": 1,
             "product": "Fixture",
             "productVersion": "1.0.0",
-            "requiredObligationIds": ["core", "signing"],
+            "requiredObligationIds": [
+                "core", "update.client-check", "update.release-channel"
+            ],
             "obligations": [
                 {"id": "core", "title": "Core", "status": "verified", "requiredFor": ["internal", "public"], "verifiedVersion": "1.0.0", "evidence": [{"kind": "file", "value": "proof.txt"}, {"kind": "npm_script", "value": "test"}]},
-                {"id": "signing", "title": "Signing", "status": "blocked_external", "requiredFor": ["public"], "blocker": {"owner": "owner", "condition": "missing certificate", "action": "provide certificate"}},
+                {"id": "update.client-check", "title": "Automatic update check client", "status": "verified", "requiredFor": ["internal", "public"], "verifiedVersion": "1.0.0", "evidence": [{"kind": "npm_script", "value": "test"}]},
+                {"id": "update.release-channel", "title": "Authorized public update channel", "status": "blocked_external", "requiredFor": ["public"], "blocker": {"owner": "release-owner", "condition": "no authorized GitHub release channel", "action": "authorize and verify the exact repo/release/signer"}},
             ],
         }
         assert evaluate(document, root, package, "internal")["status"] == "GREEN"
@@ -206,7 +221,11 @@ def run_self_test() -> None:
         report = evaluate(broken, root, package, "internal")
         assert any(item["code"] == "stale-verification" for item in report["findings"])
         broken = json.loads(json.dumps(document))
-        del broken["obligations"][1]["blocker"]["action"]
+        broken["obligations"][1]["requiredFor"] = ["public"]
+        report = evaluate(broken, root, package, "internal")
+        assert any(item["code"] == "required-scope-floor" for item in report["findings"])
+        broken = json.loads(json.dumps(document))
+        del broken["obligations"][2]["blocker"]["action"]
         report = evaluate(broken, root, package, "internal")
         assert any(item["code"] == "incomplete-blocker" for item in report["findings"])
         nested = root / "nested-product"

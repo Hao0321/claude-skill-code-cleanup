@@ -22,12 +22,17 @@ from cleanup_gate_runtime import (
     resolve_cleanup_root as _resolve_cleanup_root,
     validate_skill_revision_snapshot,
 )
+from cleanup_gate_update_coverage import (
+    SUPPORTED_PROVIDER_SCHEMAS,
+    schema_12_fixture,
+    schema_required_fields,
+    validate_update_coverage,
+)
 
 
 CONTRACT_VERSION = "1.2"
-SUPPORTED_PROVIDER_SCHEMAS = {"1.1"}
 STATUSES = {"PASS", "FAIL", "REVIEW", "NOT_CHECKED"}
-REQUIRED_FIELDS = {
+BASE_REQUIRED_FIELDS = {
     "schema_version",
     "target",
     "mode",
@@ -50,6 +55,7 @@ ADAPTER_FILES = (
     "cleanup_gate_paths.py",
     "cleanup_gate_runtime.py",
     "cleanup_gate_command.py",
+    "cleanup_gate_update_coverage.py",
 )
 
 
@@ -117,10 +123,12 @@ def run_snapshot_checker(
 
 def validate_report(report: dict[str, Any], target: Path, mode: str) -> list[str]:
     errors: list[str] = []
-    missing = sorted(REQUIRED_FIELDS - set(report))
+    schema = str(report.get("schema_version"))
+    required_fields = BASE_REQUIRED_FIELDS | schema_required_fields(schema)
+    missing = sorted(required_fields - set(report))
     if missing:
         errors.append(f"missing fields: {', '.join(missing)}")
-    if str(report.get("schema_version")) not in SUPPORTED_PROVIDER_SCHEMAS:
+    if schema not in SUPPORTED_PROVIDER_SCHEMAS:
         errors.append(f"unsupported provider schema: {report.get('schema_version')!r}")
     if report.get("mode") != mode:
         errors.append(f"mode mismatch: expected {mode!r}, got {report.get('mode')!r}")
@@ -156,6 +164,7 @@ def validate_report(report: dict[str, Any], target: Path, mode: str) -> list[str
             errors.append(
                 f"summary.{key} mismatch: expected {counts[status]}, got {summary.get(key)!r}"
             )
+    errors.extend(validate_update_coverage(report, findings))
     return errors
 
 
@@ -261,6 +270,7 @@ def build_envelope(
         "unmeasured": [
             item for item in report["findings"] if item.get("status") == "NOT_CHECKED"
         ],
+        "update_coverage": report.get("update_coverage"),
         "report": report,
     }
 
@@ -398,6 +408,19 @@ def run_self_test() -> None:
         ],
     }
     assert not validate_report(base, target, "architecture")
+    provider_12, coverage = schema_12_fixture(base)
+    assert not validate_report(provider_12, target, "architecture")
+    envelope_12 = build_envelope(
+        provider_12, target, "a" * 64, None, "baseline", set()
+    )
+    assert envelope_12["update_coverage"] == coverage
+    assert envelope_12["report"]["findings"][-1]["status"] == "REVIEW"
+    unsupported = json.loads(json.dumps(provider_12))
+    unsupported["schema_version"] = "9.9"
+    assert any(
+        "unsupported provider schema" in item
+        for item in validate_report(unsupported, target, "architecture")
+    )
     baseline = build_envelope(base, target, "a" * 64, None, "baseline", {6})
     assert baseline["decision"] == "BASELINE_CAPTURED"
     promotion = build_envelope(base, target, "a" * 64, None, "promotion", {6})

@@ -16,10 +16,13 @@ from capability_gate import run_self_test as run_capability_gate_self_test
 from claim_matrix_gate import run_self_test as run_claim_matrix_self_test
 from completion_closure_gate import run_self_test as run_completion_closure_self_test
 from delivery_contract_gate import run_self_test as run_delivery_contract_self_test
+from learning_gate import run_self_test as run_learning_gate_self_test
 from record_experiment import append_entry, experiment_id
 from run_cleanup_gate import run_self_test as run_cleanup_gate_self_test
 from verify_cleanup_evidence import run_self_test as run_cleanup_freshness_self_test
 from web_acceptance_gate import run_self_test as run_web_acceptance_self_test
+from build_topic_index import self_test as run_topic_index_self_test
+from verify_router_migration import self_test as run_router_migration_self_test
 
 
 def test_collision_resistant_ids() -> None:
@@ -39,9 +42,15 @@ def test_append_only_ledger() -> None:
         assert rows == entries
 
 
+def test_router_memory_helpers() -> None:
+    assert run_topic_index_self_test()["status"] == "PASS"
+    assert run_router_migration_self_test()["status"] == "GREEN"
+
+
 def main() -> int:
     test_collision_resistant_ids()
     test_append_only_ledger()
+    test_router_memory_helpers()
     run_command_execution_self_test()
     run_external_change_self_test()
     run_invocation_revision_self_test()
@@ -50,6 +59,7 @@ def main() -> int:
     run_claim_matrix_self_test()
     run_completion_closure_self_test()
     run_delivery_contract_self_test()
+    run_learning_gate_self_test()
     run_cleanup_gate_self_test()
     run_cleanup_freshness_self_test()
     run_web_acceptance_self_test()

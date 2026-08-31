@@ -209,6 +209,17 @@ def completion_closure_corpus() -> None:
         report = evaluate_completion(stale, root, **adapters)
         if not any(item["code"] == "stale-file-identity" for item in report["findings"]):
             raise AssertionError("stale handoff artifact must block completion")
+        missing_update_floor = json.loads(json.dumps(document))
+        capabilities = next(
+            item for item in missing_update_floor["checks"] if item["id"] == "capabilities"
+        )
+        capabilities["requiredObligationIds"].append("update.missing")
+        report = evaluate_completion(missing_update_floor, root, **adapters)
+        if not any(
+            item["code"] == "capability-obligation-floor"
+            for item in report["findings"]
+        ):
+            raise AssertionError("missing route-required updater obligation must block completion")
 
 
 def web_acceptance_corpus() -> None:

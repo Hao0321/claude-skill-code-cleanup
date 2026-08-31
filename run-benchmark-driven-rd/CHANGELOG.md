@@ -1,5 +1,31 @@
 # Changelog — run-benchmark-driven-rd
 
+## 2026-08-30 — default downstream update obligation
+
+- Routed authorized implementation, promotion and completion of distributable Skill/software/game/installer/release targets through secure update checking by default, while leaving audit and source-only work read-only.
+- Added a typed update-obligation receipt, updater risk floors, completion capability floors for the local client and public release channel, and deterministic positive/negative routing coverage.
+- Updated the R&D Cleanup adapter to accept only provider schemas 1.1/1.2 and preserve schema 1.2 `update_coverage` plus its D11 status without promoting it.
+- Kept GitHub publication, signing, persistence, telemetry and deletion outside the inferred authority of target-project development.
+
+## 2026-08-30 — task-aware routing, learning v2, and secure self-update
+
+- Reduced the canonical entrypoint from 5,242 to 913 exact `o200k_base` Tokens and moved task-specific knowledge into bounded, hash-addressed topic cards with explicit legacy fallback.
+- Added task-aware Router v2 contracts, route/context receipts, stable critical rule IDs, and a dedicated GitHub secure-self-update intent without turning URLs into execution authority.
+- Added immutable experiment records, a locked atomic JSONL view, typed privacy/scope/promotion fields, topic-index validation, reciprocal promotion receipts, and 32-writer no-loss coverage.
+- Added provisional single-owner topics for claims, architecture, context/learning, completion/external changes, and side-by-side updater staging, health, rollback, data migration, opt-in persistence, and safe retirement.
+- Added a 39-case deterministic Router v2 quality corpus plus five bounded high-risk cards: all cases, critical-rule recall, required-topic recall, precision, fallback, updater risk floors, and the Token target pass; task-aware p50/p95/max are 2,366/4,114/4,528 estimated Tokens, while six route-external assertions remain honestly `NOT_CHECKED`.
+- Preserved both former entrypoints and baseline evidence in private `.rd` migration storage; no public sync, GitHub mutation, or release was performed.
+
+## 2026-08-28 — reproducible project-native gates
+
+- Added contract-declared `projectGates` and string-only `evidenceBindings` for architecture checks that shared modules cannot infer.
+- Bound generated project routes to the exact project-contract hash so native gates cannot be added by an unreproducible hand edit.
+- Preserved evaluator boundaries: project-native evidence supplements an explicit Cleanup `NOT_CHECKED`; it does not rewrite measurement coverage.
+
+## 2026-08-24 — one-source editorial-unit cardinality
+
+- Added one-long-source → N semantic editorial-unit promotion gates. Independent unit truth, distinct editable projects/renders/receipts, compilation-fallback rejection and material recut fingerprints are now required; old Skill/product outputs remain benchmark-only.
+
 ## 2026-08-24 — modular project composition
 
 - Added reusable project modules for Skill, web, database, game, software, release, security, media and commerce work.

@@ -1,7 +1,7 @@
 interface:
   display_name: "Benchmark-Driven R&D"
-  short_description: "Benchmark-gated R&D with safe external changes"
-  default_prompt: "Use $run-benchmark-driven-rd to calibrate evaluation tools, resolve canonical external targets, preflight final authorization, run falsifiable experiments, and retain reusable engineering knowledge."
+  short_description: "Benchmark R&D with safe update obligations"
+  default_prompt: "Use $run-benchmark-driven-rd to run falsifiable product R&D, preserve authorization boundaries, and require safe automatic update checking when iterating or closing a distributable project or Skill."
 
 policy:
   allow_implicit_invocation: true

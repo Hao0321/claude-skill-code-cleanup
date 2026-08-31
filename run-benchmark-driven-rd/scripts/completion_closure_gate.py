@@ -38,6 +38,7 @@ REQUIRED_NEGATIVE_CONTROLS = {
     "cleanup-not-strict",
     "delivery-block",
     "capability-block",
+    "capability-obligation-floor",
     "build-receipt-block",
     "evidence-assertion",
 }
@@ -164,6 +165,40 @@ def _check_capabilities(check: dict[str, Any], manifest: Path, root: Path, check
         fail("unsafe-path", f"capability packageJson: {error}", check_id)
         return
     ledger = _read_json(manifest)
+    floor = check.get("requiredObligationIds")
+    if not isinstance(floor, list) or not floor or any(
+        not isinstance(item, str) or not item for item in floor
+    ):
+        fail(
+            "capability-obligation-floor",
+            "capability check requires a non-empty requiredObligationIds floor",
+            check_id,
+        )
+        floor = []
+    elif len(set(floor)) != len(floor):
+        fail(
+            "capability-obligation-floor",
+            "capability requiredObligationIds floor contains duplicates",
+            check_id,
+        )
+    declared = ledger.get("requiredObligationIds")
+    if not isinstance(declared, list) or any(
+        not isinstance(item, str) or not item for item in declared
+    ):
+        fail(
+            "capability-obligation-floor",
+            "capability ledger has no valid requiredObligationIds",
+            check_id,
+        )
+        declared = []
+    missing_floor = sorted(set(floor) - set(declared))
+    if missing_floor:
+        fail(
+            "capability-obligation-floor",
+            "capability ledger omitted route-required obligations",
+            check_id,
+            missing=missing_floor,
+        )
     result = evaluator(ledger, package.parent, _read_json(package), scope)
     if result.get("status") != "GREEN":
         fail("capability-block", f"{scope} capability obligations remain open", check_id, result=result)
@@ -367,7 +402,11 @@ def fixture_document(root: Path) -> dict[str, Any]:
         "report": {"summary": {"fail": 0, "review": 0}},
     }), encoding="utf-8")
     files["delivery"].write_text("{}", encoding="utf-8")
-    files["ledger"].write_text(json.dumps({"product": "Fixture", "productVersion": "1.0.0"}), encoding="utf-8")
+    files["ledger"].write_text(json.dumps({
+        "product": "Fixture",
+        "productVersion": "1.0.0",
+        "requiredObligationIds": ["update.client-check", "update.release-channel"],
+    }), encoding="utf-8")
     files["package"].write_text(json.dumps({"productName": "Fixture", "version": "1.0.0"}), encoding="utf-8")
     files["artifact"].write_bytes(b"installer")
     files["evidence"].write_text('{"status":"GREEN"}', encoding="utf-8")
@@ -382,7 +421,7 @@ def fixture_document(root: Path) -> dict[str, Any]:
         "checks": [
             {"id": "cleanup", "kind": "cleanup-promotion", "path": "evidence/cleanup.json"},
             {"id": "delivery", "kind": "delivery-contract", "path": "evidence/delivery.json"},
-            {"id": "capabilities", "kind": "capability-ledger", "path": "product/capabilities.json", "packageJson": "product/package.json"},
+            {"id": "capabilities", "kind": "capability-ledger", "path": "product/capabilities.json", "packageJson": "product/package.json", "requiredObligationIds": ["update.client-check", "update.release-channel"]},
             {"id": "receipt", "kind": "build-receipt", "projectRoot": "product", "receipt": "receipt.json"},
             {"id": "artifact", "kind": "file-identity", "path": "dist/setup.exe", **file_identity(files["artifact"])},
             {"id": "performance", "kind": "json-evidence", "path": "evidence/performance.json", **file_identity(files["evidence"]), "assertions": [{"pointer": "/status", "equals": "GREEN"}]},
@@ -432,6 +471,8 @@ def run_self_test() -> None:
             raise AssertionError(f"completion negative cleanup-not-strict was not detected: {strict_report}")
         rejected(lambda value: None, "delivery-block", delivery_evaluator=lambda _doc, _root: {"status": "BLOCK", "product": "Fixture", "productVersion": "1.0.0"})
         rejected(lambda value: None, "capability-block", capability_evaluator=lambda _doc, _root, _package, _scope: {"status": "BLOCK"})
+        rejected(lambda value: value["checks"][2].pop("requiredObligationIds"), "capability-obligation-floor")
+        rejected(lambda value: value["checks"][2]["requiredObligationIds"].append("update.missing"), "capability-obligation-floor")
         rejected(lambda value: None, "build-receipt-block", receipt_verifier=lambda _root, _receipt: {"status": "BLOCK"})
         rejected(lambda value: value["checks"][5]["assertions"][0].update({"equals": "BLOCK"}), "evidence-assertion")
         rejected(lambda value: value.update({"productVersion": "2.0.0"}), "delivery-version-drift")

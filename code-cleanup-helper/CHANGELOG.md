@@ -1,5 +1,23 @@
 # Changelog — code-cleanup-helper
 
+## 2026-08-30 — universal downstream update coverage
+
+- Added a read-only D11 classifier to every audit mode for `managed`, `check-only`, `safe-auto-update`, `manual-only`, or `no-origin` downstream-target coverage.
+- Added schema 1.2 `update_coverage` evidence with local config／audit-root-only Git-origin provenance, ambient `GIT_*` isolation, conservative fallback, repo-relative evidence hashes, and no network or updater execution.
+- Added all-mode, invalid-config, path-escape, missing-evidence, manager, and strong-claim false-green fixtures; strong declarations remain reviewable and never become updater-security PASS from file presence.
+
+## 2026-08-30 — bounded context, durable memory, and secure updater audit
+
+- Reduced the canonical entrypoint from 5,387 to 893 exact `o200k_base` Tokens while retaining private authority, revision, read-only authorization, status, child-process, provider/orchestrator, and fallback invariants.
+- Added bounded topic cards for context/memory, cross-system journeys, desktop runtime, professional media, session-native AI, and GitHub-directed secure self-update.
+- Added an exact route context-budget gate with dense-line, aggregate-overflow, malformed-path, duplicate, missing, symlink, and unavailable-tokenizer negative controls.
+- Added read-only updater rules for canonical repository identity, immutable/digest/attestation verification, anti-rollback, staged installation, health switch, rollback, opt-in persistence, and safe old-version retirement.
+- Preserved the full former entrypoint in private migration evidence; no public sync or release was performed.
+
+## 2026-08-24 — long-source editorial-unit cardinality
+
+- Added one-source → N complete promise/payoff deliverable auditing with distinct editable projects, decoded renders and receipts. Old candidate outputs cannot self-label ground truth; compilation fallback and unchanged recut fingerprints are calibrated false greens.
+
 ## v0.20.0 — 2026-08-24 (fresh public mirror contract)
 
 - Documented the modular provider／orchestrator boundary for Skill, web, database, game, software and mixed-project R&D routes.
@@ -237,7 +255,7 @@ Per ADR-002（第二場 panel Q3 共識）。
 P1 of phased B→C omni-genius arch（per 30day-launch repo ADR-001）。
 
 ### Added
-- `SKILL.md` 新「🔑 Session 啟動」段 — 偵測 `D:/圓桌會議/repo-30day-launch/30day-launch/references/for-me/hao-voice.md` 並 load
+- `SKILL.md` 新「🔑 Session 啟動」段 — 偵測使用者設定的本機 hao-voice reference 並 load
 
 ### 行為改變
 - Audit report output 自動套用 hao-voice：表格化、anti-pattern 避免、結構偏好、結尾必有 next action

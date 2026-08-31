@@ -1,7 +1,52 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "projectTypes": ["skill", "web", "database", "game", "software"],
   "overlayModules": ["public-release", "security", "media", "commerce"],
+  "taskDimensions": {
+    "intents": [
+      "audit",
+      "architecture",
+      "implementation",
+      "benchmark",
+      "model-context",
+      "completion",
+      "external-change",
+      "secure-self-update",
+      "mixed"
+    ],
+    "fallbackIntents": ["mixed"],
+    "stages": ["discovery", "baseline", "implementation", "promotion", "completion"],
+    "artifacts": [
+      "source",
+      "skill",
+      "web",
+      "database",
+      "game",
+      "software",
+      "installer",
+      "media",
+      "release",
+      "updater"
+    ],
+    "risks": ["low", "standard", "high", "critical"],
+    "defaultStage": "discovery",
+    "defaultArtifact": "source",
+    "defaultRisk": "standard",
+    "defaultContextBudgetTokens": 12000,
+    "minContextBudgetTokens": 512,
+    "maxContextBudgetTokens": 100000
+  },
+  "legacy": {
+    "alwaysModules": ["core", "cleanup"],
+    "topicId": "legacy-full-module-route",
+    "criticalRuleIds": [
+      "rd.context.critical-fallback",
+      "rd.core.truthful-verdict",
+      "rd.arch.cleanup-provider",
+      "cleanup.adapter-only",
+      "learning.project-local-by-default"
+    ]
+  },
   "modules": {
     "core": {
       "cleanupMode": "architecture",
@@ -75,6 +120,331 @@
       "cleanupMode": "architecture",
       "references": ["references/web-commerce-acceptance.md"],
       "gates": ["price-disclosure", "checkout-state", "commercial-rights"]
+    }
+  },
+  "topics": {
+    "core-experiment": {
+      "cleanupMode": "architecture",
+      "references": ["references/topics/core-experiment.md"],
+      "gates": ["claim-defined", "provenance-declared", "truthful-verdict"],
+      "criticalRuleIds": [
+        "rd.core.claim-first",
+        "rd.core.calibrated-evaluator",
+        "rd.core.same-provenance",
+        "rd.core.truthful-verdict",
+        "rd.core.fresh-decision"
+      ]
+    },
+    "context-and-learning": {
+      "cleanupMode": "architecture",
+      "references": ["references/topics/context-and-learning.md"],
+      "gates": ["bounded-context", "project-local-learning", "critical-fallback"],
+      "criticalRuleIds": [
+        "rd.context.typed-route",
+        "rd.context.critical-fallback",
+        "rd.learning.local-first",
+        "rd.context.quality-separate"
+      ]
+    },
+    "focused-audit": {
+      "cleanupMode": "architecture",
+      "references": ["references/topics/architecture-and-evaluator.md"],
+      "gates": ["cleanup-baseline", "audit-scope-declared", "audit-evidence-retained"],
+      "criticalRuleIds": [
+        "rd.arch.cleanup-provider",
+        "audit.read-only-unless-implementation-authorized"
+      ]
+    },
+    "architecture-evaluation": {
+      "cleanupMode": "architecture",
+      "references": ["references/topics/architecture-and-evaluator.md"],
+      "gates": ["evaluator-calibration", "architecture-negative-fixture", "dependency-boundary"],
+      "criticalRuleIds": [
+        "rd.arch.measured-boundary",
+        "rd.arch.required-edge",
+        "rd.arch.end-to-end-state",
+        "rd.arch.one-owner",
+        "rd.arch.cleanup-provider"
+      ]
+    },
+    "implementation-discipline": {
+      "cleanupMode": "architecture",
+      "references": ["references/topics/core-experiment.md"],
+      "gates": ["falsifiable-win-condition", "smallest-decisive-experiment", "rollback-retained"],
+      "criticalRuleIds": ["rd.core.smallest-decisive", "rd.core.fresh-decision"]
+    },
+    "benchmark-metrics": {
+      "cleanupMode": "architecture",
+      "references": ["references/metrics.md"],
+      "gates": ["evaluator-calibration", "benchmark-provenance-lock", "score-gate"],
+      "criticalRuleIds": [
+        "benchmark.same-provenance-only",
+        "benchmark.negative-controls-required",
+        "benchmark.unmeasured-is-not-a-win"
+      ]
+    },
+    "model-context": {
+      "cleanupMode": "all",
+      "references": [
+        "references/model-and-reasoning-gates.md",
+        "../code-cleanup-helper/references/model-context-contract-audit.md"
+      ],
+      "gates": ["model-effort-matrix", "bounded-context", "typed-execution-contract"],
+      "criticalRuleIds": [
+        "model.identity-never-bypasses-safety",
+        "model.cells-unmeasured-until-replayed",
+        "context.typed-contract-binds-semantic-router"
+      ]
+    },
+    "completion-core": {
+      "cleanupMode": "architecture",
+      "references": ["references/topics/completion-and-external.md"],
+      "gates": ["closed-world-obligations", "completion-scope", "fresh-close"],
+      "criticalRuleIds": [
+        "rd.complete.closed-obligations",
+        "rd.complete.claim-scope",
+        "rd.complete.fresh-close"
+      ]
+    },
+    "completion-detail": {
+      "cleanupMode": "all",
+      "references": [
+        "references/topics/completion-and-external.md",
+        "references/topics/completion-detail.md"
+      ],
+      "gates": ["capability-ledger", "strict-review-closure", "last-mutation-freshness"],
+      "criticalRuleIds": [
+        "rd.complete.closed-obligations",
+        "rd.complete.claim-scope",
+        "rd.complete.fresh-close",
+        "completion.no-status-inheritance",
+        "completion.last-mutation-barrier"
+      ]
+    },
+    "external-detail": {
+      "cleanupMode": "all",
+      "references": [
+        "references/topics/completion-and-external.md",
+        "references/topics/external-detail.md"
+      ],
+      "gates": ["canonical-target", "technical-authorization", "authoritative-postconditions"],
+      "criticalRuleIds": [
+        "rd.external.current-authority",
+        "rd.external.preflight",
+        "rd.external.postverify",
+        "rd.external.irreversible"
+      ]
+    },
+    "legacy-public-release-detail": {
+      "cleanupMode": "all",
+      "references": [
+        "references/capability-obligations.md",
+        "references/completion-closure.md",
+        "references/external-change-gates.md",
+        "references/delivery-artifact-gates.md",
+        "references/security-hardening-gates.md"
+      ],
+      "gates": [
+        "capability-ledger",
+        "strict-review-closure",
+        "last-mutation-freshness",
+        "canonical-target",
+        "technical-authorization",
+        "authoritative-postconditions",
+        "delivery-envelope",
+        "closed-world-payload",
+        "delivered-product-journey",
+        "threat-model",
+        "negative-security-fixtures",
+        "delivered-security-audit"
+      ],
+      "criticalRuleIds": [
+        "rd.complete.closed-obligations",
+        "rd.complete.claim-scope",
+        "rd.complete.fresh-close",
+        "completion.no-status-inheritance",
+        "completion.last-mutation-barrier",
+        "rd.external.current-authority",
+        "rd.external.preflight",
+        "rd.external.postverify",
+        "rd.external.irreversible",
+        "delivery.extracted-envelope-is-authority",
+        "delivery.source-tests-do-not-prove-shipped-bytes",
+        "security.fail-closed-on-identity-drift",
+        "security.no-secrets-or-private-paths-in-payload"
+      ]
+    },
+    "secure-self-update": {
+      "cleanupMode": "architecture",
+      "references": ["references/topics/secure-self-update.md"],
+      "gates": [
+        "updater-default-capability-obligation",
+        "updater-source-policy",
+        "updater-release-contract",
+        "updater-verify-before-activate",
+        "updater-staged-health-switch",
+        "updater-backup-rollback",
+        "updater-confirmed-retirement",
+        "updater-isolated-state-journey"
+      ],
+      "criticalRuleIds": [
+        "rd.updater.default-obligation",
+        "rd.updater.source-policy",
+        "rd.updater.release-contract",
+        "rd.updater.safe-client",
+        "rd.updater.workspace-ownership",
+        "rd.updater.side-by-side",
+        "rd.updater.data-migration",
+        "rd.updater.health-rollback",
+        "rd.updater.upgrade-matrix",
+        "rd.updater.runtime-entrypoint",
+        "rd.updater.retirement",
+        "rd.updater.user-control",
+        "rd.updater.receipt"
+      ]
+    },
+    "baseline-evidence": {
+      "cleanupMode": "architecture",
+      "references": [],
+      "gates": ["evaluator-self-test", "baseline-not-promotion"],
+      "criticalRuleIds": ["baseline.existing-failures-remain-evidence"]
+    },
+    "promotion-evidence": {
+      "cleanupMode": "all",
+      "references": [
+        "references/topics/architecture-and-evaluator.md",
+        "references/topics/completion-and-external.md"
+      ],
+      "gates": ["cleanup-promotion", "cleanup-evidence-freshness", "last-mutation-freshness"],
+      "criticalRuleIds": [
+        "rd.arch.cleanup-provider",
+        "rd.complete.fresh-close",
+        "promotion.final-evidence-must-be-fresh"
+      ]
+    },
+    "skill-artifact": {
+      "cleanupMode": "all",
+      "references": ["../code-cleanup-helper/references/model-context-contract-audit.md"],
+      "gates": ["skill-self-test", "skill-validation", "context-routing"],
+      "criticalRuleIds": ["skill.current-private-bytes-are-authoritative"]
+    },
+    "web-product": {
+      "cleanupMode": "architecture",
+      "references": ["references/web-commerce-acceptance.md"],
+      "gates": ["browser-geometry", "keyboard-dialog-lifecycle", "responsive-journey"],
+      "criticalRuleIds": ["web.live-geometry-not-dom-presence"]
+    },
+    "database-integrity": {
+      "cleanupMode": "all",
+      "references": ["references/security-hardening-gates.md"],
+      "gates": ["schema-migration", "transaction-integrity", "backup-restore", "least-privilege"],
+      "criticalRuleIds": ["database.migration-and-rollback-evidence-required"]
+    },
+    "delivery-artifact": {
+      "cleanupMode": "all",
+      "references": ["references/topics/delivery-artifact.md"],
+      "gates": ["delivery-envelope", "closed-world-payload", "delivered-product-journey"],
+      "criticalRuleIds": [
+        "delivery.extracted-envelope-is-authority",
+        "delivery.source-tests-do-not-prove-shipped-bytes"
+      ]
+    },
+    "security-hardening": {
+      "cleanupMode": "all",
+      "references": ["references/topics/security-hardening.md"],
+      "gates": ["threat-model", "negative-security-fixtures", "delivered-security-audit"],
+      "criticalRuleIds": [
+        "security.fail-closed-on-identity-drift",
+        "security.no-secrets-or-private-paths-in-payload"
+      ]
+    },
+    "media-evidence": {
+      "cleanupMode": "architecture",
+      "references": [
+        "references/topics/media-evidence.md",
+        "references/topics/delivery-artifact.md"
+      ],
+      "gates": ["decoded-output", "source-identity", "rights-provenance"],
+      "criticalRuleIds": ["media.decoded-user-output-is-authority"]
+    },
+    "commerce-acceptance": {
+      "cleanupMode": "architecture",
+      "references": ["references/web-commerce-acceptance.md"],
+      "gates": ["price-disclosure", "checkout-state", "commercial-rights"],
+      "criticalRuleIds": ["commerce.live-journey-and-rights-are-separate"]
+    }
+  },
+  "routing": {
+    "baseTopicIds": ["core-experiment", "context-and-learning"],
+    "intentTopics": {
+      "audit": ["focused-audit"],
+      "architecture": ["architecture-evaluation"],
+      "implementation": ["implementation-discipline"],
+      "benchmark": ["benchmark-metrics"],
+      "model-context": ["model-context"],
+      "completion": ["completion-detail"],
+      "external-change": ["external-detail"],
+      "secure-self-update": ["secure-self-update"],
+      "mixed": []
+    },
+    "stageTopics": {
+      "discovery": [],
+      "baseline": ["baseline-evidence"],
+      "implementation": ["implementation-discipline"],
+      "promotion": ["promotion-evidence"],
+      "completion": ["completion-detail"]
+    },
+    "artifactTopics": {
+      "source": [],
+      "skill": ["skill-artifact"],
+      "web": ["web-product"],
+      "database": ["database-integrity"],
+      "game": ["delivery-artifact", "media-evidence"],
+      "software": ["delivery-artifact"],
+      "installer": ["delivery-artifact", "security-hardening"],
+      "media": ["media-evidence"],
+      "release": ["delivery-artifact", "security-hardening", "external-detail", "completion-detail"],
+      "updater": ["secure-self-update"]
+    },
+    "riskTopics": {
+      "low": [],
+      "standard": [],
+      "high": ["architecture-evaluation"],
+      "critical": ["architecture-evaluation", "completion-core"]
+    },
+    "secureUpdaterRiskTopics": {
+      "low": [],
+      "standard": [],
+      "high": ["delivery-artifact", "security-hardening"],
+      "critical": ["delivery-artifact", "security-hardening", "completion-core"]
+    },
+    "defaultUpdateObligation": {
+      "stages": ["implementation", "promotion", "completion"],
+      "artifacts": ["skill", "software", "game", "installer", "release"],
+      "excludedIntents": ["audit"],
+      "requiredCapabilityObligationIds": [
+        "update.client-check",
+        "update.release-channel"
+      ]
+    },
+    "moduleTopics": {
+      "core": [],
+      "cleanup": [],
+      "skill": ["skill-artifact"],
+      "web": ["web-product"],
+      "database": ["database-integrity"],
+      "game": ["delivery-artifact", "media-evidence"],
+      "software": [],
+      "public-release": [
+        "delivery-artifact",
+        "security-hardening",
+        "external-detail",
+        "completion-detail",
+        "legacy-public-release-detail"
+      ],
+      "security": ["security-hardening"],
+      "media": ["media-evidence"],
+      "commerce": ["commerce-acceptance"]
     }
   }
 }

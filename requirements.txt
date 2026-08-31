@@ -1,0 +1,2 @@
+# Basic Cleanup audits are standard-library-only. Full validation uses this tokenizer.
+tiktoken==0.11.0

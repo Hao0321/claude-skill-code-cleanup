@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.21.0 — 2026-08-31
+
+- Added default downstream update coverage to every Cleanup audit and typed safe-update obligations to authorized distributable-project R&D.
+- Added side-by-side update, rollback, retirement, source-identity and user-control rules without turning development permission into publication or background-execution permission.
+- Added task-aware Router v2, bounded topic cards, exact context-budget gates, typed learning records and topic-index validation.
+- Expanded route and integration regression coverage, including update capability omission and conservative Git-origin isolation.
+- Documented Python/tokenizer dependencies, sibling Skill installation and safe upgrade boundaries; removed a historical private absolute path from the public payload.
+
 ## v0.20.0 — 2026-08-24
 
 - Added privacy-blocking, managed-manifest public sync.

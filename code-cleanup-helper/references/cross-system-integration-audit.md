@@ -31,6 +31,14 @@ When the product must use the newest private Skill on every invocation, inspect 
 
 The preferred architecture keeps private decision/memory state outside the shipped product and versions the adapter contract. This is both a freshness and information-boundary check; it does not prove the flow works until the real journey passes.
 
+### Anonymous generalized-memory pack
+
+When the owner explicitly authorizes generalized memory for community use, do not copy the private tree or hand-curate an undocumented subset. Inventory the canonical source directory as a closed world: every source is either included or excluded with a stable reason. For every included module preserve source and content hashes, schema/version, tags and sanitization receipt; gate names, handles, email, private paths, credentials, private raw assets, un-anonymized outcomes and re-identifiable events with positive and negative fixtures. The pack reader must be bounded and paged so an Agent selects only relevant modules. A privacy-green pack still does not replace current-Skill provenance, source-media evidence, human review or rights evidence.
+
+If the orchestrator directly mentions downstream Skills, derive that dependency set from the current canonical bytes and compare it against a stable integration ledger. Require exactly one row per current dependency, no stale rows, installed-source evidence, an explicit mode such as native-plus-dynamic／dynamic-latest／external fallback, and a replayable gate. A static dependency count is not freshness evidence.
+
+Keep a large public knowledge pack out of the browser startup graph. Audit that the full pack is reachable only through a bounded server／MCP reader while the main UI imports a compact summary bound to the full-pack hash. Expanded preset/template registries and heavyweight builders should form on-demand chunks whose real preview/edit journeys are tested. Preserve fixed main JS, gzip and CSS budgets; raising the budget, deleting discoverability, or loading the whole pack merely to compute a summary is not a performance fix.
+
 ## Model and context boundary
 
 - Sol／Terra／Luna、reasoning effort、temperature 或 prompt 格式都是 invocation provenance，不能替代 schema、negative gate、executor receipt 或人審。
@@ -73,6 +81,7 @@ Treat professional Timeline, typography, color and director-console claims as fo
 ### Creative library previews and native automatic composition
 
 - Audit source pack → closed-world manifest/rights → packaged bytes → runtime resolver → visible preview → apply command → persisted editable graph → Undo/Redo → decoded render. A card count, label, hidden option, generic gradient, or source-only screenshot is a false green for B-roll, music, Look, effect, transition, caption, title/card/tag or text-animation preview claims.
+- Audit long-source repurposing as `source hash → evidence-backed editorial-unit map → expected N → N distinct project identities → N distinct decoded outputs → N receipts`. Do not infer N from file count. Reject a one-compilation fallback, duplicated source ranges, a receipt count that only mirrors an array length, and a “recut” whose editorial fingerprint equals its baseline. Prior Skill/product outputs are benchmark-only unless an independent human/evidence protocol labels them.
 - Separate preview existence from discoverability. If a beginner must already know which clip／caption to select and then open a generic “more／advanced” disclosure before any preview category is named, record component presence only. Beginner readiness needs a directly visible entry whose copy names the available families, a fresh-profile journey that reaches real preview cards without documentation, and a permanent way to reopen guidance after first-run dismissal.
 - For lazy preview surfaces, require the delivered journey to activate every claim-critical chunk and exercise real image/video/audio decode plus animation. Main-bundle shrinkage that hides missing functionality, installer omission, load failure, or unbounded total optional bytes is not optimization.
 - Audit one-click editing as one atomic composition contract, not as a bag of available modules. Applicable families—semantic cuts, editable caption design, rhythm, music/ducking, Look/effect/transition, graphics and tracking—must each be selected, explicitly skipped, or blocked with provenance. Require one Undo boundary, save/reopen, a normal manual edit and decoded output. Tracking pipeline presence must not silently promote tracking quality.

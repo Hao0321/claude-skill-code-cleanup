@@ -15,3 +15,5 @@ node_modules/
 __pycache__/
 *.pyc
 audit-report.json
+.rd/
+.venv/

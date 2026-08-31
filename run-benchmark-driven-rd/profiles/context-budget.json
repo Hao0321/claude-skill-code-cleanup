@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "tokenizer": "o200k_base",
+  "routes": [
+    {
+      "id": "rd-entry",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000}
+      ],
+      "maxBytes": 4000,
+      "maxTokens": 1000
+    },
+    {
+      "id": "rd-core-experiment",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/core-experiment.md", "maxBytes": 1800, "maxTokens": 400}
+      ],
+      "maxBytes": 5800,
+      "maxTokens": 1400
+    },
+    {
+      "id": "rd-architecture",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/architecture-and-evaluator.md", "maxBytes": 1800, "maxTokens": 400}
+      ],
+      "maxBytes": 5800,
+      "maxTokens": 1400
+    },
+    {
+      "id": "rd-context-learning",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/context-and-learning.md", "maxBytes": 2500, "maxTokens": 600}
+      ],
+      "maxBytes": 6500,
+      "maxTokens": 1600
+    },
+    {
+      "id": "rd-completion-external",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/completion-and-external.md", "maxBytes": 2000, "maxTokens": 500}
+      ],
+      "maxBytes": 6000,
+      "maxTokens": 1500
+    },
+    {
+      "id": "rd-completion-detail",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/completion-and-external.md", "maxBytes": 2000, "maxTokens": 500},
+        {"path": "references/topics/completion-detail.md", "maxBytes": 2100, "maxTokens": 450}
+      ],
+      "maxBytes": 8100,
+      "maxTokens": 1950
+    },
+    {
+      "id": "rd-external-detail",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/completion-and-external.md", "maxBytes": 2000, "maxTokens": 500},
+        {"path": "references/topics/external-detail.md", "maxBytes": 2200, "maxTokens": 450}
+      ],
+      "maxBytes": 8200,
+      "maxTokens": 1950
+    },
+    {
+      "id": "rd-secure-updater-design",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/secure-self-update.md", "maxBytes": 3300, "maxTokens": 600}
+      ],
+      "maxBytes": 7300,
+      "maxTokens": 1700
+    },
+    {
+      "id": "rd-secure-updater-high-risk",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/secure-self-update.md", "maxBytes": 3300, "maxTokens": 600},
+        {"path": "references/topics/delivery-artifact.md", "maxBytes": 2400, "maxTokens": 500},
+        {"path": "references/topics/security-hardening.md", "maxBytes": 2500, "maxTokens": 500}
+      ],
+      "maxBytes": 12200,
+      "maxTokens": 2600
+    },
+    {
+      "id": "rd-secure-updater-promotion",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/core-experiment.md", "maxBytes": 1800, "maxTokens": 400},
+        {"path": "references/topics/context-and-learning.md", "maxBytes": 2500, "maxTokens": 600},
+        {"path": "references/topics/secure-self-update.md", "maxBytes": 3300, "maxTokens": 600},
+        {"path": "references/topics/architecture-and-evaluator.md", "maxBytes": 1800, "maxTokens": 400},
+        {"path": "references/topics/completion-and-external.md", "maxBytes": 2000, "maxTokens": 500},
+        {"path": "references/topics/delivery-artifact.md", "maxBytes": 2400, "maxTokens": 500},
+        {"path": "references/topics/security-hardening.md", "maxBytes": 2500, "maxTokens": 500}
+      ],
+      "maxBytes": 20300,
+      "maxTokens": 4500
+    },
+    {
+      "id": "rd-secure-updater-completion",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/core-experiment.md", "maxBytes": 1800, "maxTokens": 400},
+        {"path": "references/topics/context-and-learning.md", "maxBytes": 2500, "maxTokens": 600},
+        {"path": "references/topics/secure-self-update.md", "maxBytes": 3300, "maxTokens": 600},
+        {"path": "references/topics/architecture-and-evaluator.md", "maxBytes": 1800, "maxTokens": 400},
+        {"path": "references/topics/completion-and-external.md", "maxBytes": 2000, "maxTokens": 500},
+        {"path": "references/topics/completion-detail.md", "maxBytes": 2100, "maxTokens": 450},
+        {"path": "references/topics/delivery-artifact.md", "maxBytes": 2400, "maxTokens": 500},
+        {"path": "references/topics/security-hardening.md", "maxBytes": 2500, "maxTokens": 500}
+      ],
+      "maxBytes": 22400,
+      "maxTokens": 4950
+    },
+    {
+      "id": "rd-external-release-high-risk",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/core-experiment.md", "maxBytes": 1800, "maxTokens": 400},
+        {"path": "references/topics/context-and-learning.md", "maxBytes": 2500, "maxTokens": 600},
+        {"path": "references/topics/completion-and-external.md", "maxBytes": 2000, "maxTokens": 500},
+        {"path": "references/topics/external-detail.md", "maxBytes": 2200, "maxTokens": 450},
+        {"path": "references/topics/completion-detail.md", "maxBytes": 2100, "maxTokens": 450},
+        {"path": "references/topics/delivery-artifact.md", "maxBytes": 2400, "maxTokens": 500},
+        {"path": "references/topics/security-hardening.md", "maxBytes": 2500, "maxTokens": 500}
+      ],
+      "maxBytes": 19500,
+      "maxTokens": 4400
+    },
+    {
+      "id": "rd-legacy-public-release-special",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/capability-obligations.md", "maxBytes": 7600, "maxTokens": 1500},
+        {"path": "references/completion-closure.md", "maxBytes": 6500, "maxTokens": 1300},
+        {"path": "references/external-change-gates.md", "maxBytes": 9500, "maxTokens": 1900},
+        {"path": "references/delivery-artifact-gates.md", "maxBytes": 10500, "maxTokens": 2000},
+        {"path": "references/security-hardening-gates.md", "maxBytes": 9500, "maxTokens": 1800}
+      ],
+      "maxBytes": 46000,
+      "maxTokens": 9000
+    },
+    {
+      "id": "rd-delivery",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/delivery-artifact.md", "maxBytes": 2400, "maxTokens": 500}
+      ],
+      "maxBytes": 6400,
+      "maxTokens": 1500
+    },
+    {
+      "id": "rd-security",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/security-hardening.md", "maxBytes": 2500, "maxTokens": 500}
+      ],
+      "maxBytes": 6500,
+      "maxTokens": 1500
+    },
+    {
+      "id": "rd-web",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/web-commerce-acceptance.md", "maxBytes": 8500, "maxTokens": 1700}
+      ],
+      "maxBytes": 12500,
+      "maxTokens": 2700
+    },
+    {
+      "id": "rd-mobile",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/mobile-product-engineering.md", "maxBytes": 24000, "maxTokens": 4700}
+      ],
+      "maxBytes": 28000,
+      "maxTokens": 5800
+    },
+    {
+      "id": "rd-media",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/media-evidence.md", "maxBytes": 2500, "maxTokens": 500},
+        {"path": "references/topics/delivery-artifact.md", "maxBytes": 2400, "maxTokens": 500}
+      ],
+      "maxBytes": 8900,
+      "maxTokens": 2000
+    },
+    {
+      "id": "rd-game-delivery-media",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/core-experiment.md", "maxBytes": 1800, "maxTokens": 400},
+        {"path": "references/topics/context-and-learning.md", "maxBytes": 2500, "maxTokens": 600},
+        {"path": "references/topics/delivery-artifact.md", "maxBytes": 2400, "maxTokens": 500},
+        {"path": "references/topics/media-evidence.md", "maxBytes": 2500, "maxTokens": 500}
+      ],
+      "maxBytes": 13200,
+      "maxTokens": 3000
+    },
+    {
+      "id": "rd-model",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/model-and-reasoning-gates.md", "maxBytes": 3300, "maxTokens": 700}
+      ],
+      "maxBytes": 7300,
+      "maxTokens": 1700
+    },
+    {
+      "id": "rd-cross-system",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/cross-system-and-market-claims.md", "maxBytes": 10000, "maxTokens": 2000}
+      ],
+      "maxBytes": 14000,
+      "maxTokens": 3000
+    }
+  ]
+}

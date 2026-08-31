@@ -1,0 +1,1278 @@
+{
+  "schemaVersion": 1,
+  "tokenizer": {
+    "id": "o200k_base",
+    "version": "0.11.0"
+  },
+  "topicRootPolicy": "explicit-skills-root",
+  "topics": [
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.context",
+      "path": "code-cleanup-helper/references/topics/context-routing-and-memory.md",
+      "sha256": "d2c03630be6ca5c10d6244eb57d473bfb5751b3fbb23122aa47d0e17a22e61fe",
+      "tokenCost": 529,
+      "ruleIds": [
+        "cleanup.context.canonical-private",
+        "cleanup.context.critical-no-drop",
+        "cleanup.context.legacy-fallback",
+        "cleanup.context.quality-separate",
+        "cleanup.context.route-bounded",
+        "cleanup.learning.promotion-receipt",
+        "cleanup.learning.raw-local"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.cross-system",
+      "path": "code-cleanup-helper/references/topics/cross-system-core.md",
+      "sha256": "4b3715d0d5a7f66ae5123ce72bf0841a0bd7dfcbf3a87c1027e52f1b1264256c",
+      "tokenCost": 242,
+      "ruleIds": [
+        "cleanup.integration.closed-world",
+        "cleanup.integration.fresh-final",
+        "cleanup.integration.journey-not-presence",
+        "cleanup.integration.same-revision",
+        "cleanup.integration.versioned-handoff"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.desktop",
+      "path": "code-cleanup-helper/references/topics/desktop-runtime.md",
+      "sha256": "fbd67397f37b46c1b9dae7d55da036dbd8de5ac0a7c479a6b9cb77ba83d5fd96",
+      "tokenCost": 243,
+      "ruleIds": [
+        "cleanup.desktop.durable-result",
+        "cleanup.desktop.isolated-state",
+        "cleanup.desktop.nonblocking-job",
+        "cleanup.desktop.owned-controller",
+        "cleanup.desktop.semantic-ready"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.media",
+      "path": "code-cleanup-helper/references/topics/media-workstation.md",
+      "sha256": "0a189dca17e3f029cf8bcde4b5ccb57a233605118c195b9f690e2623247d2169",
+      "tokenCost": 368,
+      "ruleIds": [
+        "cleanup.media.color-order",
+        "cleanup.media.decoded-evidence",
+        "cleanup.media.editable-journey",
+        "cleanup.media.editorial-cardinality",
+        "cleanup.media.first-source",
+        "cleanup.media.font-export",
+        "cleanup.media.human-review",
+        "cleanup.media.timeline-interaction"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.session-ai",
+      "path": "code-cleanup-helper/references/topics/session-native-ai.md",
+      "sha256": "44a665385ddb3e5e31cd190aae3fbbbe9bceaa08fd477ca3f661c3b34aa6acbc",
+      "tokenCost": 240,
+      "ruleIds": [
+        "cleanup.ai.forgery-stale-negative",
+        "cleanup.ai.human-fallback",
+        "cleanup.ai.identity-separation",
+        "cleanup.ai.onboarding-real-host",
+        "cleanup.ai.same-source-evidence"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.updater",
+      "path": "code-cleanup-helper/references/topics/secure-self-update.md",
+      "sha256": "d0d5a72393594965022f26eb8dca77fd020a4d178f2c5e4237a6a708bf48334a",
+      "tokenCost": 738,
+      "ruleIds": [
+        "cleanup.updater.anti-rollback",
+        "cleanup.updater.canonical-source",
+        "cleanup.updater.delivered-security",
+        "cleanup.updater.explicit-persistence",
+        "cleanup.updater.health-switch",
+        "cleanup.updater.receipt",
+        "cleanup.updater.release-integrity",
+        "cleanup.updater.retire-after-healthy",
+        "cleanup.updater.rollback",
+        "cleanup.updater.runtime-entrypoint",
+        "cleanup.updater.staged-install",
+        "cleanup.updater.workspace-ownership"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.architecture",
+      "path": "run-benchmark-driven-rd/references/topics/architecture-and-evaluator.md",
+      "sha256": "e7064d00ee514b4e321650002e46b95464d24452ef90cd1d7a0197b0634285ac",
+      "tokenCost": 273,
+      "ruleIds": [
+        "rd.arch.cleanup-provider",
+        "rd.arch.end-to-end-state",
+        "rd.arch.fresh-artifact",
+        "rd.arch.measured-boundary",
+        "rd.arch.one-owner",
+        "rd.arch.required-edge"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.completion-detail",
+      "path": "run-benchmark-driven-rd/references/topics/completion-detail.md",
+      "sha256": "fa10973cbd09f79843ee28438036b16a46955054bc186e70a70eab5cdfc5b3cd",
+      "tokenCost": 352,
+      "ruleIds": [
+        "rd.complete.detail-last-mutation",
+        "rd.complete.detail-residue",
+        "rd.complete.detail-status-isolation"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.completion-external",
+      "path": "run-benchmark-driven-rd/references/topics/completion-and-external.md",
+      "sha256": "bc939d34370a621806a991781f8cdc8252c78317ce09d99de9968e013364d6c8",
+      "tokenCost": 328,
+      "ruleIds": [
+        "rd.complete.claim-scope",
+        "rd.complete.closed-obligations",
+        "rd.complete.fresh-close",
+        "rd.external.current-authority",
+        "rd.external.irreversible",
+        "rd.external.postverify",
+        "rd.external.preflight"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.context-learning",
+      "path": "run-benchmark-driven-rd/references/topics/context-and-learning.md",
+      "sha256": "02b1d83a3e546e3af189de8b98a62f2a8983d57592f1828846fd1e4208d6ba5b",
+      "tokenCost": 415,
+      "ruleIds": [
+        "rd.context.critical-fallback",
+        "rd.context.quality-separate",
+        "rd.context.typed-route",
+        "rd.learning.local-first",
+        "rd.learning.no-delete",
+        "rd.learning.promote-with-proof",
+        "rd.learning.typed-record"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.core",
+      "path": "run-benchmark-driven-rd/references/topics/core-experiment.md",
+      "sha256": "ea53eb879a8663b6e99c00058ae7edbb7cdf9c7b6f0c35a2113af11b18cadf14",
+      "tokenCost": 280,
+      "ruleIds": [
+        "rd.core.calibrated-evaluator",
+        "rd.core.claim-first",
+        "rd.core.fresh-decision",
+        "rd.core.same-provenance",
+        "rd.core.smallest-decisive",
+        "rd.core.truthful-verdict"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.delivery-artifact",
+      "path": "run-benchmark-driven-rd/references/topics/delivery-artifact.md",
+      "sha256": "3b986242e90e6bb0e37779d54a8d5d4a89393a19a13edae86f0ae06d24d734f9",
+      "tokenCost": 406,
+      "ruleIds": [
+        "rd.delivery.canonical-build-chain",
+        "rd.delivery.closed-world-payload",
+        "rd.delivery.delivered-journey",
+        "rd.delivery.envelope-authority",
+        "rd.delivery.isolated-state"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.external-detail",
+      "path": "run-benchmark-driven-rd/references/topics/external-detail.md",
+      "sha256": "4ffb90b4f53e372ff380e9aa0948ced77bbdd0590b50efb16f683237fe0bb7cd",
+      "tokenCost": 351,
+      "ruleIds": [
+        "rd.external.detail-authorization",
+        "rd.external.detail-postconditions",
+        "rd.external.detail-target-resolution"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.media-evidence",
+      "path": "run-benchmark-driven-rd/references/topics/media-evidence.md",
+      "sha256": "86bded0ac612a598a983b1217448409acb083e5dba23bbff69c41fdee7183baf",
+      "tokenCost": 436,
+      "ruleIds": [
+        "rd.media.calibrated-negatives",
+        "rd.media.decoded-authority",
+        "rd.media.editable-render-journey",
+        "rd.media.evidence-envelope",
+        "rd.media.strongest-scenario"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.security-hardening",
+      "path": "run-benchmark-driven-rd/references/topics/security-hardening.md",
+      "sha256": "ba39d30b6ead4c88cf95fb8666c909a91a22a99c6c8ae929bad852acdcf6e162",
+      "tokenCost": 437,
+      "ruleIds": [
+        "rd.security.artifact-inspection",
+        "rd.security.explicit-threat-model",
+        "rd.security.external-obligations",
+        "rd.security.identity-drift",
+        "rd.security.owned-runtime"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.updater",
+      "path": "run-benchmark-driven-rd/references/topics/secure-self-update.md",
+      "sha256": "62dcee1a3118d2601d0f9acbf652188433e8027b2fbb7533f128fa3edc01f6a3",
+      "tokenCost": 595,
+      "ruleIds": [
+        "rd.updater.data-migration",
+        "rd.updater.default-obligation",
+        "rd.updater.health-rollback",
+        "rd.updater.receipt",
+        "rd.updater.release-contract",
+        "rd.updater.retirement",
+        "rd.updater.runtime-entrypoint",
+        "rd.updater.safe-client",
+        "rd.updater.side-by-side",
+        "rd.updater.source-policy",
+        "rd.updater.upgrade-matrix",
+        "rd.updater.user-control",
+        "rd.updater.workspace-ownership"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "cleanup.ai.forgery-stale-negative",
+      "ownerTopic": "cleanup.session-ai",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.ai.human-fallback",
+      "ownerTopic": "cleanup.session-ai",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.ai.identity-separation",
+      "ownerTopic": "cleanup.session-ai",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.ai.onboarding-real-host",
+      "ownerTopic": "cleanup.session-ai",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.ai.same-source-evidence",
+      "ownerTopic": "cleanup.session-ai",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.context.canonical-private",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.context.critical-no-drop",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.context.legacy-fallback",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.context.quality-separate",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.context.route-bounded",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.desktop.durable-result",
+      "ownerTopic": "cleanup.desktop",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.desktop.isolated-state",
+      "ownerTopic": "cleanup.desktop",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.desktop.nonblocking-job",
+      "ownerTopic": "cleanup.desktop",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.desktop.owned-controller",
+      "ownerTopic": "cleanup.desktop",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.desktop.semantic-ready",
+      "ownerTopic": "cleanup.desktop",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.integration.closed-world",
+      "ownerTopic": "cleanup.cross-system",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.integration.fresh-final",
+      "ownerTopic": "cleanup.cross-system",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.integration.journey-not-presence",
+      "ownerTopic": "cleanup.cross-system",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.integration.same-revision",
+      "ownerTopic": "cleanup.cross-system",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.integration.versioned-handoff",
+      "ownerTopic": "cleanup.cross-system",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.learning.promotion-receipt",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.learning.raw-local",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.color-order",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.decoded-evidence",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.editable-journey",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.editorial-cardinality",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.first-source",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.font-export",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.human-review",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.media.timeline-interaction",
+      "ownerTopic": "cleanup.media",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.anti-rollback",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.canonical-source",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.delivered-security",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.explicit-persistence",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.health-switch",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.receipt",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.release-integrity",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.retire-after-healthy",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.rollback",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.runtime-entrypoint",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.staged-install",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.updater.workspace-ownership",
+      "ownerTopic": "cleanup.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.arch.cleanup-provider",
+      "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.arch.end-to-end-state",
+      "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.arch.fresh-artifact",
+      "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.arch.measured-boundary",
+      "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.arch.one-owner",
+      "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.arch.required-edge",
+      "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.complete.claim-scope",
+      "ownerTopic": "rd.completion-external",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.complete.closed-obligations",
+      "ownerTopic": "rd.completion-external",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.complete.detail-last-mutation",
+      "ownerTopic": "rd.completion-detail",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.complete.detail-residue",
+      "ownerTopic": "rd.completion-detail",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.complete.detail-status-isolation",
+      "ownerTopic": "rd.completion-detail",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.complete.fresh-close",
+      "ownerTopic": "rd.completion-external",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.context.critical-fallback",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.context.quality-separate",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.context.typed-route",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.core.calibrated-evaluator",
+      "ownerTopic": "rd.core",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.core.claim-first",
+      "ownerTopic": "rd.core",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.core.fresh-decision",
+      "ownerTopic": "rd.core",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.core.same-provenance",
+      "ownerTopic": "rd.core",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.core.smallest-decisive",
+      "ownerTopic": "rd.core",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.core.truthful-verdict",
+      "ownerTopic": "rd.core",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.delivery.canonical-build-chain",
+      "ownerTopic": "rd.delivery-artifact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.delivery.closed-world-payload",
+      "ownerTopic": "rd.delivery-artifact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.delivery.delivered-journey",
+      "ownerTopic": "rd.delivery-artifact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.delivery.envelope-authority",
+      "ownerTopic": "rd.delivery-artifact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.delivery.isolated-state",
+      "ownerTopic": "rd.delivery-artifact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.external.current-authority",
+      "ownerTopic": "rd.completion-external",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.external.detail-authorization",
+      "ownerTopic": "rd.external-detail",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.external.detail-postconditions",
+      "ownerTopic": "rd.external-detail",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.external.detail-target-resolution",
+      "ownerTopic": "rd.external-detail",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.external.irreversible",
+      "ownerTopic": "rd.completion-external",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.external.postverify",
+      "ownerTopic": "rd.completion-external",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.external.preflight",
+      "ownerTopic": "rd.completion-external",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.learning.local-first",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.learning.no-delete",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.learning.promote-with-proof",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.learning.typed-record",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.media.calibrated-negatives",
+      "ownerTopic": "rd.media-evidence",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.media.decoded-authority",
+      "ownerTopic": "rd.media-evidence",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.media.editable-render-journey",
+      "ownerTopic": "rd.media-evidence",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.media.evidence-envelope",
+      "ownerTopic": "rd.media-evidence",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.media.strongest-scenario",
+      "ownerTopic": "rd.media-evidence",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.artifact-inspection",
+      "ownerTopic": "rd.security-hardening",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.explicit-threat-model",
+      "ownerTopic": "rd.security-hardening",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.external-obligations",
+      "ownerTopic": "rd.security-hardening",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.identity-drift",
+      "ownerTopic": "rd.security-hardening",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.owned-runtime",
+      "ownerTopic": "rd.security-hardening",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.data-migration",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.default-obligation",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.health-rollback",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.receipt",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.release-contract",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.retirement",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.runtime-entrypoint",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.safe-client",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.side-by-side",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.source-policy",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.upgrade-matrix",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.user-control",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.updater.workspace-ownership",
+      "ownerTopic": "rd.updater",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    }
+  ]
+}

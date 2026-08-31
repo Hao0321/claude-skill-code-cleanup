@@ -17,11 +17,18 @@ Place an optional `.rd/project.json` in the project:
   "schemaVersion": 1,
   "autoDetect": true,
   "projectTypes": ["web", "database"],
-  "modules": ["public-release", "security"]
+  "modules": ["public-release", "security"],
+  "projectGates": ["native-js-architecture-gate"],
+  "evidenceBindings": {
+    "native-js-architecture-gate": "scripts/native_js_gate.mjs",
+    "native-js-architecture-receipt": ".rd/receipts/native-js-architecture.json"
+  }
 }
 ```
 
 `projectTypes` accepts `skill`, `web`, `database`, `game`, and `software`. `modules` adds cross-cutting overlays: `public-release`, `security`, `media`, or `commerce`. Mixed products compose several types; they do not invent a giant catch-all profile.
+
+`projectGates` is a unique list of project-native gates that the shared profile cannot infer. `evidenceBindings` is a string-only map to the evaluator or receipt that closes each native gate. Keep evaluator limitations explicit—for example, a native JavaScript graph may supplement Cleanup while Cleanup's own cross-language result remains `NOT_CHECKED`. Neither field is evidence by itself.
 
 Run:
 
@@ -29,7 +36,7 @@ Run:
 python scripts/project_profile_gate.py --project <root> --contract <root>/.rd/project.json --output <root>/.rd/project-route.json --quiet
 ```
 
-The frozen route identifies selected modules, Cleanup mode, references, gates, detection evidence and the profile hash. An unknown module or unsupported schema blocks routing. The route is a plan, not proof that its gates passed.
+The frozen route identifies selected modules, Cleanup mode, references, gates, detection evidence, profile hash, contract hash and project evidence bindings. An unknown module, duplicate project gate, malformed evidence binding or unsupported schema blocks routing. The route is a reproducible plan, not proof that its gates passed.
 
 ## Continuous learning boundary
 

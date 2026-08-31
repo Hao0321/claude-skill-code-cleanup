@@ -26,6 +26,7 @@ Ledger 至少要能表達：
 6. 對跨 Skill／Agent／MCP／runtime／installer／人審／發布的義務，要求同一 source revision/hash 的版本化 handoff 與真實 journey。檔案、模組或工具各自存在不能作為這類 obligation 的唯一 verified evidence；細節讀 `cross-system-integration-audit.md`。
 7. 對 batch／queue／mass-production 義務，先區分 multi-import、單一時間軸組片與真正 fan-out。後者必須用 closed-world source/group → stable job → editable project → render → receipt 對應，驗證隔離失敗、逐支重試、重啟續跑、來源處理前後 hash 與 open-in-editor；N 個來源只得到 1 個專案或成片時不得標 batch verified。
 8. 對自動剪輯／動態圖卡義務，把「可編輯 graph 存在」與「最終編碼後肉眼可見且語意正確」拆開。Verified evidence 必須抽查宣稱時段的 decoded frames、safe-area／可讀性與跨取樣穩定度，並證明 domain-defined evidence ranges（例如耐久賽的持續旋轉、沉默等待、結果確認）未被通用 silence／low-motion 規則誤刪；只列 graphic／track ID 或保留時間長度不足以關閉義務。
+9. 對單一長來源拆 Shorts／Reels，來源 cardinality 與 editorial-unit cardinality 必須分開。先凍結由獨立證據或人工標註產生的 deliverable map（每單位含 promise、setup、payoff 與來源範圍），再驗證 `1 source → N semantic units → N editable projects → N decoded renders → N receipts`。舊系統成片與候選成片只能是 benchmark observations，不能互相充當 ground truth。若輸出單一合輯、遺失單位、重用同一 source range、或 recut fingerprint 未改變，回報 false green。
 
 Cleanup 的程式架構 PASS 與 capability gate 是兩個獨立量尺；任一 `NOT_CHECKED` 都保持可見。
 
