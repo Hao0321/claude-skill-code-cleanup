@@ -11,311 +11,25 @@ import os
 import statistics
 import tempfile
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import project_profile_gate as router
+from router_quality_catalog import (
+    BASE_RULES,
+    BASE_TOPICS,
+    CLASS_SPECS,
+    SECURITY_CAPABILITY_IDS,
+    UPDATER_SPECS,
+    VARIANTS,
+    CaseSpec,
+    ClassSpec,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
 ROUTER_PATH = ROOT / "scripts" / "project_profile_gate.py"
 PROFILE_PATH = ROOT / "profiles" / "project-modules.json"
-BASE_TOPICS = ("core-experiment", "context-and-learning")
-BASE_RULES = ("rd.core.truthful-verdict", "rd.context.critical-fallback")
-VARIANTS = ("direct-positive", "near-miss-negative", "stale-or-distractor")
-
-
-@dataclass(frozen=True)
-class ClassSpec:
-    task_class: str
-    intent: str | None
-    stage: str
-    artifact: str
-    risk: str
-    expected_topics: tuple[str, ...]
-    required_rules: tuple[str, ...]
-    forbidden_topics: tuple[str, ...] = ()
-    project_types: tuple[str, ...] = ("software",)
-    max_selected_topics: int | None = 5
-    cap_policy: str = "default-five-card-cap"
-    flags: tuple[str, ...] = ()
-
-
-@dataclass(frozen=True)
-class CaseSpec:
-    case_id: str
-    task_class: str
-    variant: str
-    contract: dict[str, Any]
-    expected_mode: str
-    expected_fallback_reason: str | None
-    expected_topics: tuple[str, ...]
-    required_rules: tuple[str, ...]
-    forbidden_topics: tuple[str, ...]
-    expected_effective_risk: str
-    expected_adjustment_rules: tuple[str, ...] = ()
-    max_selected_topics: int | None = 5
-    cap_policy: str = "default-five-card-cap"
-    flags: tuple[str, ...] = ()
-
-
-CLASS_SPECS = (
-    ClassSpec(
-        "mixed-ts-rust-audit",
-        "audit",
-        "discovery",
-        "source",
-        "low",
-        (*BASE_TOPICS, "focused-audit"),
-        (*BASE_RULES, "audit.read-only-unless-implementation-authorized"),
-        ("benchmark-metrics", "media-evidence", "model-context", "completion-detail"),
-        flags=("audit-authorization", "mixed-language-not-checked"),
-    ),
-    ClassSpec(
-        "architecture",
-        "architecture",
-        "discovery",
-        "source",
-        "standard",
-        (*BASE_TOPICS, "architecture-evaluation"),
-        (*BASE_RULES, "rd.arch.one-owner", "rd.arch.cleanup-provider"),
-        ("benchmark-metrics", "media-evidence", "completion-detail"),
-    ),
-    ClassSpec(
-        "implementation",
-        "implementation",
-        "implementation",
-        "source",
-        "low",
-        (*BASE_TOPICS, "implementation-discipline"),
-        (*BASE_RULES, "rd.core.smallest-decisive"),
-        ("benchmark-metrics", "media-evidence", "completion-detail"),
-    ),
-    ClassSpec(
-        "benchmark",
-        "benchmark",
-        "baseline",
-        "source",
-        "standard",
-        (*BASE_TOPICS, "benchmark-metrics", "baseline-evidence"),
-        (*BASE_RULES, "benchmark.same-provenance-only", "baseline.existing-failures-remain-evidence"),
-        ("implementation-discipline", "media-evidence", "completion-detail"),
-    ),
-    ClassSpec(
-        "model-context",
-        "model-context",
-        "discovery",
-        "source",
-        "standard",
-        (*BASE_TOPICS, "model-context"),
-        (*BASE_RULES, "context.typed-contract-binds-semantic-router"),
-        ("benchmark-metrics", "media-evidence", "completion-detail"),
-    ),
-    ClassSpec(
-        "completion",
-        "completion",
-        "completion",
-        "source",
-        "standard",
-        (*BASE_TOPICS, "completion-detail"),
-        (*BASE_RULES, "rd.complete.fresh-close", "completion.last-mutation-barrier"),
-        ("benchmark-metrics", "media-evidence", "model-context"),
-    ),
-    ClassSpec(
-        "external-release",
-        "external-change",
-        "completion",
-        "release",
-        "standard",
-        (*BASE_TOPICS, "external-detail", "completion-detail", "delivery-artifact",
-         "security-hardening", "architecture-evaluation", "completion-core",
-         "secure-self-update"),
-        (*BASE_RULES, "rd.external.current-authority", "rd.external.postverify",
-         "delivery.source-tests-do-not-prove-shipped-bytes",
-         "rd.updater.default-obligation", "rd.updater.user-control"),
-        ("media-evidence", "model-context", "benchmark-metrics"),
-        max_selected_topics=9,
-        cap_policy="documented-external-release-update-closure-route",
-        flags=("external-release", "default-updater"),
-    ),
-    ClassSpec(
-        "mcp-session-ai-skill",
-        "model-context",
-        "discovery",
-        "skill",
-        "standard",
-        (*BASE_TOPICS, "model-context", "skill-artifact"),
-        (*BASE_RULES, "context.typed-contract-binds-semantic-router", "skill.current-private-bytes-are-authoritative"),
-        ("benchmark-metrics", "media-evidence", "delivery-artifact", "completion-detail"),
-        project_types=("skill",),
-        flags=("session-ai",),
-    ),
-    ClassSpec(
-        "web-product",
-        "implementation",
-        "implementation",
-        "web",
-        "low",
-        (*BASE_TOPICS, "implementation-discipline", "web-product"),
-        (*BASE_RULES, "rd.core.smallest-decisive", "web.live-geometry-not-dom-presence"),
-        ("benchmark-metrics", "media-evidence", "completion-detail", "security-hardening"),
-    ),
-    ClassSpec(
-        "database-integrity",
-        "architecture",
-        "discovery",
-        "database",
-        "standard",
-        (*BASE_TOPICS, "architecture-evaluation", "database-integrity"),
-        (*BASE_RULES, "rd.arch.one-owner", "database.migration-and-rollback-evidence-required"),
-        ("web-product", "media-evidence", "benchmark-metrics", "completion-detail"),
-    ),
-    ClassSpec(
-        "game-delivery-media",
-        "implementation",
-        "implementation",
-        "game",
-        "standard",
-        (*BASE_TOPICS, "implementation-discipline", "delivery-artifact", "media-evidence",
-         "architecture-evaluation", "secure-self-update", "security-hardening"),
-        (*BASE_RULES, "rd.core.smallest-decisive",
-         "delivery.extracted-envelope-is-authority", "media.decoded-user-output-is-authority",
-         "rd.updater.default-obligation", "rd.updater.safe-client",
-         "rd.updater.user-control"),
-        ("benchmark-metrics", "model-context", "completion-detail"),
-        max_selected_topics=8,
-        cap_policy="documented-game-delivery-update-route",
-        flags=("specialized-media", "default-updater"),
-    ),
-    ClassSpec(
-        "skill-iteration-update-default",
-        "implementation",
-        "implementation",
-        "skill",
-        "low",
-        (*BASE_TOPICS, "implementation-discipline", "skill-artifact",
-         "architecture-evaluation", "secure-self-update", "delivery-artifact",
-         "security-hardening"),
-        (*BASE_RULES, "skill.current-private-bytes-are-authoritative",
-         "rd.updater.default-obligation", "rd.updater.safe-client",
-         "rd.updater.user-control"),
-        ("benchmark-metrics", "media-evidence", "completion-detail"),
-        project_types=("skill",),
-        max_selected_topics=8,
-        cap_policy="documented-skill-update-safety-route",
-        flags=("default-updater",),
-    ),
-    ClassSpec(
-        "software-promotion-update-default",
-        "implementation",
-        "promotion",
-        "software",
-        "low",
-        (*BASE_TOPICS, "implementation-discipline", "promotion-evidence",
-         "delivery-artifact", "architecture-evaluation", "secure-self-update",
-         "security-hardening"),
-        (*BASE_RULES, "promotion.final-evidence-must-be-fresh",
-         "rd.updater.default-obligation", "rd.updater.safe-client",
-         "rd.updater.user-control"),
-        ("benchmark-metrics", "media-evidence", "completion-detail"),
-        max_selected_topics=8,
-        cap_policy="documented-software-update-promotion-route",
-        flags=("default-updater",),
-    ),
-    ClassSpec(
-        "installer-implementation-update-default",
-        "implementation",
-        "implementation",
-        "installer",
-        "low",
-        (*BASE_TOPICS, "implementation-discipline", "delivery-artifact",
-         "security-hardening", "architecture-evaluation", "secure-self-update"),
-        (*BASE_RULES, "delivery.source-tests-do-not-prove-shipped-bytes",
-         "rd.updater.default-obligation", "rd.updater.safe-client",
-         "rd.updater.user-control"),
-        ("benchmark-metrics", "media-evidence", "completion-detail"),
-        max_selected_topics=7,
-        cap_policy="documented-installer-update-safety-route",
-        flags=("default-updater",),
-    ),
-    ClassSpec(
-        "skill-audit-update-excluded",
-        "audit",
-        "baseline",
-        "skill",
-        "low",
-        (*BASE_TOPICS, "focused-audit", "baseline-evidence", "skill-artifact"),
-        (*BASE_RULES, "audit.read-only-unless-implementation-authorized",
-         "skill.current-private-bytes-are-authoritative"),
-        ("secure-self-update", "delivery-artifact", "security-hardening"),
-        project_types=("skill",),
-        flags=("audit-authorization", "update-excluded"),
-    ),
-    ClassSpec(
-        "ambiguous-legacy-fallback",
-        "mixed",
-        "discovery",
-        "software",
-        "standard",
-        ("legacy-full-module-route",),
-        ("rd.context.critical-fallback", "rd.core.truthful-verdict", "cleanup.adapter-only", "learning.project-local-by-default"),
-        (),
-        max_selected_topics=None,
-        cap_policy="documented-legacy-fallback-exception",
-        flags=("fallback",),
-    ),
-)
-
-
-UPDATER_SPECS = (
-    CaseSpec(
-        "updater.discovery-low",
-        "secure-self-update",
-        "updater-special",
-        {},
-        "task-aware-v2",
-        None,
-        (*BASE_TOPICS, "secure-self-update"),
-        (*BASE_RULES, "rd.updater.source-policy", "rd.updater.safe-client", "rd.updater.user-control"),
-        ("benchmark-metrics", "media-evidence", "completion-detail", "security-hardening"),
-        "low",
-        max_selected_topics=5,
-        flags=("updater",),
-    ),
-    CaseSpec(
-        "updater.implementation-promotion-risk-floor",
-        "secure-self-update",
-        "updater-special",
-        {},
-        "task-aware-v2",
-        None,
-        (*BASE_TOPICS, "secure-self-update", "promotion-evidence", "architecture-evaluation", "delivery-artifact", "security-hardening"),
-        (*BASE_RULES, "rd.updater.safe-client", "promotion.final-evidence-must-be-fresh", "security.fail-closed-on-identity-drift"),
-        ("benchmark-metrics", "media-evidence", "model-context", "completion-detail"),
-        "high",
-        ("rd.updater.safe-client",),
-        7,
-        "documented-updater-safety-floor",
-        ("updater",),
-    ),
-    CaseSpec(
-        "updater.completion-destructive",
-        "secure-self-update",
-        "updater-special",
-        {},
-        "task-aware-v2",
-        None,
-        (*BASE_TOPICS, "secure-self-update", "completion-detail", "architecture-evaluation", "completion-core", "delivery-artifact", "security-hardening"),
-        (*BASE_RULES, "rd.updater.safe-client", "rd.updater.retirement", "rd.updater.user-control", "rd.complete.closed-obligations", "completion.last-mutation-barrier"),
-        ("benchmark-metrics", "media-evidence", "model-context"),
-        "critical",
-        ("rd.updater.safe-client",),
-        8,
-        "documented-updater-completion-safety-floor",
-        ("updater", "destructive-boundary"),
-    ),
-)
 
 
 def sha256(path: Path) -> str:
@@ -599,16 +313,26 @@ def base_case_assertions(case: CaseSpec, route_value: dict[str, Any], observed: 
     adjustment_ids = observed["adjustment_ids"]
     stale_hash_ok, stale_hash_mismatches = observed["hash_freshness"]
     update_obligation = route_value.get("task", {}).get("updateObligation", {})
+    security_obligation = route_value.get("task", {}).get("securityAssessmentObligation", {})
     expected_update_status = (
         "REQUIRED_EXPLICIT" if "updater" in case.flags
         else "REQUIRED_DEFAULT" if "default-updater" in case.flags
         else "EXCLUDED"
     )
     expected_update_required = expected_update_status != "EXCLUDED"
-    expected_capability_ids = (
-        ["update.client-check", "update.release-channel"]
-        if expected_update_required else []
+    expected_security_status = (
+        "REQUIRED_EXPLICIT" if case.contract.get("taskIntent") == "security-assessment"
+        else "REQUIRED_ROUTE" if "security-assessment" in case.expected_topics
+        and case.contract.get("taskIntent") != "audit"
+        and case.expected_mode != "legacy-compatible-fallback"
+        else "EXCLUDED"
     )
+    expected_security_required = expected_security_status != "EXCLUDED"
+    expected_capability_ids = [
+        *(["update.client-check", "update.release-channel"]
+          if expected_update_required else []),
+        *(SECURITY_CAPABILITY_IDS if expected_security_required else ()),
+    ]
     return [
         assertion("route-schema-v2", route_value.get("schemaVersion") == 2, expected=2,
                   observed=route_value.get("schemaVersion")),
@@ -654,16 +378,43 @@ def base_case_assertions(case: CaseSpec, route_value: dict[str, Any], observed: 
             observed=update_obligation,
         ),
         assertion(
-            "update-capability-floor",
+            "combined-capability-floor",
             route_value.get("requiredCapabilityObligationIds")
             == expected_capability_ids
             and update_obligation.get("requiredCapabilityObligationIds")
-            == expected_capability_ids,
+            == (["update.client-check", "update.release-channel"]
+                if expected_update_required else []),
             expected=expected_capability_ids,
             observed={
                 "route": route_value.get("requiredCapabilityObligationIds"),
-                "task": update_obligation.get("requiredCapabilityObligationIds"),
+                "updateTask": update_obligation.get("requiredCapabilityObligationIds"),
+                "securityTask": security_obligation.get("requiredCapabilityObligationIds"),
             },
+        ),
+        assertion(
+            "typed-security-assessment-obligation",
+            security_obligation.get("schemaVersion") == 1
+            and security_obligation.get("scope") == "target-project-security-assessment"
+            and security_obligation.get("status") == expected_security_status
+            and security_obligation.get("required") is expected_security_required
+            and security_obligation.get("requiredCapabilityObligationIds")
+            == (list(SECURITY_CAPABILITY_IDS) if expected_security_required else [])
+            and security_obligation.get("requiredSecurityControlIds")
+            == (list(SECURITY_CAPABILITY_IDS) if expected_security_required else [])
+            and security_obligation.get("authorityEffect")
+            == "selection-only-no-scan-or-contact-authority",
+            expected={
+                "status": expected_security_status,
+                "required": expected_security_required,
+                "requiredCapabilityObligationIds": (
+                    list(SECURITY_CAPABILITY_IDS) if expected_security_required else []
+                ),
+                "requiredSecurityControlIds": (
+                    list(SECURITY_CAPABILITY_IDS) if expected_security_required else []
+                ),
+                "authorityEffect": "selection-only-no-scan-or-contact-authority",
+            },
+            observed=security_obligation,
         ),
         assertion("selected-topic-cap", case.max_selected_topics is None or len(selected) <= case.max_selected_topics,
                   expected=(f"<= {case.max_selected_topics}" if case.max_selected_topics is not None else "documented exception"),
@@ -712,6 +463,15 @@ def add_optional_case_assertions(assertions: list[dict[str, Any]], case: CaseSpe
         assertions.append(assertion(
             "external-release-authority-and-postverify",
             {"rd.external.current-authority", "rd.external.postverify"}.issubset(critical),
+        ))
+    if "security-assessment" in case.flags:
+        assertions.append(assertion(
+            "security-route-grants-no-contact-authority",
+            route_value.get("selectionOnly") is True
+            and route_value.get("task", {}).get("securityAssessmentObligation", {})
+            .get("authorityEffect") == "selection-only-no-scan-or-contact-authority"
+            and route_value.get("projectEvidence", {}).get("authorization")
+            == "audit-only:no-external-or-destructive-mutation",
         ))
     if "destructive-boundary" in case.flags:
         assertions.append(assertion(

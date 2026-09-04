@@ -15,6 +15,7 @@ from audit_core import collect_files, declared_versions, normalized_paragraphs, 
 from check_audit_snapshot import run_self_test as run_audit_snapshot_self_test
 from check_build_receipt import run_self_test as run_build_receipt_self_test
 from check_context_budget import run_self_test as run_context_budget_self_test
+from check_security_assessment import run_self_test as run_security_assessment_self_test
 from check_skill_revision import run_self_test as run_skill_revision_self_test
 from sync_public import (
     equivalent_files, managed_paths, privacy_violations, safe_destination, write_manifest,
@@ -598,6 +599,7 @@ def main() -> int:
     test_json_contract()
     run_audit_snapshot_self_test()
     run_build_receipt_self_test()
+    run_security_assessment_self_test()
     print("self-test passed")
     return 0
 

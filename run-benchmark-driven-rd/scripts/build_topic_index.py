@@ -28,6 +28,7 @@ TOPIC_SPECS = {
     "rd.delivery-artifact": "run-benchmark-driven-rd/references/topics/delivery-artifact.md",
     "rd.external-detail": "run-benchmark-driven-rd/references/topics/external-detail.md",
     "rd.media-evidence": "run-benchmark-driven-rd/references/topics/media-evidence.md",
+    "rd.security-assessment": "run-benchmark-driven-rd/references/topics/security-assessment.md",
     "rd.security-hardening": "run-benchmark-driven-rd/references/topics/security-hardening.md",
     "rd.updater": "run-benchmark-driven-rd/references/topics/secure-self-update.md",
 }

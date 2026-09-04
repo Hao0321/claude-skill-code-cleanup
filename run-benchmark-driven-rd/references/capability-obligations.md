@@ -53,6 +53,8 @@ python scripts/capability_gate.py <project>/.rd/capability-ledger.json --scope i
 
 The gate is additive to correctness, architecture, performance and release gates. Do not replace subsystem benchmarks with ledger checks; the ledger points to those benchmarks.
 
+Security routes require the exact-case six IDs in `topics/security-assessment.md`; subsets, extras and case collisions block. Each verified record needs typed `security-assessment` evidence binding its ID, receipt path/bytes/SHA, plan/snapshot, `controlCoverageSha256` and route-input SHA. Generic file evidence cannot close completion. `parity` requires obligations marked internal or public as well as parity-only records.
+
 ## Turn protocol
 
 1. At the start of a continuation, read the ledger before choosing work.

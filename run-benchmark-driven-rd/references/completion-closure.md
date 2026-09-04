@@ -1,48 +1,48 @@
 # Completion closure
 
-Use this contract when the user asks to finish everything, stop asking for iterative confirmation, declare a product done, or hand off a release after a long multi-turn campaign.
+Use this contract for an explicit done／release handoff after a long-running scope.
 
 ## Freeze the scope
 
-1. Read the canonical capability ledger and add any newly promised workflow before implementation.
-2. Name the completion scope: `internal`, `public`, `parity`, platform-specific, or another explicit boundary.
-3. Separate product functions from human-preference, legal/rights, signing, external-account, physical-device and competitor claims. Unsupported stronger claims remain `unmeasured` or `blocked_external`.
-4. Convert every applicable claim into replayable evidence. A count of green tests is not a closed-world requirement list.
-5. For cross-system or market claims, persist `claim_matrix_gate.py` output after the final mutation. Instrument GREEN does not close the claim unless `claimClosure` is GREEN; completion/parity runs must use `--require-claim-closed`.
+1. Freeze the canonical capability ledger, including every promised workflow.
+2. Declare `internal`／`public`／`parity` and any platform boundary.
+3. Split product functions from preference, rights/signing, external-account/device and competitor claims; unsupported claims stay `unmeasured`／`blocked_external`.
+4. Bind each applicable claim to replayable evidence; green-test counts are not closed-world coverage.
+5. After the last mutation, persist `claim_matrix_gate.py`; cross-system／market completion needs `claimClosure=GREEN` and `--require-claim-closed`.
 
 ## Close findings, not just failures
 
-For an ordinary audit, `REVIEW` remains advisory. For an explicit full-completion or release-closure claim, run Cleanup promotion with `--review-policy block`. Resolve each REVIEW semantically by refactoring, narrowing responsibility, or changing the claim; do not hide it with thresholds or ignores. If a justified long-lived exception is necessary, the task is not zero-REVIEW closure and the handoff must name that exception.
+Ordinary audit `REVIEW` is advisory; completion runs Cleanup promotion with `--review-policy block`. Resolve REVIEW by code or claim changes, not ignores/thresholds. A retained exception must be named and is not zero-REVIEW closure. Required `NOT_CHECKED` blocks; optional gaps stay visible.
 
-Required `NOT_CHECKED` dimensions block. Optional NOT_CHECKED dimensions remain visible with the reason they are outside the declared scope.
-
-When the frozen scope includes batch or mass production, completion also needs closed-world cardinality evidence: N sources/groups yield N isolated jobs, editable projects, renders and receipts. Prove partial-failure continuation, job-local retry, restart recovery, source byte preservation and normal-editor re-entry on the delivered artifact. Do not close the scope from a multi-import control or a loop around a single-item unit test.
+Batch scope also needs N-source → N isolated job/project/render/receipt evidence, partial-failure continuation, local retry, restart recovery, source-byte preservation and editor re-entry. A loop around one unit fixture is insufficient.
 
 ## Last-mutation barrier
 
-Promotion evidence must be captured after the final source, test, configuration, documentation and packaging mutation. If anything inside the frozen target changes afterward, rerun the affected gates.
-
-When saving Cleanup evidence inside the audited target, place it in a directory excluded by `audit.config.json`; otherwise the report becomes self-referential and must measurement-block. Capture and verify with:
+Capture promotion after the final source/test/config/docs/package mutation; later target changes invalidate affected gates. Store Cleanup evidence only in an `audit.config.json`-excluded directory:
 
 ```powershell
 python scripts/run_cleanup_gate.py <target> --mode all --phase promotion --review-policy block --output <target>/.rd/benchmarks/cleanup-promotion.json --quiet
 python scripts/verify_cleanup_evidence.py <target>/.rd/benchmarks/cleanup-promotion.json
 ```
 
-The capture adapter performs an immediate second audit. The verifier replays the provider later and rejects evaluator/config/adapter drift, changed bytes, added files and removed files. Run it after final documentation and release-note edits, not before them.
+Capture immediately re-audits; verification rejects evaluator/config/adapter drift and added/removed/changed bytes. With concurrent sessions, canonical private Skills are the sole authority: capture both trees with `invocation_revision_gate.py`, read current routed files, merge only landed edits, then verify before deciding. Never execute a public mirror/cache/summary/worktree copy; sync is private→public only. Evaluator/instruction drift invalidates evidence even when product bytes are unchanged, so rerun self-tests, promotion and the final bundle.
 
-When several products or Skills are being edited by concurrent sessions, the active private Skill directories are the sole canonical source. At every invocation, capture both canonical trees with `scripts/invocation_revision_gate.py`, read the current `SKILL.md` and routed references, then verify that capture before the final decision. Never execute from a public mirror, conversation summary, cached copy or another project's worktree. Do not wait for unfinished sessions; work becomes current only when it lands in the canonical private tree. Before editing, re-read the exact current files and merge onto them. Public sync is private-to-public only.
-
-Concurrent evaluator or instruction-tree changes invalidate downstream evidence even when product bytes did not change. Cleanup contract `1.2` freezes full provider and adapter revisions, and rejects old envelopes without them. After current Skill edits and public syncs, replay every saved Cleanup promotion and then run the single completion bundle gate. If any evaluator/config/adapter/revision identity changed, re-read the latest Skill, rerun its self-test, recapture promotion, and retry. Do not weaken this into a warning.
-
-For web products, persist the executable web decision with `web_acceptance_gate.py <input-report> --root <project-root> --output <gate-report.json> --quiet`, then bind that exact gate report as hash-locked `json-evidence` in the completion contract. Do not assert `GREEN` directly on the collector input, because input evidence and evaluator output are different artifacts.
+For web products, persist `web_acceptance_gate.py` output and bind that exact report as hash-locked `json-evidence`; collector input is not an executable GREEN decision.
 
 ```powershell
 $env:PYTHONUTF8='1'
 python scripts/completion_closure_gate.py <closure-contract.json> --root <evidence-root> --output <closure-report.json> --quiet
 ```
 
-The contract has a closed-world `requiredCheckIds` list. Supported checks are strict fresh Cleanup promotions, delivery contracts, capability ledgers, live build receipts, exact file identities and hash-bound JSON evidence assertions. Use separate Cleanup promotion checks for the product and for every concurrently maintained Skill, so final closure proves all parties used the latest canonical bytes.
+V2 has closed-world `requiredCheckIds`; v1 always returns `legacy-unbound-completion-contract`. Checks cover strict Cleanup promotion, delivery/capability, live build/security receipts, file identity, hash-bound JSON, and exactly one required `route-receipt`. Route replay binds project/optional contract, current profile/references/routing hash and typed update/security obligations.
+
+Paths stay lexically under root and reject escape, ADS, controls, trailing dot/space, device names and symlink/reparse components. JSON is ≤5 MiB with unique keys, integer-only signed-64 numbers and depth/node bounds. Identities stream from one stable handle.
+
+One capability ledger must hold the route's full exact-case floor; partial-ledger unions fail. Typed route decides security, but `public/parity` additionally requires both distributable-update and security floors—`audit/source` cannot downgrade it. Required routes need exactly one ≤24h v2 assessment with verified snapshot/plan. Completion hashes bounded NFC product/version under `cleanup-security-target-identity/v1` and compares only identity profile/digest; reports omit plaintext. External contact also needs closure-owned `expectedGrantSha256`; local checks carry no grant. Excluded internal routes cannot smuggle a scan.
+
+For `public/parity`, closure requires exactly one route receipt, capability ledger, security assessment, Cleanup promotion, delivery contract and build receipt, plus exactly one routed `release-artifact` file identity. All subject-bearing checks must resolve to the route `projectRoot`; the release artifact must equal the delivery envelope identity and occur in the verified build outputs. A sibling decoy, same-root alternate artifact or three-check route/security/capability bundle cannot close release. In parity scope, obligations marked internal or public are both required.
+
+This proves local byte/route/evidence consistency, not scanner truth. Independent release claims need an outer trusted CI signer/attestation binding completion, route and security-receipt digests; local adapter/calibration claims are not that anchor.
 
 ## Product residue and canonical artifacts
 

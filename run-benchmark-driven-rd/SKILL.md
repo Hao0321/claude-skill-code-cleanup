@@ -1,21 +1,21 @@
 ---
 name: run-benchmark-driven-rd
-description: 將高風險產品目標轉成可否證、benchmark-gated R&D。適用架構、效能、交付、資安、模型／Token、完整度；可分發專案／Skill 的迭代與收尾預設納入 GitHub 安全更新檢查、回滾及舊版淘汰。
+description: 將高風險產品目標轉成可否證、benchmark-gated R&D；可分發專案／Skill 的迭代與收尾預設納入 GitHub 安全更新、回滾及舊版淘汰。
 ---
 
 # Run Benchmark-Driven R&D
 
-用同 provenance 證據做決策並保留可重播學習。
-
 ## 核心 contract
 
-1. Active private Skill trees 是唯一權威。開始用 `invocation_revision_gate.py capture` 凍結 R&D＋Cleanup revision，最終判斷前 `verify`；`UNSTABLE` 不混用，`STALE` 重讀並重跑受影響 gate。
-2. 只在原始授權內修改；本機實作不暗含外部／破壞性 mutation。外部變更另需當輪授權、精確 target、preflight 與 post-readback；GitHub URL 不是執行授權。
-3. 先寫 claim、baseline、threshold、decision rule，再用 task-shaped 正負控制校準 evaluator。Exit 0、元件／模型／短 prompt／工具綠燈不能替代品質、完成或 parity；缺同 provenance 證據保持 `unmeasured`／`NOT_CHECKED`。
-4. Cleanup 是獨立 read-only provider；保留其 PASS／FAIL／REVIEW／NOT_CHECKED、child 與 revision evidence。R&D 可套 strict promotion policy，但不可把 provider 缺口改寫成 PASS。
-5. Route receipt 列 intent、stage、artifact/risk、selected/omitted topics、hash、critical IDs、cost、fallback。未知／歧義／stale／超 budget 時 block 或 legacy fallback，不漏 critical rule。
+1. Active private Skill 唯一權威。先 `invocation_revision_gate.py capture` 凍結雙 revision，決策前 `verify`；`UNSTABLE` 不混用，`STALE` 重讀重驗。
+2. 修改不越原始授權；本機實作不暗含外部／破壞性 mutation。外部變更須當輪授權、精確 target、preflight、post-readback；GitHub URL 不授權執行。
+3. 先寫 claim、baseline、threshold、decision rule，用 task-shaped 正負控制校準 evaluator。工具／元件綠燈不等於品質、完成或 parity；缺同 provenance 證據保持 `unmeasured`／`NOT_CHECKED`。
+4. Cleanup 是獨立唯讀 provider；保留 PASS／FAIL／REVIEW／NOT_CHECKED、child、revision evidence；strict promotion 不可改寫缺口為 PASS。
+5. Route receipt 列 intent、stage、artifact/risk、selected/omitted topics、hash、critical IDs、cost、fallback；未知／歧義／stale／超 budget 時 block 或 legacy fallback。
 6. Raw/private learning 留在目標 `.rd/`，預設零 prompt Tokens；shared rule 需 typed receipt、單一 owner、privacy、正負 fixture 與 reciprocal link。縮短 context 不刪記憶。
-7. 可分發下游 Skill／software／game／installer／release 的已授權 implementation／promotion／completion 預設需要安全更新 capability；audit／source-only 不改檔，也不推導 publish、sign、persistence、delete 權限。
+7. 可分發目標的已授權 implementation／promotion／completion 預設需安全更新能力；audit／security-assessment／source-only 不推導 updater、publish、sign、persistence、delete 權限。
+8. Security route 每個 target 必須規劃並驗完固定六控制；public／parity 再綁同專案 Cleanup、delivery、build 與 release artifact，sibling decoy 無效。
+9. 階段完成、重試或交接前執行 `references/disk-hygiene.md`；在授權內清理可重建舊產物，不保留全部歷代副本。
 
 ## 路由
 
@@ -25,9 +25,9 @@ description: 將高風險產品目標轉成可否證、benchmark-gated R&D。適
 | 架構／Cleanup baseline | `references/topics/architecture-and-evaluator.md` |
 | context／Token／learning | `references/topics/context-and-learning.md` |
 | capability／complete／external | `references/topics/completion-and-external.md` |
-| updater 或可分發目標的 implementation／promotion／completion | `references/topics/secure-self-update.md`；依風險加 delivery/security，排除 audit／source-only |
+| updater 或可分發目標的 implementation／promotion／completion | `references/topics/secure-self-update.md`；依風險自動加 delivery/security，排除 audit／source-only |
 
-Delivery、security、web、mobile、media、model、cross-system 讀對應既有 reference；大型 protocol／metrics／tooling／completion／external 只供 legacy／特殊 family。修改本 Skill 讀 `references/maintenance.md`。
+Delivery、security、web、mobile、media、model、cross-system 讀對應 reference；大型 contract 僅 legacy／特殊 family。修改本 Skill 讀 `references/maintenance.md`。
 
 ## 工作流
 

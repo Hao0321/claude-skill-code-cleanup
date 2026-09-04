@@ -1,5 +1,27 @@
 # Changelog — run-benchmark-driven-rd
 
+## 2026-09-04 — security-assessment routing and closure
+
+- Added an explicit security-assessment intent/topic plus six typed capability obligations for scope, coverage, scanner provenance, non-lossy findings, engine admission, and adapter integrity.
+- Security-sensitive distributable development routes now plan the full floor automatically, while audit/fallback routes remain read-only and no route grants target-contact authority.
+- Completion now invokes Cleanup's live security receipt validator and blocks partial obligation sets, missing receipts, stale target identity, partial coverage, unsafe execution, or open findings.
+- Added routing and closure positives plus missing-task, false-success, moving-tag, stale-knowledge/evidence, sensitive-output, scope/egress, isolation, partial-floor, and target-drift negatives.
+- Pinned the case-sensitive six-ID floor in profile/capability validation; weakened subsets, case variants, collisions, and updater high/critical routes without `security-assessment` now fail closed.
+- Prevent `public`／`parity` completion from self-downgrading through an `audit` or source-only route: both distributable update and security obligations are mandatory at that claim boundary.
+- Replace plaintext completion/security target reflection with the shared domain-separated NFC Unicode identity digest, and state the remaining outer signer／attestation trust boundary explicitly.
+- Bind the security assessment to the exact routed project root, closure-owned plan/snapshot, live receipt identity, route-input digest, and six role-typed ledger records; sibling decoys and generic-file evidence now block.
+- Make completion findings, checked IDs and evaluator/contract metadata non-reflective so attacker-controlled child output cannot become an instruction-shaped gate report.
+- Freeze the route-owned six-control denominator and require every authorized target to report all planned/executed cells; shallow generic receipts can no longer become green by omission.
+- For public/parity closure, require same-project Cleanup, delivery, build and one release artifact in addition to route/capability/security, then cross-bind delivery and verified build output identities; parity now includes internal and public obligations.
+- Clean-room design review was informed by `teddashh/ai-security-scanner` at `fd9194f285f3ffae8236fc7b8b30e1a611fe722a`; no upstream code or schema was copied.
+
+## 2026-09-01 — bounded development-stage disk retirement
+
+- Require system/work-volume checks before large builds and at completed, failed, retry, and handoff checkpoints; safely retire confirmed obsolete generated artifacts when the user has authorized cleanup.
+- Add a bounded disk-hygiene route: exact allowlists, fresh identity and activity checks, no-follow ancestor/subtree checks, protected user data/current candidate/rollback, and measured free-space deltas.
+- Preserve old failure receipts unchanged and record retired payloads in a new ledger. Recycling or renaming is not reclaimed space; locked or uncertain targets remain reviewable, without killing user programs or bypassing permissions.
+- Keep this a scoped development workflow, not a background scheduler or unrestricted deletion permission; local changes do not imply public synchronization.
+
 ## 2026-08-30 — default downstream update obligation
 
 - Routed authorized implementation, promotion and completion of distributable Skill/software/game/installer/release targets through secure update checking by default, while leaving audit and source-only work read-only.

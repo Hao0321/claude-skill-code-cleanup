@@ -218,6 +218,21 @@
     },
     {
       "privacy": "sanitized",
+      "id": "rd.security-assessment",
+      "path": "run-benchmark-driven-rd/references/topics/security-assessment.md",
+      "sha256": "e330ec0609da6ce526e86f795758477b71c51fc47fd9f384e9807e7539b67ca6",
+      "tokenCost": 663,
+      "ruleIds": [
+        "rd.security.adapter-evidence-integrity",
+        "rd.security.engine-admission",
+        "rd.security.finding-normalization-nonlossy",
+        "rd.security.scan-authority-envelope",
+        "rd.security.scan-coverage-ledger",
+        "rd.security.scanner-provenance"
+      ]
+    },
+    {
+      "privacy": "sanitized",
       "id": "rd.security-hardening",
       "path": "run-benchmark-driven-rd/references/topics/security-hardening.md",
       "sha256": "ba39d30b6ead4c88cf95fb8666c909a91a22a99c6c8ae929bad852acdcf6e162",
@@ -1095,8 +1110,28 @@
       "negativeFixtureIds": []
     },
     {
+      "id": "rd.security.adapter-evidence-integrity",
+      "ownerTopic": "rd.security-assessment",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
       "id": "rd.security.artifact-inspection",
       "ownerTopic": "rd.security-hardening",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.engine-admission",
+      "ownerTopic": "rd.security-assessment",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
       "privacy": "sanitized",
@@ -1125,6 +1160,16 @@
       "negativeFixtureIds": []
     },
     {
+      "id": "rd.security.finding-normalization-nonlossy",
+      "ownerTopic": "rd.security-assessment",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
       "id": "rd.security.identity-drift",
       "ownerTopic": "rd.security-hardening",
       "promotionState": "provisional",
@@ -1137,6 +1182,36 @@
     {
       "id": "rd.security.owned-runtime",
       "ownerTopic": "rd.security-hardening",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.scan-authority-envelope",
+      "ownerTopic": "rd.security-assessment",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.scan-coverage-ledger",
+      "ownerTopic": "rd.security-assessment",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.security.scanner-provenance",
+      "ownerTopic": "rd.security-assessment",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
       "privacy": "sanitized",

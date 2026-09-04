@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — 2026-09-04
+
+- Added a read-only, fail-closed security-assessment receipt contract to Cleanup, including immutable target snapshots, exact authorization and coverage, scanner／rules／adapter identity, bounded execution provenance, non-lossy findings and calibrated negative controls.
+- Added R&D routing and completion obligations for security-sensitive distributable work; public／parity claims now require the complete six-control security floor plus same-project delivery, build and release evidence.
+- Hardened identity, path, JSON, network-destination and task-status handling so stale, partial, reflected, moving-tag or false-success evidence cannot become a green promotion signal.
+- Added bounded disk-hygiene guidance for generated artifacts without granting background cleanup or blanket deletion authority.
+- The security design was informed by [`teddashh/ai-security-scanner`](https://github.com/teddashh/ai-security-scanner) at fixed revision `fd9194f285f3ffae8236fc7b8b30e1a611fe722a`; this repository uses a clean-room implementation and copies no upstream code or schema.
+
 ## v0.21.0 — 2026-08-31
 
 - Added default downstream update coverage to every Cleanup audit and typed safe-update obligations to authorized distributable-project R&D.

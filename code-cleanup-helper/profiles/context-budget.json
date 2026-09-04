@@ -3,6 +3,15 @@
   "tokenizer": "o200k_base",
   "routes": [
     {
+      "id": "cleanup-disk-hygiene",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 3500, "maxTokens": 1000},
+        {"path": "references/disk-hygiene.md", "maxBytes": 3500, "maxTokens": 1100}
+      ],
+      "maxBytes": 7000,
+      "maxTokens": 2100
+    },
+    {
       "id": "cleanup-entry",
       "files": [
         {"path": "SKILL.md", "maxBytes": 3500, "maxTokens": 1000}
@@ -68,10 +77,11 @@
       "id": "cleanup-security",
       "files": [
         {"path": "SKILL.md", "maxBytes": 3500, "maxTokens": 1000},
-        {"path": "references/security-and-release-hygiene.md", "maxBytes": 9000, "maxTokens": 2200}
+        {"path": "references/security-and-release-hygiene.md", "maxBytes": 9000, "maxTokens": 2200},
+        {"path": "references/security-assessment-contract.md", "maxBytes": 8500, "maxTokens": 2200}
       ],
-      "maxBytes": 12500,
-      "maxTokens": 3300
+      "maxBytes": 21000,
+      "maxTokens": 5500
     },
     {
       "id": "cleanup-model-context",

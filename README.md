@@ -7,6 +7,8 @@
 
 目前版本：**v0.21.0**。
 
+`main` 另含 2026-09-04 尚未標記版本的安全強化：Cleanup 新增可驗證、fail-closed 的 security-assessment receipt；R&D 新增六項安全控制的 routing／completion obligations，並把 public／parity 完工證據綁到同一專案的 delivery、build 與 release artifact。這仍是由使用者授權觸發的開發／稽核流程，不會在安裝後自行常駐掃描或改寫專案。詳見 [Changelog](CHANGELOG.md)。
+
 ## v0.21.0 重點
 
 - Cleanup 每次 audit 都輸出下游目標的 D11 更新覆蓋：`managed`、`check-only`、`safe-auto-update`、`manual-only` 或 `no-origin`。檔案或 GitHub URL 存在不等於更新安全通過。

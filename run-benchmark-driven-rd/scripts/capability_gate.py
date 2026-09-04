@@ -4,8 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import re
+import stat
 import tempfile
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable
@@ -13,9 +16,28 @@ from typing import Any, Callable
 
 STATUSES = {"verified", "blocked_external", "planned", "unmeasured"}
 SCOPES = {"internal", "public", "parity"}
+SECURITY_CAPABILITY_IDS = (
+    "security.scan-scope",
+    "security.scan-coverage",
+    "security.scanner-provenance",
+    "security.finding-normalization",
+    "security.engine-admission",
+    "security.adapter-integrity",
+)
+SECURITY_CAPABILITY_ID_SET = frozenset(SECURITY_CAPABILITY_IDS)
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+SECURITY_EVIDENCE_FIELDS = {
+    "kind", "capabilityId", "value", "receiptBytes", "receiptSha256",
+    "planSha256", "snapshotSha256", "routingInputSha256",
+    "controlCoverageSha256",
+}
 REQUIRED_SCOPE_FLOORS = {
     "update.client-check": {"internal", "public"},
     "update.release-channel": {"public"},
+    **{
+        obligation_id: {"internal", "public"}
+        for obligation_id in SECURITY_CAPABILITY_IDS
+    },
 }
 PRIVATE_PATTERN = re.compile(
     r"(?:[a-z]:\\|\\\\|/Users/|/home/|\.claude[\\/]skills|\.codex[\\/]skills|(?:api[_-]?key|token|secret|password)\s*[:=])",
@@ -26,9 +48,59 @@ PRIVATE_PATTERN = re.compile(
 FailureSink = Callable[[str, str, str | None], None]
 
 
+def has_casefold_collision(values: list[str]) -> bool:
+    return len(values) != len({value.casefold() for value in values})
+
+
+def validate_security_capability_set(
+    values: list[str], label: str, fail: FailureSink
+) -> None:
+    observed = [
+        value for value in values
+        if value.casefold().startswith("security.")
+    ]
+    if not observed:
+        return
+    if len(observed) != len(SECURITY_CAPABILITY_IDS) or set(observed) != SECURITY_CAPABILITY_ID_SET:
+        fail(
+            "security-capability-set",
+            f"{label} security capability IDs must be the exact canonical six",
+        )
+
+
 def package_product_name(package: dict[str, Any]) -> Any:
     build = package.get("build") if isinstance(package.get("build"), dict) else {}
     return package.get("productName") or build.get("productName") or package.get("name")
+
+
+def evidence_path(root: Path, value: Any) -> Path | None:
+    if not isinstance(value, str) or not value or "\\" in value:
+        return None
+    path = PurePosixPath(value)
+    if path.is_absolute() or "." in path.parts or ".." in path.parts or (
+        path.parts and ":" in path.parts[0]
+    ):
+        return None
+    candidate = root.joinpath(*path.parts).resolve()
+    if root not in candidate.parents and candidate != root:
+        return None
+    return candidate if candidate.is_file() else None
+
+
+def streamed_identity(path: Path) -> dict[str, Any]:
+    digest = hashlib.sha256()
+    size = 0
+    with path.open("rb") as handle:
+        before = os.fstat(handle.fileno())
+        if not stat.S_ISREG(before.st_mode):
+            raise ValueError("evidence is not a regular file")
+        while chunk := handle.read(1024 * 1024):
+            size += len(chunk)
+            digest.update(chunk)
+        after = os.fstat(handle.fileno())
+    if (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns) or size != before.st_size:
+        raise ValueError("evidence changed while hashing")
+    return {"bytes": size, "sha256": digest.hexdigest()}
 
 
 def resolve_product_context(manifest: Path, package_json: Path | None, root: Path | None) -> tuple[Path, Path]:
@@ -71,6 +143,11 @@ def validate_header(
         return []
     elif len(set(required)) != len(required):
         fail("duplicate-required-id", "requiredObligationIds contains duplicates")
+    elif has_casefold_collision(required):
+        fail(
+            "duplicate-required-id-casefold",
+            "requiredObligationIds contains a case-folding collision",
+        )
     return required
 
 
@@ -84,6 +161,46 @@ def validate_verified(
     if not isinstance(evidence, list) or not evidence:
         fail("missing-evidence", "verified obligation needs replayable evidence", obligation_id)
         evidence = []
+    if obligation_id in SECURITY_CAPABILITY_ID_SET:
+        if len(evidence) != 1 or not isinstance(evidence[0], dict):
+            fail(
+                "security-evidence-binding",
+                "security obligation needs one typed assessment binding",
+                obligation_id,
+            )
+            return
+        entry = evidence[0]
+        receipt_bytes = entry.get("receiptBytes")
+        digests = (
+            entry.get("receiptSha256"), entry.get("planSha256"),
+            entry.get("snapshotSha256"), entry.get("routingInputSha256"),
+            entry.get("controlCoverageSha256"),
+        )
+        candidate = evidence_path(root, entry.get("value"))
+        if (
+            set(entry) != SECURITY_EVIDENCE_FIELDS
+            or entry.get("kind") != "security-assessment"
+            or entry.get("capabilityId") != obligation_id
+            or candidate is None
+            or isinstance(receipt_bytes, bool)
+            or not isinstance(receipt_bytes, int)
+            or receipt_bytes <= 0
+            or any(not isinstance(value, str) or not SHA256_RE.fullmatch(value) for value in digests)
+        ):
+            fail(
+                "security-evidence-binding",
+                "security assessment evidence schema is invalid",
+                obligation_id,
+            )
+            return
+        try:
+            identity = streamed_identity(candidate)
+        except (OSError, ValueError):
+            fail("security-evidence-binding", "security receipt cannot be hashed", obligation_id)
+            return
+        if identity != {"bytes": receipt_bytes, "sha256": entry["receiptSha256"]}:
+            fail("security-evidence-binding", "security receipt identity drifted", obligation_id)
+        return
     for entry in evidence:
         if not isinstance(entry, dict):
             fail("invalid-evidence", "evidence must be an object", obligation_id)
@@ -93,18 +210,8 @@ def validate_verified(
             if not isinstance(value, str) or value not in package_scripts:
                 fail("missing-npm-script", f"missing npm script: {value}", obligation_id)
         elif entry.get("kind") == "file":
-            if not isinstance(value, str) or not value or "\\" in value:
+            if evidence_path(root, value) is None:
                 fail("unsafe-evidence-path", "evidence path must remain inside product root", obligation_id)
-                continue
-            path = PurePosixPath(value)
-            if path.is_absolute() or "." in path.parts or ".." in path.parts or (path.parts and ":" in path.parts[0]):
-                fail("unsafe-evidence-path", "evidence path must remain inside product root", obligation_id)
-                continue
-            candidate = root.joinpath(*path.parts).resolve()
-            if root not in candidate.parents and candidate != root:
-                fail("unsafe-evidence-path", "evidence path escapes product root", obligation_id)
-            elif not candidate.is_file():
-                fail("missing-evidence-file", f"missing evidence file: {value}", obligation_id)
         else:
             fail("invalid-evidence-kind", f"unsupported evidence kind: {entry.get('kind')}", obligation_id)
 
@@ -134,7 +241,7 @@ def validate_obligation(
     if missing_scopes:
         fail(
             "required-scope-floor",
-            "default update obligation omitted required completion scopes: "
+            "default routed obligation omitted required completion scopes: "
             + ", ".join(missing_scopes),
             obligation_id,
         )
@@ -147,7 +254,10 @@ def validate_obligation(
                 fail("incomplete-blocker", f"blocked_external missing blocker.{field}", obligation_id)
     elif not isinstance(obligation.get("nextExperiment"), str) or not obligation["nextExperiment"].strip():
         fail("missing-next-experiment", f"{status} obligation needs nextExperiment", obligation_id)
-    if scope in required_for and status != "verified":
+    required_in_scope = scope in required_for or (
+        scope == "parity" and bool({"internal", "public"}.intersection(required_for))
+    )
+    if required_in_scope and status != "verified":
         fail("required-capability-open", f"{scope} obligation remains {status}", obligation_id)
 
 
@@ -169,6 +279,18 @@ def evaluate(document: dict[str, Any], root: Path, package: dict[str, Any], scop
     by_id: dict[str, dict[str, Any]] = {}
     package_scripts = package.get("scripts") if isinstance(package.get("scripts"), dict) else {}
     root = root.resolve()
+
+    obligation_ids = [
+        item["id"] for item in obligations
+        if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"]
+    ]
+    if has_casefold_collision(obligation_ids):
+        fail(
+            "duplicate-id-casefold",
+            "obligations contain a case-folding ID collision",
+        )
+    validate_security_capability_set(required, "requiredObligationIds", fail)
+    validate_security_capability_set(obligation_ids, "obligations", fail)
 
     for obligation in obligations:
         validate_obligation(obligation, root, package, package_scripts, scope, by_id, fail)
@@ -212,6 +334,15 @@ def run_self_test() -> None:
         }
         assert evaluate(document, root, package, "internal")["status"] == "GREEN"
         assert evaluate(document, root, package, "public")["status"] == "BLOCK"
+        assert evaluate(document, root, package, "parity")["status"] == "BLOCK"
+        parity_closed = json.loads(json.dumps(document))
+        parity_closed["obligations"][2] = {
+            "id": "update.release-channel", "title": "Authorized public update channel",
+            "status": "verified", "requiredFor": ["public"],
+            "verifiedVersion": "1.0.0",
+            "evidence": [{"kind": "npm_script", "value": "test"}],
+        }
+        assert evaluate(parity_closed, root, package, "parity")["status"] == "GREEN"
         broken = json.loads(json.dumps(document))
         broken["obligations"] = broken["obligations"][1:]
         report = evaluate(broken, root, package, "internal")
@@ -228,6 +359,92 @@ def run_self_test() -> None:
         del broken["obligations"][2]["blocker"]["action"]
         report = evaluate(broken, root, package, "internal")
         assert any(item["code"] == "incomplete-blocker" for item in report["findings"])
+        security = json.loads(json.dumps(document))
+        security_receipt = root / "security-assessment.json"
+        security_receipt.write_text("{}", encoding="utf-8")
+        security_identity = streamed_identity(security_receipt)
+        security_ids = list(SECURITY_CAPABILITY_IDS)
+        security["requiredObligationIds"].extend(security_ids)
+        security["obligations"].extend({
+            "id": obligation_id,
+            "title": obligation_id,
+            "status": "verified",
+            "requiredFor": ["internal", "public"],
+            "verifiedVersion": "1.0.0",
+            "evidence": [{
+                "kind": "security-assessment",
+                "capabilityId": obligation_id,
+                "value": "security-assessment.json",
+                "receiptBytes": security_identity["bytes"],
+                "receiptSha256": security_identity["sha256"],
+                "planSha256": "a" * 64,
+                "snapshotSha256": "b" * 64,
+                "routingInputSha256": "c" * 64,
+                "controlCoverageSha256": "d" * 64,
+            }],
+        } for obligation_id in security_ids)
+        assert evaluate(security, root, package, "internal")["status"] == "GREEN"
+
+        generic_security = json.loads(json.dumps(security))
+        for obligation in generic_security["obligations"][len(document["obligations"]):]:
+            obligation["evidence"] = [{"kind": "file", "value": "proof.txt"}]
+        report = evaluate(generic_security, root, package, "internal")
+        assert any(
+            item["code"] == "security-evidence-binding"
+            for item in report["findings"]
+        )
+
+        partial_security = json.loads(json.dumps(security))
+        partial_security["requiredObligationIds"].pop()
+        partial_security["obligations"].pop()
+        report = evaluate(partial_security, root, package, "internal")
+        assert any(
+            item["code"] == "security-capability-set"
+            for item in report["findings"]
+        )
+
+        case_variant_security = json.loads(json.dumps(security))
+        first_security = len(document["obligations"])
+        case_variant_security["requiredObligationIds"][first_security] = (
+            "Security.scan-scope"
+        )
+        case_variant_security["obligations"][first_security]["id"] = (
+            "Security.scan-scope"
+        )
+        report = evaluate(case_variant_security, root, package, "internal")
+        assert any(
+            item["code"] == "security-capability-set"
+            for item in report["findings"]
+        )
+
+        extra_security = json.loads(json.dumps(security))
+        extra_security["requiredObligationIds"].append("security.unexpected")
+        extra = json.loads(json.dumps(extra_security["obligations"][first_security]))
+        extra["id"] = "security.unexpected"
+        extra_security["obligations"].append(extra)
+        report = evaluate(extra_security, root, package, "internal")
+        assert any(
+            item["code"] == "security-capability-set"
+            for item in report["findings"]
+        )
+
+        colliding_security = json.loads(json.dumps(security))
+        colliding_security["requiredObligationIds"].append("Security.scan-scope")
+        collision = json.loads(json.dumps(colliding_security["obligations"][first_security]))
+        collision["id"] = "Security.scan-scope"
+        colliding_security["obligations"].append(collision)
+        report = evaluate(colliding_security, root, package, "internal")
+        codes = {item["code"] for item in report["findings"]}
+        assert {
+            "duplicate-required-id-casefold",
+            "duplicate-id-casefold",
+            "security-capability-set",
+        }.issubset(codes)
+
+        missing_security_scope = json.loads(json.dumps(security))
+        missing_security_scope["obligations"][3]["requiredFor"] = ["internal"]
+        report = evaluate(missing_security_scope, root, package, "internal")
+        assert any(item["code"] == "required-scope-floor" for item in report["findings"])
         nested = root / "nested-product"
         (nested / ".rd").mkdir(parents=True)
         (nested / "package.json").write_text(json.dumps({"name": "fixture", "version": "1.0.0", "scripts": {"test": "true"}, "build": {"productName": "Fixture"}}), encoding="utf-8")

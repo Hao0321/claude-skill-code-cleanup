@@ -1,5 +1,31 @@
 # Changelog — code-cleanup-helper
 
+## 2026-09-04 — promotion-trustworthy security receipt v2
+
+- Keep receipt v1 parseable but permanently `NOT_CHECKED`; only v2 can become `GREEN`.
+- Bind promotion to a validator-owned live snapshot profile, canonical exact task/authorization/engine plan, frozen external grant, current calibration controls, and non-lossy adapter-result reconciliation.
+- Reject empty input snapshots and non-integer/oversized JSON numbers before promotion; bind every adapter result to exact snapshot, command, environment, check-plan, child-exit, and success-marker execution provenance.
+- Accept bounded NFC Unicode target identities while rejecting trim/control/format/bidi/sensitive input, and replace plaintext target reflection with a domain-separated product+version identity digest.
+- Add fixed-handle byte bounds, duplicate-key rejection, Windows reparse/ADS/path hardening, exact evidence ownership, discrete network destination canonicalization, and output-limit reconciliation.
+- Emit non-reflective machine fields for receipt age, verified snapshot, plan, and frozen grant so completion gates can impose a stricter policy.
+- Require the same six canonical planned/executed controls for every authorized target, emit target×control coverage cells, and reject generic or shallow check denominators.
+- Count executed control cells only from terminal-complete tasks and pin the exact ordered control names plus digest in an independent regression.
+- Bound snapshot enumeration before sorting, reject NTFS alternate streams and extended device aliases, and keep self-approved resolved/false-positive findings `NOT_CHECKED` without independent waiver/retest trust.
+
+## 2026-09-04 — trustworthy security-assessment evidence
+
+- Added a dependency-free, read-only security receipt validator that never executes scanners or interprets repository/finding text as instructions.
+- Separate closed-world requested/executed coverage from finding count; partial, failed, timed-out, cancelled, unadmitted, or stale-knowledge tasks remain `NOT_CHECKED` instead of false green.
+- Bind exact scan authorization, immutable target snapshot, scanner/artifact/adapter/rules/data identity, evidence hashes, execution isolation/resource bounds, non-lossy findings, and explicit data-handling policy.
+- Calibrated scope expansion, wildcard egress, secret-bearing receipt, moving engine tag, stale evidence, unsafe isolation, false provider success, missing task, and open-finding negatives.
+- Clean-room design review was informed by `teddashh/ai-security-scanner` at `fd9194f285f3ffae8236fc7b8b30e1a611fe722a`; no upstream code or schema was copied.
+
+## 2026-09-01 — phase-end disk hygiene
+
+- Require disk inventory before large generated outputs and at phase, retry, and handoff checkpoints; cover both the system temporary volume and the working volume.
+- Add a bounded disk-hygiene route with exact candidate provenance, protected inputs/current candidate/rollback, logical-byte versus free-space accounting, and immutable retirement evidence.
+- Keep Cleanup read-only: authorized orchestrators own any deletion. Instruction changes do not deploy a background cleanup service or grant blanket deletion authority.
+
 ## 2026-08-30 — universal downstream update coverage
 
 - Added a read-only D11 classifier to every audit mode for `managed`, `check-only`, `safe-auto-update`, `manual-only`, or `no-origin` downstream-target coverage.

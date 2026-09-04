@@ -12,6 +12,7 @@
       "completion",
       "external-change",
       "secure-self-update",
+      "security-assessment",
       "mixed"
     ],
     "fallbackIntents": ["mixed"],
@@ -99,14 +100,18 @@
       "references": [
         "references/external-change-gates.md",
         "references/completion-closure.md",
-        "references/security-hardening-gates.md"
+        "references/security-hardening-gates.md",
+        "references/topics/security-assessment.md"
       ],
-      "gates": ["privacy-preflight", "canonical-target", "tag-release-remote-hash"]
+      "gates": ["privacy-preflight", "canonical-target", "tag-release-remote-hash", "security-assessment-receipt"]
     },
     "security": {
       "cleanupMode": "all",
-      "references": ["references/security-hardening-gates.md"],
-      "gates": ["threat-model", "negative-security-fixtures", "delivered-security-audit"]
+      "references": [
+        "references/security-hardening-gates.md",
+        "references/topics/security-assessment.md"
+      ],
+      "gates": ["threat-model", "negative-security-fixtures", "delivered-security-audit", "security-assessment-receipt"]
     },
     "media": {
       "cleanupMode": "architecture",
@@ -358,6 +363,26 @@
         "security.no-secrets-or-private-paths-in-payload"
       ]
     },
+    "security-assessment": {
+      "cleanupMode": "all",
+      "references": ["references/topics/security-assessment.md"],
+      "gates": [
+        "scan-authority-envelope",
+        "scan-coverage-ledger",
+        "scanner-provenance",
+        "finding-normalization-nonlossy",
+        "engine-admission",
+        "adapter-evidence-integrity"
+      ],
+      "criticalRuleIds": [
+        "rd.security.scan-authority-envelope",
+        "rd.security.scan-coverage-ledger",
+        "rd.security.scanner-provenance",
+        "rd.security.finding-normalization-nonlossy",
+        "rd.security.engine-admission",
+        "rd.security.adapter-evidence-integrity"
+      ]
+    },
     "media-evidence": {
       "cleanupMode": "architecture",
       "references": [
@@ -385,6 +410,7 @@
       "completion": ["completion-detail"],
       "external-change": ["external-detail"],
       "secure-self-update": ["secure-self-update"],
+      "security-assessment": ["security-assessment"],
       "mixed": []
     },
     "stageTopics": {
@@ -401,9 +427,9 @@
       "database": ["database-integrity"],
       "game": ["delivery-artifact", "media-evidence"],
       "software": ["delivery-artifact"],
-      "installer": ["delivery-artifact", "security-hardening"],
+      "installer": ["delivery-artifact", "security-hardening", "security-assessment"],
       "media": ["media-evidence"],
-      "release": ["delivery-artifact", "security-hardening", "external-detail", "completion-detail"],
+      "release": ["delivery-artifact", "security-hardening", "security-assessment", "external-detail", "completion-detail"],
       "updater": ["secure-self-update"]
     },
     "riskTopics": {
@@ -415,16 +441,35 @@
     "secureUpdaterRiskTopics": {
       "low": [],
       "standard": [],
-      "high": ["delivery-artifact", "security-hardening"],
-      "critical": ["delivery-artifact", "security-hardening", "completion-core"]
+      "high": ["delivery-artifact", "security-hardening", "security-assessment"],
+      "critical": ["delivery-artifact", "security-hardening", "security-assessment", "completion-core"]
     },
     "defaultUpdateObligation": {
       "stages": ["implementation", "promotion", "completion"],
       "artifacts": ["skill", "software", "game", "installer", "release"],
-      "excludedIntents": ["audit"],
+      "excludedIntents": ["audit", "security-assessment"],
       "requiredCapabilityObligationIds": [
         "update.client-check",
         "update.release-channel"
+      ]
+    },
+    "defaultSecurityAssessmentObligation": {
+      "excludedIntents": ["audit"],
+      "requiredSecurityControlIds": [
+        "security.scan-scope",
+        "security.scan-coverage",
+        "security.scanner-provenance",
+        "security.finding-normalization",
+        "security.engine-admission",
+        "security.adapter-integrity"
+      ],
+      "requiredCapabilityObligationIds": [
+        "security.scan-scope",
+        "security.scan-coverage",
+        "security.scanner-provenance",
+        "security.finding-normalization",
+        "security.engine-admission",
+        "security.adapter-integrity"
       ]
     },
     "moduleTopics": {
@@ -438,11 +483,12 @@
       "public-release": [
         "delivery-artifact",
         "security-hardening",
+        "security-assessment",
         "external-detail",
         "completion-detail",
         "legacy-public-release-detail"
       ],
-      "security": ["security-hardening"],
+      "security": ["security-hardening", "security-assessment"],
       "media": ["media-evidence"],
       "commerce": ["commerce-acceptance"]
     }
