@@ -5,7 +5,14 @@
 - `code-cleanup-helper`：read-only repository／Skill／release evaluator。
 - `run-benchmark-driven-rd`：定義可證偽目標、保存 baseline、執行實驗、控制 promotion 與外部變更。
 
-目前版本：**v0.22.0**。
+目前版本：**v0.22.1**。
+
+## v0.22.1 重點
+
+- 修正 UTF-16 macOS／Linux 私有路徑、分段 source map 與更多壓縮容器的漏判；外部 map 區段、解析邊界與未解包內容保持 `NOT_CHECKED`。
+- 同步計畫鎖定完整來源選集，阻擋規劃後新增的檔案與根目錄連結；全部受管檔案的退役需要明確指定 `--allow-empty`。
+- R&D 以隔離程序重播自有校準，分別記錄當前程式、fixture 與 Python 執行檔雜湊；歷史實驗維持原始內容。
+- 靜態文字檢查改成有重疊的分段解碼。約 8 MiB 自有測試中，額外 Python 配置峰值降低 98.8%、中位耗時降低 45.3%；此結果不代表整套 audit 的效能，範圍見 [Changelog](CHANGELOG.md)。
 
 ## v0.22.0 重點
 

@@ -8,6 +8,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import stat
+import copy
 
 MANIFEST = ".code-cleanup-managed.json"
 PRIVATE_DIRS = {".git", ".rd", "__pycache__", "node_modules", ".skill-staging", ".skill-proposals"}
@@ -34,6 +35,23 @@ def relative_name(raw: str) -> str:
 def link_like(path: Path) -> bool:
     info = path.lstat()
     return stat.S_ISLNK(info.st_mode) or bool(getattr(info, "st_file_attributes", 0) & 0x400)
+
+
+def checked_root(path: Path, *, allow_missing: bool = False) -> Path:
+    """Reject linked ancestors before resolving their spelling away."""
+    absolute = path.expanduser().absolute()
+    for current in [*reversed(absolute.parents), absolute]:
+        try:
+            info = current.lstat()
+        except FileNotFoundError:
+            if not allow_missing:
+                raise SyncError("publication root is missing") from None
+        else:
+            if stat.S_ISLNK(info.st_mode) or bool(getattr(info, "st_file_attributes", 0) & 0x400):
+                raise SyncError("publication root link/reparse rejected")
+            if not stat.S_ISDIR(info.st_mode):
+                raise SyncError("publication root is not a directory")
+    return absolute.resolve()
 
 
 def safe_path(root: Path, raw: str) -> Path:
@@ -144,13 +162,18 @@ def walk_error(_error: OSError) -> None:
     raise SyncError("publication source subtree is unreadable")
 
 
-def plan_sync(source: Path, destination: Path, config: dict, *, adopt_existing: bool = False) -> dict:
-    source, destination = source.resolve(), destination.resolve()
+def plan_sync(source: Path, destination: Path, config: dict, *, adopt_existing: bool = False,
+              allow_empty: bool = False) -> dict:
+    source = checked_root(source)
+    destination = checked_root(destination, allow_missing=True)
     if source == destination or source in destination.parents or destination in source.parents:
         raise SyncError("publication roots overlap")
     previous, manifest_hash = ownership(destination)
     rows, total = [], 0
-    for name in source_files(source, config):
+    selected = source_files(source, config)
+    if not selected and not allow_empty:
+        raise SyncError("empty publication selection requires explicit --allow-empty retirement")
+    for name in selected:
         data = read_bytes(safe_path(source, name))
         total += len(data)
         if total > 64 * 1024 * 1024:
@@ -176,10 +199,15 @@ def plan_sync(source: Path, destination: Path, config: dict, *, adopt_existing: 
                 raise SyncError("stale destination has unknown or modified ownership")
             stale.append({"path": name, "before": old_hash})
     return {"source": source, "destination": destination, "rows": rows,
-            "stale": stale, "manifest_before": manifest_hash}
+            "stale": stale, "manifest_before": manifest_hash,
+            "selection_config": copy.deepcopy(config), "selected_paths": selected}
 
 
 def verify_plan(plan: dict) -> None:
+    checked_root(plan["source"])
+    checked_root(plan["destination"], allow_missing=True)
+    if source_files(plan["source"], plan["selection_config"]) != plan["selected_paths"]:
+        raise SyncError("selected source inventory changed after planning")
     if ownership(plan["destination"])[1] != plan["manifest_before"]:
         raise SyncError("ownership manifest changed after planning")
     for row in plan["rows"]:

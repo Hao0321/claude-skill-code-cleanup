@@ -418,6 +418,10 @@ def test_json_contract() -> None:
 
 
 def main() -> int:
+    from exposure_formats_regression import run_self_test as run_formats_self_test
+    from sync_boundary_regression import run_self_test as run_sync_boundary_self_test
+    run_formats_self_test()
+    run_sync_boundary_self_test()
     run_exposure_scope_self_test()
     from inventory_regression import run_self_test as run_inventory_self_test
     from exposure_regression import run_self_test as run_exposure_self_test

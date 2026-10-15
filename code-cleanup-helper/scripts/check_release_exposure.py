@@ -6,17 +6,15 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import re
 import struct
 import sys
 
 from sync_safety import SECRET_PATTERNS, link_like
+from exposure_formats import credential_candidate, opaque_container, path_offsets, source_map
 
 MAX_FILE_BYTES = 64 * 1024 * 1024
 MAX_TOTAL_BYTES = 256 * 1024 * 1024
 MAX_FILES = 20000
-PATH_PREFIX = re.compile(rb"(?i)(?:[A-Z]:[\\/]+Users[\\/]|/(?:Users|home)/)")
-UTF16_PATH = re.compile(rb"(?i)[A-Z]\x00:\x00(?:[\\/]\x00)+U\x00s\x00e\x00r\x00s\x00[\\/]\x00")
 
 
 def finding(code: str, path: str, *, offset: int | None = None) -> dict:
@@ -46,30 +44,19 @@ def pe_facts(data: bytes) -> dict:
 
 def inspect_file(path: Path, relative: str, data: bytes) -> tuple[list[dict], dict, list[str]]:
     rows, facts, gaps = [], {}, []
-    for pattern in (PATH_PREFIX, UTF16_PATH):
-        match = pattern.search(data)
-        if match:
-            rows.append(finding("embedded-private-path", relative, offset=match.start()))
-    decoded = (data.decode("utf-8", errors="ignore"),
-               data.replace(b"\0", b"").decode("utf-8", errors="ignore"))
-    if any(re.search(pattern.decode("ascii"), text) for pattern in SECRET_PATTERNS for text in decoded):
+    for offset in path_offsets(data):
+        rows.append(finding("embedded-private-path", relative, offset=offset))
+    if credential_candidate(data, SECRET_PATTERNS):
         rows.append(finding("credential-shaped-content", relative))
     if path.suffix.casefold() in {".pdb", ".debug"}:
         rows.append(finding("debug-symbol-artifact", relative))
     if b"sourceMappingURL=" in data:
         rows.append(finding("source-map-reference", relative))
     if path.suffix.casefold() == ".map":
-        try:
-            if len(data) > 8 * 1024 * 1024:
-                raise ValueError("source map exceeds parser bound")
-            value = json.loads(data.decode("utf-8-sig"))
-        except (ValueError, UnicodeError, RecursionError):
-            gaps.append("source-map-unparsed")
-        else:
-            if isinstance(value, dict) and value.get("version") == 3:
-                contents = value.get("sourcesContent")
-                if isinstance(contents, list) and any(isinstance(x, str) and x for x in contents):
-                    rows.append(finding("source-map-original-source", relative))
+        found, missing = source_map(data)
+        gaps.extend(missing)
+        if found:
+            rows.append(finding("source-map-original-source", relative))
     if data.startswith(b"MZ"):
         try:
             facts["pe"] = pe_facts(data)
@@ -78,7 +65,7 @@ def inspect_file(path: Path, relative: str, data: bytes) -> tuple[list[dict], di
         else:
             if not facts["pe"]["aslr"] or not facts["pe"]["nx_compatible"]:
                 rows.append(finding("pe-mitigation-header-review", relative))
-    if data.startswith((b"PK\x03\x04", b"\x1f\x8b")) or path.suffix.casefold() in {".asar", ".pak", ".7z"}:
+    if opaque_container(path, data):
         gaps.append("container-payload-not-extracted")
     return rows, facts, gaps
 

@@ -6,7 +6,7 @@ import json
 import os
 from pathlib import Path
 import tempfile
-from sync_safety import MANIFEST, SyncError, plan_sync, safe_path, verify_plan
+from sync_safety import MANIFEST, SyncError, checked_root, plan_sync, safe_path, verify_plan
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -38,6 +38,7 @@ def atomic_write(path: Path, data: bytes) -> None:
 
 def apply_plan(plan: dict) -> None:
     destination = plan["destination"]
+    checked_root(destination, allow_missing=True)
     destination.mkdir(parents=True, exist_ok=True)
     lock = safe_path(destination, ".public-sync.lock")
     descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
@@ -60,10 +61,12 @@ def main(source_root: Path | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--public-root", type=Path)
+    parser.add_argument("--allow-empty", action="store_true", help="Explicitly retire all managed files when selection is empty.")
     parser.add_argument("--adopt-existing", action="store_true", help="Adopt reviewed existing/legacy files; modified hash-owned files still block.")
     args = parser.parse_args()
-    source = (source_root or ROOT).resolve()
+    source = source_root or ROOT
     try:
+        source = checked_root(source)
         config = json.loads((source / "audit.config.json").read_text(encoding="utf-8-sig"))
         raw = args.public_root or config.get("sync", {}).get("public_root")
         if not raw:
@@ -71,7 +74,8 @@ def main(source_root: Path | None = None) -> int:
         destination = Path(raw).expanduser()
         if not destination.is_absolute():
             destination = source / destination
-        plan = plan_sync(source, destination, config, adopt_existing=args.adopt_existing)
+        plan = plan_sync(source, destination, config, adopt_existing=args.adopt_existing,
+                         allow_empty=args.allow_empty)
         if args.write:
             apply_plan(plan)
     except (OSError, ValueError) as exc:

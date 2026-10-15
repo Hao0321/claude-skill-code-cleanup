@@ -49,7 +49,7 @@ def run_self_test() -> None:
         (dest / "safe.md").write_text("edited stale\n", encoding="utf-8")
         blocked(lambda: plan_sync(source, dest, config))
         (dest / "safe.md").write_text("updated\n", encoding="utf-8")
-        apply_plan(plan_sync(source, dest, config))
+        apply_plan(plan_sync(source, dest, config, allow_empty=True))
         assert not (dest / "safe.md").exists(), "hash-owned stale file was not retired"
         assert (dest / "LICENSE").is_file(), "public-only packaging was deleted"
 

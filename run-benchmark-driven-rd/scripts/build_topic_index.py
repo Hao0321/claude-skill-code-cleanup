@@ -125,7 +125,7 @@ def build_index(
                 raise ValueError(f"duplicate rule owner for {rule_id}: {previous}, {topic_id}")
 
         previous_topic = dict(existing_topics.get(topic_id, {}))
-        for key in ("id", "path", "sha256", "contentSha256", "tokenCost", "estimatedTokens", "ruleIds"):
+        for key in ("contentSha256", "estimatedTokens"):
             previous_topic.pop(key, None)
         previous_topic.update(
             {
@@ -180,12 +180,18 @@ def build_index(
 
 def _atomic_write(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_file():
+        existing = json.loads(path.read_text(encoding="utf-8"))
+        if json.dumps(existing, sort_keys=True) == json.dumps(value, sort_keys=True):
+            return  # Preserve receipt-bound bytes, without treating True as the integer 1.
     temporary = path.with_name(f".{path.name}.tmp")
     temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(path)
 
 
 def self_test() -> dict[str, Any]:
+    from topic_index_regression import run_self_test
+    run_self_test(sys.modules[__name__])
     with tempfile.TemporaryDirectory(prefix="topic-index-test-") as raw:
         root = Path(raw)
         first = root / "one.md"
