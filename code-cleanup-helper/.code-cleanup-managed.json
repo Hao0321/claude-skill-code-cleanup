@@ -73,7 +73,7 @@
     "scripts/sync_safety.py"
   ],
   "managed_sha256": {
-    "CHANGELOG.md": "b1bfa1b3a1577a97a7b82c236f64347c6331ff8e649e2ac7d6a12f58b42edf28",
+    "CHANGELOG.md": "8e2e4efcf8cc33b61f86e6a4ea7f247cdba5cf65fa740ec28535aadeba00f76a",
     "SKILL.md": "f24360eb2e7026500c7fa83e679b140a877b8e337cfb37b31298a6c9d1a19f5c",
     "agents/openai.yaml": "962144589ff3650c2c7e8ebad45ef15dfd7b4620ef31398571efc03f62831990",
     "audit.config.example.json": "1486b20e0fbad1f38162f0ad50bfa4a86c991c8c32c5a058bf9e32442e25e1fa",
@@ -110,7 +110,7 @@
     "scripts/audit_coverage_selftest.py": "23ffe0cb989ab06903f3cd8984ed38563a2c80e53c217fdfc127060492cf0173",
     "scripts/benchmark_inventory.py": "6b1c9e70f5901fa0946e90d1ef27f1b64b1565733183e319857c99dcdc421b0d",
     "scripts/check_audit_snapshot.py": "7610ea1f861f1861ce03dd1a89179176b477041b5368e6fc59cdefd61b4663ba",
-    "scripts/check_build_receipt.py": "317d36d4ec54ab280f895e27d1a00d62797c6ead8b15d3c892738994f9a607cf",
+    "scripts/check_build_receipt.py": "ca761d27d447bbffc30537585482b7ecc0094edf7ec2f2dacd3f79edc0c566a3",
     "scripts/check_context_budget.py": "92748cf02dc4459dbd434c0eec30f15844d2f4444c2c9974dbcafa81a1b3df1c",
     "scripts/check_drift.py": "e26ad54d7c7b4e097310264932302b1f700c60f3d834b08be668b41ab56064af",
     "scripts/check_links.py": "52d0c07fe4da4542f3c7e07aa3ed18eddd4a8086ec33e14604edca4ce47815a9",
