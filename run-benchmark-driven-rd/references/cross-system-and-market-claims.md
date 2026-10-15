@@ -12,7 +12,7 @@ A directory, module, Skill, installer payload, tool name, or passing unit test p
 4. real output or delivered-product evidence;
 5. review/publish/outcome state when those stages are part of the claim.
 
-Keep required flow IDs and required stage IDs closed-world. Split functional execution from human quality acceptance. A machine gate may honestly validate `unmeasured`; that is instrument GREEN with claim closure BLOCK, not product parity.
+Keep required flow IDs and required stage IDs closed-world. Split functional execution from human quality acceptance. Every verified evidence file requires its SHA-256; schema/sample counts reject booleans and floats, source revisions reject booleans, and duplicate JSON keys are invalid. Hash identity closes freshness only; an author label or empty receipt cannot establish actual execution or quality. A machine gate may honestly validate `unmeasured`; that is instrument GREEN with claim closure BLOCK, not product parity.
 
 ## Mutable instruction sources
 

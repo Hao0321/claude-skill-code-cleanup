@@ -1,5 +1,71 @@
 # Changelog — run-benchmark-driven-rd
 
+## v0.22.0 — scoped reverse analysis and maintainer hardening
+
+Add optional REA discovery and artifact-evidence guidance, a read-only release exposure checker, and typed reverse-analysis routing. The owned Windows JavaScript fixture recovered its static import relationships; native decompilation and resistance to arbitrary reverse engineering remain unmeasured.
+
+Public sync now preflights the complete delta, scans encoded private text and credential candidates, rejects unsafe paths/links and modified managed files, and writes hash ownership. Machine JSON survives non-Unicode consoles. Excluded directory pruning retains the included set; responsibility splits preserve existing CLI entrypoints and strict review behavior.
+
+The included inventory benchmark uses a 4,960-file synthetic warm-cache fixture with 4,800 excluded files and nine interleaved rounds. One Windows run measured 4,405.497 ms → 124.328 ms median (35.434×) for inventory only. This is not a whole-audit speed or game-quality claim.
+
+Sanitized game/3D/visual/state-integrity cards are loaded only for relevant tasks. Single-project art observations remain provisional; raw project notes, target paths, REA output and package caches are excluded.
+
+Learning provenance audit found historical active labels without their immutable experiments in this installation. Rules and original receipt bytes are retained as historical evidence, with current status provisional. The new static-exposure rule includes a sanitized typed record and a bundled replay verifier with hash, traversal, identity and fixture-ledger negative controls.
+
+
+## 2026-10-11 — cel look and UV stretching (vfx-impact-feel)
+
+- New `rd.vfx.cel`: cel combat effects are crisp flat bands that still glow (erosion fades, masks a few mips down, ink
+  edge, soft coloured glow and an HDR hot core); an opaque flat first pass read as paper cut-outs in daylight PG_Town.
+  Fire uses a four-step ramp (ink red, body, yellow, white-hot centre); ice and water keep glassy bodies.
+- New `rd.vfx.uv-arc`: "stretched" pack meshes had two causes, uneven parametric UVs (re-spaced by arc length in
+  headless Blender) and per-part tiling (texels/m along U and V with the runtime scale 10-20x apart).
+- The card was tightened to stay inside its route budget (839 of 850 tokens).
+
+## 2026-10-11 — combat VFX attack patterns and mesh kits; trypophobia rule clarified
+
+- `vfx-impact-feel` card: skill sets mix staged launches, continuous strikes and sustained effects with one OnImpact per
+  hit (the human called single-hit, contained skills "small moves"); mesh-kit lessons (face crescents to a third-person
+  camera, view-projected streaks only side-on, dense masks on wide ring bands become dark discs, re-check the perf lock
+  before each step of a background chain); UE 4.27 vector parameters have no RGBA pin.
+- `vfx-impact-feel` and `water-foam-lace` cards: the human clarified that the trypophobia trigger is many same-size,
+  regularly spaced holes or bubbles, not materials that contain holes; both rules now say so.
+- `vfx-impact-feel` card after the PG_Town round and pack update 2: new `rd.vfx.volley` (only the finisher of a
+  multi-hit pattern flashes) and `rd.vfx.ground` (floor under the target from a multi sweep: 4.27 single sweeps and rays
+  skip the post-filter, so a static dummy returns distance 0); `rd.vfx.events` snaps release ages to whole ms (the float
+  world clock differs per frame rate); crack masks one tile per shape; judge darks on a bright plate. The card was
+  tightened to stay inside its route budget (843 of 850 tokens).
+
+## 2026-10-10 — character locomotion
+
+- Added the `character-locomotion` card (`rd.character.locomotion` route, budget route `rd-character-locomotion`): author gaits from the rig instead of stock clips, Blender layered-action slot / REST pose / scene-fps export pitfalls, shared elbow hinge, one gait phase rate = speed / blended cycle distance with trapezoidal phase and a ramp-exact follower (30/60/120 fps feet together, probes on every frame grid), impact-scaled landing and acceleration lean, UE 4.27 native proxy Evaluate and Python pitfalls, the review camera look for Unlit NPR characters, Git Bash `/Game/` argument rewriting, scripted 60 Hz drive captures.
+
+## 2026-10-10 — combat VFX impact feel
+
+- Added the `vfx-impact-feel` card (`rd.visual.domains` route, budget route `rd-vfx-impact`): POT resampling instead of padded masks (UV scale 1, single-channel, in-engine crop A/B), equalised tiling noise with about one period per shape (no hole clusters), stepped rim-first erosion that leaves fresh shapes unchanged, hit events from the motion timings polled in the tick (30/60/120 Hz identical), exact effect holds, an idle-skipped post-process screen pass with WCAG flash limits, patch replay that replaces only changed lines (a context write-back reverted a neighbour hunk), UE 4.27 Python property-name and Blueprint-class pitfalls, deterministic 60 Hz stride-1 review captures.
+- Card update after the PG_Town review: posterise impact frames from a blurred luminance (per-pixel tones made 2,000+ specks), elongated finish debris instead of rimmed round flakes (they read as rings), vignette finish grade, touch copied sources (copy2 keeps old mtimes and UBT keeps the old DLL), review in the user's game camera (third person, straight behind) against the exact pre-change build.
+
+## 2026-10-10 — town main-city layout, water foam
+
+- Added the `environment-town-layout` card (`rd.visual.domains` route): fresh in-level review captures, continuous street walls framing the hero vista, dressing pattern, snapshot-and-rebuild reversibility, UE 4.27 surface-actor cloning pitfalls, bmesh shell orientation.
+- Added the `water-foam-lace` card: never clustered round holes/dots/bubbles (the human rejected Voronoi bubble lace as trypophobia-triggering; rolled back), stylised foam = few large smooth shapes, crisp unresolved foam, shallow-bar density check, narrow crest crown, clamp exp() of signed distances (HDR glow bug), lab A/B with byte-for-byte rollback.
+
+## 2026-10-09 — character secondary motion
+
+- Added the `character-secondary-motion` card (`rd.character.secondary-motion` route): judge visible-mesh sway, not bones; plain follow-the-leader pumps energy (use dynamic FTL); springs with end-of-step goals act on the predicted position; chain model, closed skirt rings, bind-pose colliders, hitch slow-down; same-input 30/60/120 benchmark on one sampling grid; on/off video gates.
+- Disk hygiene: when deletion is refused, hand over a human-run allowlist script; Git Bash grep stackdumps.
+
+## 2026-10-09 — toon received shadow
+
+- Added `rd.npr.received-shadow` (character-npr-normals card): Unlit toon masters receive no shadow; own ortho key-light depth capture sampled in the material, face/eyes dropped from orthographic views, stylised hair gap / face offset band / max occluder gap / bilinear disc PCF, each step A/B'd against shadow-off under a front key light.
+
+## 2026-10-08 — character version source, head UV standard, re-UV sharpness
+
+- Added `rd.character.registered-current`: build labs/demos only from the sha-pinned registered character CURRENT through a hash-checked manifest; prune repair history pinned in `current` to CURRENT + one PREVIOUS (human-run, recoverable retirement); start from the latest when the user says so.
+- Added `rd.character.head-uv-standard`: head skin = whole front face, back of head, left ear, right ear; ears found as thin lateral flaps by shape diameter (self/adjacent hits skipped), verified by chart render and a synthetic eared-head regression.
+- Added `rd.character.uv-transfer-sharpness`: eye/ornament close-up A/B after a source-to-new-UV bake, 4K face/outfit or front emphasis, tight repacking, target-size jittered bake, angle-chart fallback for collapsing hair cards.
+- Added `rd.character.blender-batch-pitfalls`: absolute output paths, relative-path remap after save, shape-key ID-property limit, dash-leading argparse values, exit-code/traceback gates, fan splits on rigged meshes.
+
 ## 2026-09-04 — security-assessment routing and closure
 
 - Added an explicit security-assessment intent/topic plus six typed capability obligations for scope, coverage, scanner provenance, non-lossy findings, engine admission, and adapter integrity.

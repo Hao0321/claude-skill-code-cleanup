@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "promotionState": "active",
+  "privacy": "sanitized",
+  "experimentId": "exp-state-integrity-20261007T092346",
+  "ruleIds": [
+    "cleanup.state.commit-ack",
+    "cleanup.state.replay-rollback",
+    "cleanup.state.account-continuity",
+    "cleanup.state.native-authority",
+    "cleanup.state.history-backup",
+    "rd.state.real-chain",
+    "rd.state.adversarial-replay",
+    "rd.state.learning-transfer"
+  ],
+  "positiveFixtureIds": [
+    "accounts.positive.version-drift-preserves-identity",
+    "ack.positive.pending-not-success",
+    "authority.positive.native-role-denies-owner-action",
+    "backup.positive.full-history-inventory",
+    "ledger.positive.cumulative-refunds-balance",
+    "privacy.positive.display-projection",
+    "retry.positive.original-id-exactly-once",
+    "rollback.positive.complete-snapshot-preserved"
+  ],
+  "negativeFixtureIds": [
+    "accounts.negative.marker-reset-detected",
+    "ack.negative.optimistic-success-detected",
+    "authority.negative.renderer-role-trust-detected",
+    "backup.negative.ui-limit-truncation-detected",
+    "ledger.negative.pair-exclusion-leaves-negative",
+    "privacy.negative.global-record-leak-detected",
+    "retry.negative.changed-payload-rejected",
+    "retry.negative.new-id-duplicates-detected",
+    "rollback.negative.swallowed-save-success-detected"
+  ],
+  "topicIndexSha256": "6f7335337b864c71ce97614c82038cb98ad98e3be2413080078e32309de6959f",
+  "generalReplaySha256": "10ee474842cc46fafb4fbc994cf7001d1ca5314d54b51365d0a7304131736f9b",
+  "basis": "Historical immutable experiment remains linked to the same canonical rules. Extended current replay has its own receipt; historical fixture hash is not a current source hash."
+}

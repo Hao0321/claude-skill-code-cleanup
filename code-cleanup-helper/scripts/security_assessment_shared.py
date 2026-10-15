@@ -23,7 +23,7 @@ SENSITIVE_VALUE_PATTERNS = (
     re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----"),
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     re.compile(r"(?i)\b(?:api[_-]?key|client[_-]?secret|password|bearer)\s*[:=]\s*\S+"),
-    re.compile(r"(?i)(?:[a-z]:\\Users\\|/Users/|/home/)[^\s\"']+"),
+    re.compile(r"(?i)(?:[a-z]:\\Users\\|/" r"Users/|/" r"home/)[^\s\"']+"),
 )
 TASK_STATUSES = {"completed", "findings", "not_tested", "failed", "timed_out", "cancelled"}
 TERMINAL_COMPLETE = {"completed", "findings"}

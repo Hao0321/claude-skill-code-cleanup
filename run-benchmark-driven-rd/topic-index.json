@@ -8,9 +8,73 @@
   "topics": [
     {
       "privacy": "sanitized",
+      "id": "cleanup.character-3d",
+      "path": "code-cleanup-helper/references/topics/character-3d-audit.md",
+      "sha256": "09a97ca6efd12eb36ec7e71cac64f1db6a61635834005d74b787474c41a3d0d2",
+      "tokenCost": 399,
+      "ruleIds": [
+        "cleanup.character.ai-atlas",
+        "cleanup.character.ai-detail-layer",
+        "cleanup.character.closure",
+        "cleanup.character.component-hybrid-uv",
+        "cleanup.character.evidence",
+        "cleanup.character.hair-orientability",
+        "cleanup.character.hair-orientation-cut",
+        "cleanup.character.hair-two-sided",
+        "cleanup.character.hair-uv-pilot",
+        "cleanup.character.head-uv-standard",
+        "cleanup.character.material-persist",
+        "cleanup.character.npr",
+        "cleanup.character.ornament-visibility",
+        "cleanup.character.part-registration",
+        "cleanup.character.registered-current",
+        "cleanup.character.render-uv",
+        "cleanup.character.repair",
+        "cleanup.character.rig-guide",
+        "cleanup.character.scope-override",
+        "cleanup.character.texture",
+        "cleanup.character.triangle-chart-hair",
+        "cleanup.character.uv-fragmentation",
+        "cleanup.character.uv-storage",
+        "cleanup.character.uv-transfer-sharpness"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.character-retopology",
+      "path": "code-cleanup-helper/references/topics/character-retopology-audit.md",
+      "sha256": "a072735fc9d489603672cd7eb864fd38cdbeadf7be180fcb6a745f8c102d5bce",
+      "tokenCost": 274,
+      "ruleIds": [
+        "cleanup.retopology.anatomy",
+        "cleanup.retopology.cost",
+        "cleanup.retopology.game",
+        "cleanup.retopology.resume",
+        "cleanup.retopology.transfer"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.community",
+      "path": "code-cleanup-helper/references/topics/community-pr-audit.md",
+      "sha256": "6cf9c7b5193ec54ac3bb619525d2a54903c9d82c613894dec7cdd84613255fdc",
+      "tokenCost": 484,
+      "ruleIds": [
+        "cleanup.community.access",
+        "cleanup.community.adoption",
+        "cleanup.community.attribution",
+        "cleanup.community.dependency-closure",
+        "cleanup.community.inventory",
+        "cleanup.community.required-ci",
+        "cleanup.community.security-chain",
+        "cleanup.community.version"
+      ]
+    },
+    {
+      "privacy": "sanitized",
       "id": "cleanup.context",
       "path": "code-cleanup-helper/references/topics/context-routing-and-memory.md",
-      "sha256": "d2c03630be6ca5c10d6244eb57d473bfb5751b3fbb23122aa47d0e17a22e61fe",
+      "sha256": "972e0a16fa8217a806863f165421c98740c8d1174886da7a770e9a0c4d2f85b4",
       "tokenCost": 529,
       "ruleIds": [
         "cleanup.context.canonical-private",
@@ -26,7 +90,7 @@
       "privacy": "sanitized",
       "id": "cleanup.cross-system",
       "path": "code-cleanup-helper/references/topics/cross-system-core.md",
-      "sha256": "4b3715d0d5a7f66ae5123ce72bf0841a0bd7dfcbf3a87c1027e52f1b1264256c",
+      "sha256": "d7a20b303ca47a154cdf4fc82bf16b2b1e3d981688ffd16793605b7ebe685a67",
       "tokenCost": 242,
       "ruleIds": [
         "cleanup.integration.closed-world",
@@ -40,11 +104,12 @@
       "privacy": "sanitized",
       "id": "cleanup.desktop",
       "path": "code-cleanup-helper/references/topics/desktop-runtime.md",
-      "sha256": "fbd67397f37b46c1b9dae7d55da036dbd8de5ac0a7c479a6b9cb77ba83d5fd96",
-      "tokenCost": 243,
+      "sha256": "2511edc42a7d62596b89bf091800b4194f843414373ed20931c0b46264545a5f",
+      "tokenCost": 308,
       "ruleIds": [
         "cleanup.desktop.durable-result",
         "cleanup.desktop.isolated-state",
+        "cleanup.desktop.launch-admission",
         "cleanup.desktop.nonblocking-job",
         "cleanup.desktop.owned-controller",
         "cleanup.desktop.semantic-ready"
@@ -54,7 +119,7 @@
       "privacy": "sanitized",
       "id": "cleanup.media",
       "path": "code-cleanup-helper/references/topics/media-workstation.md",
-      "sha256": "0a189dca17e3f029cf8bcde4b5ccb57a233605118c195b9f690e2623247d2169",
+      "sha256": "f6a910cd6d6219475a9ed1a9dfdc618f3bd6ed5533e390358f2add91ffb9d037",
       "tokenCost": 368,
       "ruleIds": [
         "cleanup.media.color-order",
@@ -68,10 +133,24 @@
       ]
     },
     {
+      "id": "cleanup.reverse-analysis",
+      "path": "code-cleanup-helper/references/topics/reverse-engineering-audit.md",
+      "sha256": "6fbf8dde27704a5d9ac34c38a97fa624cb41fb0a1a0a576a0c255332a01a0ab9",
+      "tokenCost": 301,
+      "privacy": "sanitized",
+      "ruleIds": [
+        "cleanup.reverse.defense",
+        "cleanup.reverse.evidence",
+        "cleanup.reverse.exposure",
+        "cleanup.reverse.privacy",
+        "cleanup.reverse.scope"
+      ]
+    },
+    {
       "privacy": "sanitized",
       "id": "cleanup.session-ai",
       "path": "code-cleanup-helper/references/topics/session-native-ai.md",
-      "sha256": "44a665385ddb3e5e31cd190aae3fbbbe9bceaa08fd477ca3f661c3b34aa6acbc",
+      "sha256": "d18fd5f8833bd7ac949573c4bcf68f22302e574f0ca9a81981f5b6b1fdaf6378",
       "tokenCost": 240,
       "ruleIds": [
         "cleanup.ai.forgery-stale-negative",
@@ -79,6 +158,20 @@
         "cleanup.ai.identity-separation",
         "cleanup.ai.onboarding-real-host",
         "cleanup.ai.same-source-evidence"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "cleanup.state-integrity",
+      "path": "code-cleanup-helper/references/topics/state-integrity-audit.md",
+      "sha256": "f6d335d21e348fa4e3d6db45763b9d79ef013a2e587749ffb53c6391bdeb1bba",
+      "tokenCost": 694,
+      "ruleIds": [
+        "cleanup.state.account-continuity",
+        "cleanup.state.commit-ack",
+        "cleanup.state.history-backup",
+        "cleanup.state.native-authority",
+        "cleanup.state.replay-rollback"
       ]
     },
     {
@@ -104,25 +197,178 @@
     },
     {
       "privacy": "sanitized",
+      "id": "cleanup.visual-quality",
+      "path": "code-cleanup-helper/references/topics/visual-quality-audit.md",
+      "sha256": "7a3fb2d520cfc3b9cd1ac3fcc3a33f2a78868ac6b8b5923494258af8b3e42b12",
+      "tokenCost": 251,
+      "ruleIds": [
+        "cleanup.visual.contract",
+        "cleanup.visual.evidence",
+        "cleanup.visual.scope"
+      ]
+    },
+    {
+      "privacy": "sanitized",
       "id": "rd.architecture",
       "path": "run-benchmark-driven-rd/references/topics/architecture-and-evaluator.md",
-      "sha256": "e7064d00ee514b4e321650002e46b95464d24452ef90cd1d7a0197b0634285ac",
-      "tokenCost": 273,
+      "sha256": "e914d95eff96ce9497867091f4cf70743e0e9889ba4513b27d3e84fdb71f1183",
+      "tokenCost": 345,
       "ruleIds": [
         "rd.arch.cleanup-provider",
         "rd.arch.end-to-end-state",
         "rd.arch.fresh-artifact",
         "rd.arch.measured-boundary",
         "rd.arch.one-owner",
-        "rd.arch.required-edge"
+        "rd.arch.required-edge",
+        "rd.arch.stage-versus-launch"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.character-3d",
+      "path": "run-benchmark-driven-rd/references/topics/character-3d-workflow.md",
+      "sha256": "a8e712ea699442de22226c35c01761f4cae20df4daa51db8be3bd1826047f0b9",
+      "tokenCost": 617,
+      "ruleIds": [
+        "rd.character.ai-atlas-gate",
+        "rd.character.ai-detail-layer",
+        "rd.character.assembly",
+        "rd.character.blender-batch-pitfalls",
+        "rd.character.component-hybrid-uv",
+        "rd.character.expression",
+        "rd.character.gates",
+        "rd.character.hair-orientability",
+        "rd.character.hair-orientation-cut",
+        "rd.character.hair-strand-albedo",
+        "rd.character.hair-two-sided-gate",
+        "rd.character.hair-uv-pilot",
+        "rd.character.head-uv-standard",
+        "rd.character.inputs",
+        "rd.character.locomotion",
+        "rd.character.ornament-reconstruction",
+        "rd.character.registered-current",
+        "rd.character.registered-part-space",
+        "rd.character.render-uv-channel",
+        "rd.character.rig",
+        "rd.character.rig-guide-branch",
+        "rd.character.secondary-motion",
+        "rd.character.texture",
+        "rd.character.triangle-chart-hair",
+        "rd.character.ue-material-readback",
+        "rd.character.user-density-override",
+        "rd.character.uv-fragmentation",
+        "rd.character.uv-storage",
+        "rd.character.uv-transfer-sharpness"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.character-locomotion",
+      "path": "run-benchmark-driven-rd/references/topics/character-locomotion.md",
+      "sha256": "0614128d41d6fade6f443c22a277914ebc4d75812fbef9eaf3e2e3d7c7c7fb7b",
+      "tokenCost": 749,
+      "ruleIds": [
+        "rd.locomotion.air",
+        "rd.locomotion.blend",
+        "rd.locomotion.blender",
+        "rd.locomotion.capture",
+        "rd.locomotion.hinge",
+        "rd.locomotion.review-look",
+        "rd.locomotion.source",
+        "rd.locomotion.ue427"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.character-lowpoly-bake",
+      "path": "run-benchmark-driven-rd/references/topics/character-lowpoly-bake.md",
+      "sha256": "b3cd438457a0a1b0d9740a130cd4240a738efe914e915904e3d6b669929aec5c",
+      "tokenCost": 492,
+      "ruleIds": [
+        "rd.lowpoly.bake",
+        "rd.lowpoly.budget",
+        "rd.lowpoly.gates",
+        "rd.lowpoly.npr"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.character-mesh-repair",
+      "path": "run-benchmark-driven-rd/references/topics/character-mesh-repair.md",
+      "sha256": "8b7aed9b0b740b866e4b8b790b99ddee7ffaf8070aa1be7ace550005ea442d5e",
+      "tokenCost": 503,
+      "ruleIds": [
+        "rd.mesh.classify",
+        "rd.mesh.operations",
+        "rd.mesh.preserve",
+        "rd.mesh.verify"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.character-npr",
+      "path": "run-benchmark-driven-rd/references/topics/character-npr-normals.md",
+      "sha256": "2681d0effb75f2d9822b0805246ad1cb4bbff519cd943f14de84cd86ba3a61a1",
+      "tokenCost": 750,
+      "ruleIds": [
+        "rd.npr.contract",
+        "rd.npr.export",
+        "rd.npr.gates",
+        "rd.npr.normals",
+        "rd.npr.outline",
+        "rd.npr.received-shadow"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.character-retopology",
+      "path": "run-benchmark-driven-rd/references/topics/character-retopology.md",
+      "sha256": "683f842e6decc2dd8f8d90760d654d78a0fd65cd9bd74397421d775d303448a7",
+      "tokenCost": 664,
+      "ruleIds": [
+        "rd.retopology.atlas",
+        "rd.retopology.correspondence",
+        "rd.retopology.cost",
+        "rd.retopology.failure",
+        "rd.retopology.intent",
+        "rd.retopology.resume"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.character-secondary",
+      "path": "run-benchmark-driven-rd/references/topics/character-secondary-motion.md",
+      "sha256": "6f578dddb228718920edad6a0c9a32494e0cbb9722a5f5211090cf38d2e87a23",
+      "tokenCost": 635,
+      "ruleIds": [
+        "rd.secondary.benchmark",
+        "rd.secondary.energy",
+        "rd.secondary.fit",
+        "rd.secondary.gates",
+        "rd.secondary.model",
+        "rd.secondary.pipeline",
+        "rd.secondary.visible"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.community",
+      "path": "run-benchmark-driven-rd/references/topics/community-pr-adoption.md",
+      "sha256": "9c0c4f6fd9d8af10a0b11537c7bc24a1d703a4d579580194eb99cf14e1bc0729",
+      "tokenCost": 334,
+      "ruleIds": [
+        "rd.community.benefit",
+        "rd.community.learning-closeout",
+        "rd.community.product-fit",
+        "rd.community.repair-boundary"
       ]
     },
     {
       "privacy": "sanitized",
       "id": "rd.completion-detail",
       "path": "run-benchmark-driven-rd/references/topics/completion-detail.md",
-      "sha256": "fa10973cbd09f79843ee28438036b16a46955054bc186e70a70eab5cdfc5b3cd",
-      "tokenCost": 352,
+      "sha256": "5d13ba3dba70bf250a78f7ecccff1f893354b1acef79eda07cb7a3b49580ab1a",
+      "tokenCost": 285,
       "ruleIds": [
         "rd.complete.detail-last-mutation",
         "rd.complete.detail-residue",
@@ -165,9 +411,10 @@
       "privacy": "sanitized",
       "id": "rd.core",
       "path": "run-benchmark-driven-rd/references/topics/core-experiment.md",
-      "sha256": "ea53eb879a8663b6e99c00058ae7edbb7cdf9c7b6f0c35a2113af11b18cadf14",
-      "tokenCost": 280,
+      "sha256": "071a6f044acb3dc85dc66ae59c169f513c8b4adf82221bdabea2b9a5e34b9203",
+      "tokenCost": 336,
       "ruleIds": [
+        "rd.core.adoption-benefit",
         "rd.core.calibrated-evaluator",
         "rd.core.claim-first",
         "rd.core.fresh-decision",
@@ -192,10 +439,25 @@
     },
     {
       "privacy": "sanitized",
+      "id": "rd.environment-town",
+      "path": "run-benchmark-driven-rd/references/topics/environment-town-layout.md",
+      "sha256": "9bd395b7f33b470f98740d029092d009955fcfc48b9f56c971f2d6527de9878a",
+      "tokenCost": 465,
+      "ruleIds": [
+        "rd.town.diagnose",
+        "rd.town.reversible",
+        "rd.town.streetwall",
+        "rd.town.style",
+        "rd.town.ue427",
+        "rd.town.window-layout"
+      ]
+    },
+    {
+      "privacy": "sanitized",
       "id": "rd.external-detail",
       "path": "run-benchmark-driven-rd/references/topics/external-detail.md",
-      "sha256": "4ffb90b4f53e372ff380e9aa0948ced77bbdd0590b50efb16f683237fe0bb7cd",
-      "tokenCost": 351,
+      "sha256": "4972eb4891384a836d3cb1e4de15185849faa99f8024f3faded63751e4511414",
+      "tokenCost": 274,
       "ruleIds": [
         "rd.external.detail-authorization",
         "rd.external.detail-postconditions",
@@ -214,6 +476,21 @@
         "rd.media.editable-render-journey",
         "rd.media.evidence-envelope",
         "rd.media.strongest-scenario"
+      ]
+    },
+    {
+      "id": "rd.reverse-analysis",
+      "path": "run-benchmark-driven-rd/references/topics/reverse-engineering.md",
+      "sha256": "7174787ebec1d9fc1cafb46d12245007f9b9a27a7b0f23001bf251d805202bd6",
+      "tokenCost": 343,
+      "privacy": "sanitized",
+      "ruleIds": [
+        "rd.reverse.authorized",
+        "rd.reverse.defense",
+        "rd.reverse.epistemic",
+        "rd.reverse.identity",
+        "rd.reverse.provider",
+        "rd.reverse.rebuild"
       ]
     },
     {
@@ -247,6 +524,18 @@
     },
     {
       "privacy": "sanitized",
+      "id": "rd.state-integrity",
+      "path": "run-benchmark-driven-rd/references/topics/state-integrity.md",
+      "sha256": "d26fc2355c8106575ca151255a2701704431925e079daf3b6b22b26627c497f2",
+      "tokenCost": 462,
+      "ruleIds": [
+        "rd.state.adversarial-replay",
+        "rd.state.learning-transfer",
+        "rd.state.real-chain"
+      ]
+    },
+    {
+      "privacy": "sanitized",
       "id": "rd.updater",
       "path": "run-benchmark-driven-rd/references/topics/secure-self-update.md",
       "sha256": "62dcee1a3118d2601d0f9acbf652188433e8027b2fbb7533f128fa3edc01f6a3",
@@ -265,6 +554,60 @@
         "rd.updater.upgrade-matrix",
         "rd.updater.user-control",
         "rd.updater.workspace-ownership"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.vfx-impact",
+      "path": "run-benchmark-driven-rd/references/topics/vfx-impact-feel.md",
+      "sha256": "5e1acdd1b12457ff5adede5e8e97ee2528ee0e61ae8fae9bf39d3e7947fcacab",
+      "tokenCost": 839,
+      "ruleIds": [
+        "rd.vfx.cel",
+        "rd.vfx.events",
+        "rd.vfx.finish-debris",
+        "rd.vfx.ground",
+        "rd.vfx.mask-fidelity",
+        "rd.vfx.merge",
+        "rd.vfx.mesh-kit",
+        "rd.vfx.noise",
+        "rd.vfx.patterns",
+        "rd.vfx.review",
+        "rd.vfx.screen",
+        "rd.vfx.stepped-erosion",
+        "rd.vfx.ue-python",
+        "rd.vfx.uv-arc",
+        "rd.vfx.volley"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.visual-quality",
+      "path": "run-benchmark-driven-rd/references/topics/visual-quality.md",
+      "sha256": "45bb7d25e2845f743a5eac0f55d73ce63fcf07bc025e7bac445c3194c9597e38",
+      "tokenCost": 498,
+      "ruleIds": [
+        "rd.visual.budget",
+        "rd.visual.domains",
+        "rd.visual.evidence",
+        "rd.visual.intent",
+        "rd.visual.polish-loop"
+      ]
+    },
+    {
+      "privacy": "sanitized",
+      "id": "rd.water-foam",
+      "path": "run-benchmark-driven-rd/references/topics/water-foam-lace.md",
+      "sha256": "36d03126ea482afe0d5463c71d02118870864e29f07098dcef8ad836b983edd9",
+      "tokenCost": 558,
+      "ruleIds": [
+        "rd.foam.crest",
+        "rd.foam.density",
+        "rd.foam.distance",
+        "rd.foam.hdr",
+        "rd.foam.no-clusters",
+        "rd.foam.review",
+        "rd.foam.shapes"
       ]
     }
   ],
@@ -312,6 +655,345 @@
     {
       "id": "cleanup.ai.same-source-evidence",
       "ownerTopic": "cleanup.session-ai",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.ai-atlas",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.ai-detail-layer",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.closure",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.component-hybrid-uv",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.evidence",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.hair-orientability",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.hair-orientation-cut",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.hair-two-sided",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.hair-uv-pilot",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.head-uv-standard",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.material-persist",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.npr",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.ornament-visibility",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.part-registration",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.registered-current",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.render-uv",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.repair",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-mesh-repair-20260912"
+      ],
+      "positiveFixtureIds": [
+        "fan-preserves-corners",
+        "reviewed-triangle-patch",
+        "public-operator"
+      ],
+      "negativeFixtureIds": [
+        "isolated-triangle-not-hole",
+        "patch-uv-seam",
+        "shape-key-guard",
+        "stale-reviewed-digest"
+      ]
+    },
+    {
+      "id": "cleanup.character.rig-guide",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.scope-override",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.texture",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.triangle-chart-hair",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.uv-fragmentation",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.character.uv-storage",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-uv-storage-20260912"
+      ],
+      "positiveFixtureIds": [
+        "public-api-and-protected-shape-mask-normal-uv",
+        "save-reload-report-and-uv"
+      ],
+      "negativeFixtureIds": [
+        "stored-float32-collapse-rejected-by-readback",
+        "planned-pass-cannot-hide-stored-failure"
+      ]
+    },
+    {
+      "id": "cleanup.character.uv-transfer-sharpness",
+      "ownerTopic": "cleanup.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.access",
+      "ownerTopic": "cleanup.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.adoption",
+      "ownerTopic": "cleanup.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.attribution",
+      "ownerTopic": "cleanup.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.dependency-closure",
+      "ownerTopic": "cleanup.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.inventory",
+      "ownerTopic": "cleanup.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.required-ci",
+      "ownerTopic": "cleanup.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.security-chain",
+      "ownerTopic": "cleanup.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.community.version",
+      "ownerTopic": "cleanup.community",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
       "privacy": "sanitized",
@@ -388,6 +1070,22 @@
       "experimentIds": [],
       "positiveFixtureIds": [],
       "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.desktop.launch-admission",
+      "ownerTopic": "cleanup.desktop",
+      "promotionState": "provisional",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-runtime-admission-20261001-v2"
+      ],
+      "positiveFixtureIds": [
+        "genuine-pinned-runtime-two-routes"
+      ],
+      "negativeFixtureIds": [
+        "same-name-tamper-two-routes"
+      ]
     },
     {
       "id": "cleanup.desktop.nonblocking-job",
@@ -570,6 +1268,456 @@
       "negativeFixtureIds": []
     },
     {
+      "id": "cleanup.retopology.anatomy",
+      "ownerTopic": "cleanup.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-retopology-20260919"
+      ],
+      "positiveFixtureIds": [
+        "source_identity_preserved",
+        "native_reload_exact"
+      ],
+      "negativeFixtureIds": [
+        "dense_quad_is_not_lowpoly",
+        "native_wrong_chart_stripes_rejected"
+      ]
+    },
+    {
+      "id": "cleanup.retopology.cost",
+      "ownerTopic": "cleanup.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-checkpoint-20260919"
+      ],
+      "positiveFixtureIds": [
+        "fresh_rejected_candidate_preserved",
+        "read_only",
+        "valid_after_restore"
+      ],
+      "negativeFixtureIds": [
+        "stale_hash_rejected",
+        "concurrent_writer_rejected"
+      ]
+    },
+    {
+      "id": "cleanup.retopology.game",
+      "ownerTopic": "cleanup.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-game-lowpoly-bake-20260919"
+      ],
+      "positiveFixtureIds": [
+        "native_selected_to_active_color",
+        "native_tangent_normal_convention"
+      ],
+      "negativeFixtureIds": [
+        "wrong_green_detected",
+        "missing_uv_rejected",
+        "wrong_active_rejected"
+      ]
+    },
+    {
+      "id": "cleanup.retopology.resume",
+      "ownerTopic": "cleanup.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-checkpoint-20260919"
+      ],
+      "positiveFixtureIds": [
+        "fresh_rejected_candidate_preserved",
+        "read_only",
+        "valid_after_restore"
+      ],
+      "negativeFixtureIds": [
+        "stale_hash_rejected",
+        "concurrent_writer_rejected"
+      ]
+    },
+    {
+      "id": "cleanup.retopology.transfer",
+      "ownerTopic": "cleanup.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-retopology-20260919"
+      ],
+      "positiveFixtureIds": [
+        "source_identity_preserved",
+        "native_reload_exact"
+      ],
+      "negativeFixtureIds": [
+        "dense_quad_is_not_lowpoly",
+        "native_wrong_chart_stripes_rejected"
+      ]
+    },
+    {
+      "id": "cleanup.reverse.defense",
+      "ownerTopic": "cleanup.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.reverse.evidence",
+      "ownerTopic": "cleanup.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.reverse.exposure",
+      "ownerTopic": "cleanup.reverse-analysis",
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20261015T080230887406Z-dd7f30b6b38b4ef78b5477a1f64dd875"
+      ],
+      "positiveFixtureIds": [
+        "exposure.encoded-paths",
+        "exposure.encoded-credential",
+        "exposure.source-content"
+      ],
+      "negativeFixtureIds": [
+        "exposure.clean-control",
+        "exposure.archive-unknown",
+        "exposure.malformed-pe",
+        "exposure.byte-bound",
+        "exposure.no-reflection"
+      ]
+    },
+    {
+      "id": "cleanup.reverse.privacy",
+      "ownerTopic": "cleanup.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.reverse.scope",
+      "ownerTopic": "cleanup.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.state.account-continuity",
+      "ownerTopic": "cleanup.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
+      "id": "cleanup.state.commit-ack",
+      "ownerTopic": "cleanup.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
+      "id": "cleanup.state.history-backup",
+      "ownerTopic": "cleanup.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
+      "id": "cleanup.state.native-authority",
+      "ownerTopic": "cleanup.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
+      "id": "cleanup.state.replay-rollback",
+      "ownerTopic": "cleanup.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
       "id": "cleanup.updater.anti-rollback",
       "ownerTopic": "cleanup.updater",
       "promotionState": "provisional",
@@ -690,6 +1838,63 @@
       "negativeFixtureIds": []
     },
     {
+      "id": "cleanup.visual.contract",
+      "ownerTopic": "cleanup.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20260908T112407872374Z-5827ad14a7384c88ac5815bfe1c94d27"
+      ],
+      "positiveFixtureIds": [
+        "visual-native-positive"
+      ],
+      "negativeFixtureIds": [
+        "visual-prototype-negative",
+        "visual-concept-negative",
+        "visual-functional-negative",
+        "visual-alpha-negative"
+      ]
+    },
+    {
+      "id": "cleanup.visual.evidence",
+      "ownerTopic": "cleanup.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20260908T112407872374Z-5827ad14a7384c88ac5815bfe1c94d27"
+      ],
+      "positiveFixtureIds": [
+        "visual-native-positive"
+      ],
+      "negativeFixtureIds": [
+        "visual-prototype-negative",
+        "visual-concept-negative",
+        "visual-functional-negative",
+        "visual-alpha-negative"
+      ]
+    },
+    {
+      "id": "cleanup.visual.scope",
+      "ownerTopic": "cleanup.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20260908T112407872374Z-5827ad14a7384c88ac5815bfe1c94d27"
+      ],
+      "positiveFixtureIds": [
+        "visual-native-positive"
+      ],
+      "negativeFixtureIds": [
+        "visual-prototype-negative",
+        "visual-concept-negative",
+        "visual-functional-negative",
+        "visual-alpha-negative"
+      ]
+    },
+    {
       "id": "rd.arch.cleanup-provider",
       "ownerTopic": "rd.architecture",
       "promotionState": "provisional",
@@ -742,6 +1947,354 @@
     {
       "id": "rd.arch.required-edge",
       "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.arch.stage-versus-launch",
+      "ownerTopic": "rd.architecture",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.ai-atlas-gate",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.ai-detail-layer",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.assembly",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.blender-batch-pitfalls",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.component-hybrid-uv",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.expression",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.gates",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.hair-orientability",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.hair-orientation-cut",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.hair-strand-albedo",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.hair-two-sided-gate",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.hair-uv-pilot",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.head-uv-standard",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.inputs",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.locomotion",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.ornament-reconstruction",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.registered-current",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.registered-part-space",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.render-uv-channel",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.rig",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.rig-guide-branch",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.secondary-motion",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.texture",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.triangle-chart-hair",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.ue-material-readback",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.user-density-override",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.uv-fragmentation",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.character.uv-storage",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-uv-storage-20260912"
+      ],
+      "positiveFixtureIds": [
+        "public-api-and-protected-shape-mask-normal-uv",
+        "save-reload-report-and-uv"
+      ],
+      "negativeFixtureIds": [
+        "stored-float32-collapse-rejected-by-readback",
+        "planned-pass-cannot-hide-stored-failure"
+      ]
+    },
+    {
+      "id": "rd.character.uv-transfer-sharpness",
+      "ownerTopic": "rd.character-3d",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.community.benefit",
+      "ownerTopic": "rd.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.community.learning-closeout",
+      "ownerTopic": "rd.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.community.product-fit",
+      "ownerTopic": "rd.community",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.community.repair-boundary",
+      "ownerTopic": "rd.community",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
       "privacy": "sanitized",
@@ -838,6 +2391,24 @@
       "experimentIds": [],
       "positiveFixtureIds": [],
       "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.core.adoption-benefit",
+      "ownerTopic": "rd.core",
+      "promotionState": "provisional",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-adoption-evidence-20261001-v2"
+      ],
+      "positiveFixtureIds": [
+        "current-main-source-build-edit-reopen-export",
+        "valid-json-controls"
+      ],
+      "negativeFixtureIds": [
+        "unavailable-exact-kit-source",
+        "boolean-counts-unhashed-evidence"
+      ]
     },
     {
       "id": "rd.core.calibrated-evaluator",
@@ -1020,6 +2591,76 @@
       "negativeFixtureIds": []
     },
     {
+      "id": "rd.foam.crest",
+      "ownerTopic": "rd.water-foam",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.foam.density",
+      "ownerTopic": "rd.water-foam",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.foam.distance",
+      "ownerTopic": "rd.water-foam",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.foam.hdr",
+      "ownerTopic": "rd.water-foam",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.foam.no-clusters",
+      "ownerTopic": "rd.water-foam",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.foam.review",
+      "ownerTopic": "rd.water-foam",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.foam.shapes",
+      "ownerTopic": "rd.water-foam",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
       "id": "rd.learning.local-first",
       "ownerTopic": "rd.context-learning",
       "promotionState": "provisional",
@@ -1058,6 +2699,162 @@
       "experimentIds": [],
       "positiveFixtureIds": [],
       "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.air",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.blend",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.blender",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.capture",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.hinge",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.review-look",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.source",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.locomotion.ue427",
+      "ownerTopic": "rd.character-locomotion",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.lowpoly.bake",
+      "ownerTopic": "rd.character-lowpoly-bake",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-game-lowpoly-bake-20260919"
+      ],
+      "positiveFixtureIds": [
+        "native_selected_to_active_color",
+        "native_tangent_normal_convention"
+      ],
+      "negativeFixtureIds": [
+        "wrong_green_detected",
+        "missing_uv_rejected",
+        "wrong_active_rejected"
+      ]
+    },
+    {
+      "id": "rd.lowpoly.budget",
+      "ownerTopic": "rd.character-lowpoly-bake",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-game-lowpoly-bake-20260919"
+      ],
+      "positiveFixtureIds": [
+        "native_selected_to_active_color",
+        "native_tangent_normal_convention"
+      ],
+      "negativeFixtureIds": [
+        "wrong_green_detected",
+        "missing_uv_rejected",
+        "wrong_active_rejected"
+      ]
+    },
+    {
+      "id": "rd.lowpoly.gates",
+      "ownerTopic": "rd.character-lowpoly-bake",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-game-lowpoly-bake-20260919"
+      ],
+      "positiveFixtureIds": [
+        "native_selected_to_active_color",
+        "native_tangent_normal_convention"
+      ],
+      "negativeFixtureIds": [
+        "wrong_green_detected",
+        "missing_uv_rejected",
+        "wrong_active_rejected"
+      ]
+    },
+    {
+      "id": "rd.lowpoly.npr",
+      "ownerTopic": "rd.character-lowpoly-bake",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-game-lowpoly-bake-20260919"
+      ],
+      "positiveFixtureIds": [
+        "native_selected_to_active_color",
+        "native_tangent_normal_convention"
+      ],
+      "negativeFixtureIds": [
+        "wrong_green_detected",
+        "missing_uv_rejected",
+        "wrong_active_rejected"
+      ]
     },
     {
       "id": "rd.media.calibrated-negatives",
@@ -1102,6 +2899,390 @@
     {
       "id": "rd.media.strongest-scenario",
       "ownerTopic": "rd.media-evidence",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.mesh.classify",
+      "ownerTopic": "rd.character-mesh-repair",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-mesh-repair-20260912"
+      ],
+      "positiveFixtureIds": [
+        "fan-preserves-corners",
+        "reviewed-triangle-patch",
+        "public-operator"
+      ],
+      "negativeFixtureIds": [
+        "isolated-triangle-not-hole",
+        "patch-uv-seam",
+        "shape-key-guard",
+        "stale-reviewed-digest"
+      ]
+    },
+    {
+      "id": "rd.mesh.operations",
+      "ownerTopic": "rd.character-mesh-repair",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-mesh-repair-20260912"
+      ],
+      "positiveFixtureIds": [
+        "fan-preserves-corners",
+        "reviewed-triangle-patch",
+        "public-operator"
+      ],
+      "negativeFixtureIds": [
+        "isolated-triangle-not-hole",
+        "patch-uv-seam",
+        "shape-key-guard",
+        "stale-reviewed-digest"
+      ]
+    },
+    {
+      "id": "rd.mesh.preserve",
+      "ownerTopic": "rd.character-mesh-repair",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-mesh-repair-20260912"
+      ],
+      "positiveFixtureIds": [
+        "fan-preserves-corners",
+        "reviewed-triangle-patch",
+        "public-operator"
+      ],
+      "negativeFixtureIds": [
+        "isolated-triangle-not-hole",
+        "patch-uv-seam",
+        "shape-key-guard",
+        "stale-reviewed-digest"
+      ]
+    },
+    {
+      "id": "rd.mesh.verify",
+      "ownerTopic": "rd.character-mesh-repair",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-mesh-repair-20260912"
+      ],
+      "positiveFixtureIds": [
+        "fan-preserves-corners",
+        "reviewed-triangle-patch",
+        "public-operator"
+      ],
+      "negativeFixtureIds": [
+        "isolated-triangle-not-hole",
+        "patch-uv-seam",
+        "shape-key-guard",
+        "stale-reviewed-digest"
+      ]
+    },
+    {
+      "id": "rd.npr.contract",
+      "ownerTopic": "rd.character-npr",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.npr.export",
+      "ownerTopic": "rd.character-npr",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.npr.gates",
+      "ownerTopic": "rd.character-npr",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.npr.normals",
+      "ownerTopic": "rd.character-npr",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.npr.outline",
+      "ownerTopic": "rd.character-npr",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.npr.received-shadow",
+      "ownerTopic": "rd.character-npr",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.retopology.atlas",
+      "ownerTopic": "rd.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-retopology-20260919"
+      ],
+      "positiveFixtureIds": [
+        "source_identity_preserved",
+        "native_reload_exact"
+      ],
+      "negativeFixtureIds": [
+        "dense_quad_is_not_lowpoly",
+        "native_wrong_chart_stripes_rejected"
+      ]
+    },
+    {
+      "id": "rd.retopology.correspondence",
+      "ownerTopic": "rd.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-retopology-20260919"
+      ],
+      "positiveFixtureIds": [
+        "source_identity_preserved",
+        "native_reload_exact"
+      ],
+      "negativeFixtureIds": [
+        "dense_quad_is_not_lowpoly",
+        "native_wrong_chart_stripes_rejected"
+      ]
+    },
+    {
+      "id": "rd.retopology.cost",
+      "ownerTopic": "rd.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-checkpoint-20260919"
+      ],
+      "positiveFixtureIds": [
+        "fresh_rejected_candidate_preserved",
+        "read_only",
+        "valid_after_restore"
+      ],
+      "negativeFixtureIds": [
+        "stale_hash_rejected",
+        "concurrent_writer_rejected"
+      ]
+    },
+    {
+      "id": "rd.retopology.failure",
+      "ownerTopic": "rd.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-retopology-20260919"
+      ],
+      "positiveFixtureIds": [
+        "source_identity_preserved",
+        "native_reload_exact"
+      ],
+      "negativeFixtureIds": [
+        "dense_quad_is_not_lowpoly",
+        "native_wrong_chart_stripes_rejected"
+      ]
+    },
+    {
+      "id": "rd.retopology.intent",
+      "ownerTopic": "rd.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-retopology-20260919"
+      ],
+      "positiveFixtureIds": [
+        "source_identity_preserved",
+        "native_reload_exact"
+      ],
+      "negativeFixtureIds": [
+        "dense_quad_is_not_lowpoly",
+        "native_wrong_chart_stripes_rejected"
+      ]
+    },
+    {
+      "id": "rd.retopology.resume",
+      "ownerTopic": "rd.character-retopology",
+      "promotionState": "provisional",
+      "evidenceState": "measured",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "character-checkpoint-20260919"
+      ],
+      "positiveFixtureIds": [
+        "fresh_rejected_candidate_preserved",
+        "read_only",
+        "valid_after_restore"
+      ],
+      "negativeFixtureIds": [
+        "stale_hash_rejected",
+        "concurrent_writer_rejected"
+      ]
+    },
+    {
+      "id": "rd.reverse.authorized",
+      "ownerTopic": "rd.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.reverse.defense",
+      "ownerTopic": "rd.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.reverse.epistemic",
+      "ownerTopic": "rd.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.reverse.identity",
+      "ownerTopic": "rd.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.reverse.provider",
+      "ownerTopic": "rd.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.reverse.rebuild",
+      "ownerTopic": "rd.reverse-analysis",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.secondary.benchmark",
+      "ownerTopic": "rd.character-secondary",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.secondary.energy",
+      "ownerTopic": "rd.character-secondary",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.secondary.fit",
+      "ownerTopic": "rd.character-secondary",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.secondary.gates",
+      "ownerTopic": "rd.character-secondary",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.secondary.model",
+      "ownerTopic": "rd.character-secondary",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.secondary.pipeline",
+      "ownerTopic": "rd.character-secondary",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.secondary.visible",
+      "ownerTopic": "rd.character-secondary",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
       "privacy": "sanitized",
@@ -1212,6 +3393,243 @@
     {
       "id": "rd.security.scanner-provenance",
       "ownerTopic": "rd.security-assessment",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.state.adversarial-replay",
+      "ownerTopic": "rd.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
+      "id": "rd.state.learning-transfer",
+      "ownerTopic": "rd.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
+      "id": "rd.state.real-chain",
+      "ownerTopic": "rd.state-integrity",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "calendar.positive-local-month-matches-ledger",
+        "command.positive.literal-data-in-fixed-child",
+        "deposit.positive-original-drawer-real-cash",
+        "identity.positive-original-store-replay",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "quantity.positive-fractional-units-retained",
+        "receipt.positive.original-identity-required",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved",
+        "settings.positive.explicit-zero-survives",
+        "shared.positive-single-authority-last-item"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "calendar.negative-utc-month-prefix-detected",
+        "command.negative.interpolated-program-detected",
+        "deposit.negative-gift-as-cash-detected",
+        "identity.negative-replacement-store-rejected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "quantity.negative-integer-coercion-detected",
+        "receipt.negative.bare-success-rejected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected",
+        "settings.negative.falsy-default-detected",
+        "shared.negative-independent-replicas-oversell"
+      ],
+      "historicalClaim": {
+        "promotionState": "active",
+        "evidenceState": "verified",
+        "experimentIds": [
+          "exp-state-integrity-20261007T092346",
+          "exp-state-integrity-20261007T094052",
+          "exp-20261013T181444295101Z-06f1e8e19833452ca985b768a0da0f50",
+          "exp-20261014T023232282674Z-f864622b8dd94516b9a437a1ec2ca81b",
+          "exp-20261014T032239529665Z-f779b8d369f749f3ac392dede69dbef4"
+        ],
+        "replayStatus": "NOT_CHECKED: original immutable experiments unavailable in this installation"
+      }
+    },
+    {
+      "id": "rd.town.diagnose",
+      "ownerTopic": "rd.environment-town",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.town.reversible",
+      "ownerTopic": "rd.environment-town",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.town.streetwall",
+      "ownerTopic": "rd.environment-town",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.town.style",
+      "ownerTopic": "rd.environment-town",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.town.ue427",
+      "ownerTopic": "rd.environment-town",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.town.window-layout",
+      "ownerTopic": "rd.environment-town",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
       "privacy": "sanitized",
@@ -1348,6 +3766,259 @@
       "experimentIds": [],
       "positiveFixtureIds": [],
       "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.cel",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.events",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.finish-debris",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.ground",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.mask-fidelity",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.merge",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.mesh-kit",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.noise",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.patterns",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.review",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.screen",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.stepped-erosion",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.ue-python",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.uv-arc",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.vfx.volley",
+      "ownerTopic": "rd.vfx-impact",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.visual.budget",
+      "ownerTopic": "rd.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20260908T112407872374Z-5827ad14a7384c88ac5815bfe1c94d27"
+      ],
+      "positiveFixtureIds": [
+        "visual-native-positive"
+      ],
+      "negativeFixtureIds": [
+        "visual-prototype-negative",
+        "visual-concept-negative",
+        "visual-functional-negative",
+        "visual-alpha-negative"
+      ]
+    },
+    {
+      "id": "rd.visual.domains",
+      "ownerTopic": "rd.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.visual.evidence",
+      "ownerTopic": "rd.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20260908T112407872374Z-5827ad14a7384c88ac5815bfe1c94d27"
+      ],
+      "positiveFixtureIds": [
+        "visual-native-positive"
+      ],
+      "negativeFixtureIds": [
+        "visual-prototype-negative",
+        "visual-concept-negative",
+        "visual-functional-negative",
+        "visual-alpha-negative"
+      ]
+    },
+    {
+      "id": "rd.visual.intent",
+      "ownerTopic": "rd.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20260908T112407872374Z-5827ad14a7384c88ac5815bfe1c94d27"
+      ],
+      "positiveFixtureIds": [
+        "visual-native-positive"
+      ],
+      "negativeFixtureIds": [
+        "visual-prototype-negative",
+        "visual-concept-negative",
+        "visual-functional-negative",
+        "visual-alpha-negative"
+      ]
+    },
+    {
+      "id": "rd.visual.polish-loop",
+      "ownerTopic": "rd.visual-quality",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-20260908T112407872374Z-5827ad14a7384c88ac5815bfe1c94d27"
+      ],
+      "positiveFixtureIds": [
+        "visual-native-positive"
+      ],
+      "negativeFixtureIds": [
+        "visual-prototype-negative",
+        "visual-concept-negative",
+        "visual-functional-negative",
+        "visual-alpha-negative"
+      ]
+    }
+  ],
+  "promotionReceipts": [
+    "profiles/reverse-exposure-promotion.json"
+  ],
+  "historicalPromotionReceipts": [
+    "profiles/state-integrity-promotion.json",
+    "profiles/state-integrity-shared-store-promotion.json",
+    "profiles/state-integrity-initial-promotion.json",
+    "profiles/state-integrity-fulfilment-promotion.json",
+    "profiles/state-integrity-caller-calendar-promotion.json"
+  ],
+  "experimentRecordSources": [
+    {
+      "id": "exp-20261015T080230887406Z-dd7f30b6b38b4ef78b5477a1f64dd875",
+      "path": "profiles/reverse-exposure-record.json",
+      "sha256": "825014b6abb24574343459e86457d3ab58cf0f3108a4f00990f60e32466a10c6"
     }
   ]
 }

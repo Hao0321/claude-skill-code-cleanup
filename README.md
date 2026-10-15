@@ -5,17 +5,17 @@
 - `code-cleanup-helper`：read-only repository／Skill／release evaluator。
 - `run-benchmark-driven-rd`：定義可證偽目標、保存 baseline、執行實驗、控制 promotion 與外部變更。
 
-目前版本：**v0.21.0**。
+目前版本：**v0.22.0**。
 
-`main` 另含 2026-09-04 尚未標記版本的安全強化：Cleanup 新增可驗證、fail-closed 的 security-assessment receipt；R&D 新增六項安全控制的 routing／completion obligations，並把 public／parity 完工證據綁到同一專案的 delivery、build 與 release artifact。這仍是由使用者授權觸發的開發／稽核流程，不會在安裝後自行常駐掃描或改寫專案。詳見 [Changelog](CHANGELOG.md)。
+## v0.22.0 重點
 
-## v0.21.0 重點
-
-- Cleanup 每次 audit 都輸出下游目標的 D11 更新覆蓋：`managed`、`check-only`、`safe-auto-update`、`manual-only` 或 `no-origin`。檔案或 GitHub URL 存在不等於更新安全通過。
-- R&D 對已授權、可分發的 Skill／軟體／遊戲／安裝器／release 開發，在 implementation／promotion／completion 階段預設納入安全更新能力與發布通道義務。
-- 更新設計涵蓋來源驗證、staging、健康檢查、切換、回滾與安全淘汰 inactive 舊版；由套件／商店／部署平台管理的目標沿用原生更新機制。
-- Task-aware Router v2、精簡 topic cards、精確 context budget 與 typed learning records，讓常用流程只載入必要規則，保留可重播證據。
-- 完工 gate 不允許漏掉必要 capability，並保留 Cleanup 的 `REVIEW`／`NOT_CHECKED`，不把 route 選擇冒充功能驗證。
+- Cleanup 改用可剪枝的目錄盤點，避免進入排除目錄；排除、近似名稱與中文路徑都有回歸控制。
+- 公開同步採完整預檢、逐檔雜湊所有權與過期計畫檢查。私人記憶、憑證、穿越路徑、連結與被修改的受管檔案會阻擋同步；公開包自有檔案保留。
+- 新增唯讀的交付物暴露檢查：內嵌私人路徑、疑似憑證、source map 原始碼、debug symbols 與 PE 宣告旗標。未解包的容器保持 `NOT_CHECKED`；它不是完整資安掃描或防逆向保證。
+- 新增選用的 [REA 分析流程](run-benchmark-driven-rd/references/reverse-analysis.md)。Windows／Node 24.19.0／REA 6.5.0 已在自有 JavaScript 小範例驗證；不自動安裝 REA，原生反編譯提供者仍需另行驗證。
+- 中文 machine JSON 固定 UTF-8；路由、記錄儲存、收尾驗證與測試拆分責任，保留原 CLI 入口與嚴格 `REVIEW` 規則。
+- 納入按需讀取的遊戲、3D、視覺與狀態完整性經驗；單一專案的美術觀察保留 provisional 範圍，原始紀錄留在使用者自己的 `.rd/`。
+- 沿用六項安全控制、同專案 delivery／build／release 綁定、安全更新／回滾與精確 context budget，不把路由或零 finding 當成產品通過。
 
 這兩個 Skill 是**開發與稽核流程**，不是背景 updater。安裝後不會自行掃描所有專案、執行排程或改寫程式；它們參與下游專案開發時，才會檢查與規劃該專案的更新功能，並在原始授權內實作。Audit-only／source-only 不因此取得修改、發布、簽章、背景常駐或刪除權限。
 
@@ -78,11 +78,25 @@ python run-benchmark-driven-rd/scripts/self_test.py
 python run-benchmark-driven-rd/scripts/run_cleanup_gate.py --self-test
 python run-benchmark-driven-rd/scripts/regression_corpus.py
 python run-benchmark-driven-rd/scripts/router_quality_corpus.py
+python run-benchmark-driven-rd/scripts/verify_learning_bundle.py
 python code-cleanup-helper/scripts/check_context_budget.py code-cleanup-helper --manifest code-cleanup-helper/profiles/context-budget.json
 python code-cleanup-helper/scripts/check_context_budget.py run-benchmark-driven-rd --manifest run-benchmark-driven-rd/profiles/context-budget.json
 ```
 
 做隔離的公開包驗證時，讓測試程序不繼承 `CODEX_HOME`，避免意外使用另一份本機 Cleanup provider。上述測試驗證的是 Skill／gate 行為，不代表任何下游產品已經具備 updater 或已公開發布。
+
+## 交付物暴露與選用逆向分析
+
+```powershell
+python code-cleanup-helper/scripts/check_release_exposure.py C:\path\to\delivered-artifact
+python code-cleanup-helper/scripts/benchmark_inventory.py
+```
+
+暴露檢查不執行目標、不連網、不解包。`PASS` 只涵蓋列出的靜態檢查；`REVIEW` 是待判斷候選，`NOT_CHECKED` 表示仍有缺口。重建別人的功能需要有權分析的精確目標、獨立實作和行為測試；防護應縮小交付資訊、把秘密和信任判斷放在受控伺服器。混淆、PE 旗標和反編譯難度都不能保證客戶端不可逆向。
+
+盤點 benchmark 會建立並清理自己的暫存範例。它比較同一範例上的舊 `rglob` 與剪枝演算法，不代表整套 audit 或其他專案有相同加速比。完整紀錄方式與限制見 [Changelog](CHANGELOG.md)。
+
+舊學習宣告與當前可重播證據分開保存，詳見 [learning history](run-benchmark-driven-rd/references/learning-history.md)。
 
 ## 隱私
 

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "id": "exp-20261015T080230887406Z-dd7f30b6b38b4ef78b5477a1f64dd875",
+  "recordedAt": "2026-10-15T08:02:30.887406+00:00",
+  "hypothesis": "Static release triage detects declared exposure classes while preserving unknowns and redaction",
+  "change": "Bounded owned fixtures exercise encoded paths and credential candidates, source contents, PE declarations and opaque containers",
+  "result": "pass",
+  "evidence": "code-cleanup-helper/scripts/exposure_regression.py; bundled owned-fixture replay",
+  "metrics": {
+    "positiveControls": 3,
+    "negativeControls": 5,
+    "falseGreens": 0
+  },
+  "learning": "Only the listed static exposure dimensions are verified; runtime enforcement and anti-reversing remain unmeasured",
+  "topic": "cleanup.reverse-analysis",
+  "scope": "cross-project",
+  "privacy": "sanitized",
+  "applicability": [
+    "Static triage of bounded uncompressed owned or authorized release files"
+  ],
+  "exclusions": [
+    "Runtime exploitation, complete secret discovery, opaque payload contents and reverse-engineering resistance"
+  ],
+  "ruleIds": [
+    "cleanup.reverse.exposure"
+  ],
+  "fixtureIds": {
+    "positive": [
+      "exposure.encoded-paths",
+      "exposure.encoded-credential",
+      "exposure.source-content"
+    ],
+    "negative": [
+      "exposure.clean-control",
+      "exposure.archive-unknown",
+      "exposure.malformed-pe",
+      "exposure.byte-bound",
+      "exposure.no-reflection"
+    ],
+    "other": []
+  },
+  "promotionState": "active",
+  "evidenceState": "verified",
+  "expiresOn": null,
+  "nextDecision": "Replay after checker, fixture or evidence-contract changes",
+  "environmentIdentity": {
+    "id": "Windows-Python-3.10.6-owned-fixtures",
+    "sha256": "32ce1d2650ea8b9d394f5b8f94677d27888dccdc3713365bf903a8c465c9d776"
+  },
+  "datasetIdentity": {
+    "id": "exposure-regression-source-v1",
+    "sha256": "b464a6cb3010809a2bf190a98496a2c349d903eb2507fbf25b111dc00cb45227"
+  },
+  "failureType": "measurement"
+}

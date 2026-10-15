@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "promotionState": "active",
+  "privacy": "sanitized",
+  "experimentId": "exp-20261015T080230887406Z-dd7f30b6b38b4ef78b5477a1f64dd875",
+  "ruleIds": [
+    "cleanup.reverse.exposure"
+  ],
+  "positiveFixtureIds": [
+    "exposure.encoded-paths",
+    "exposure.encoded-credential",
+    "exposure.source-content"
+  ],
+  "negativeFixtureIds": [
+    "exposure.clean-control",
+    "exposure.archive-unknown",
+    "exposure.malformed-pe",
+    "exposure.byte-bound",
+    "exposure.no-reflection"
+  ],
+  "topicIndexSha256": "87735c5e239b8d24ec54f44de824ab4951f12769484c2b7f330b66b04a907545",
+  "basis": "Current owned static-parser controls only; no arbitrary-target security or anti-reversing claim"
+}

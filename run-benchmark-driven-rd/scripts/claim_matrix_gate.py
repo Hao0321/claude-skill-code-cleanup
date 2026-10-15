@@ -22,7 +22,7 @@ def _safe_file(root: Path, value: Any) -> Path | None:
     if not isinstance(value, str) or not value or "\\" in value:
         return None
     relative = PurePosixPath(value)
-    if relative.is_absolute() or "." in relative.parts or ".." in relative.parts or (relative.parts and ":" in relative.parts[0]):
+    if relative.is_absolute() or value != relative.as_posix() or ".." in relative.parts or (relative.parts and ":" in relative.parts[0]):
         return None
     candidate = root.joinpath(*relative.parts).resolve()
     return candidate if candidate == root or root in candidate.parents else None
@@ -38,11 +38,17 @@ def _evidence_ok(root: Path, evidence: Any) -> bool:
         if candidate is None or not candidate.is_file():
             return False
         expected = item.get("sha256")
-        if expected is not None:
-            if not isinstance(expected, str) or not re.fullmatch(r"[a-f0-9]{64}", expected, re.IGNORECASE):
+        if not isinstance(expected, str) or not re.fullmatch(r"[a-f0-9]{64}", expected, re.IGNORECASE):
+            return False
+        try:
+            digest = hashlib.sha256()
+            with candidate.open("rb") as handle:
+                for block in iter(lambda: handle.read(1024 * 1024), b""):
+                    digest.update(block)
+            if digest.hexdigest().lower() != expected.lower():
                 return False
-            if hashlib.sha256(candidate.read_bytes()).hexdigest().lower() != expected.lower():
-                return False
+        except OSError:
+            return False
     return True
 
 
@@ -77,7 +83,7 @@ def _validate_sources(document: dict[str, Any], fail) -> dict[str, dict[str, Any
     sources = _closed_world(document.get("requiredSourceIds"), document.get("sources"), "source", fail)
     for source_id, source in sources.items():
         revision = source.get("revision")
-        if not isinstance(revision, (str, int)) or str(revision).strip() == "":
+        if isinstance(revision, bool) or not isinstance(revision, (str, int)) or str(revision).strip() == "":
             fail("source-revision", f"source {source_id} lacks revision")
         if not isinstance(source.get("sha256"), str) or not re.fullmatch(r"[a-f0-9]{64}", source["sha256"], re.IGNORECASE):
             fail("source-sha256", f"source {source_id} lacks sha256")
@@ -91,7 +97,7 @@ def _validate_flows(document: dict[str, Any], root: Path, fail) -> tuple[dict[st
         stages = _closed_world(flow.get("requiredStageIds"), flow.get("stages"), f"stage-{flow_id}", fail)
         for stage_id, stage in stages.items():
             status = stage.get("status")
-            if status not in STAGE_STATUSES:
+            if not isinstance(status, str) or status not in STAGE_STATUSES:
                 fail("stage-status", f"{flow_id}/{stage_id} has invalid status")
             elif status == "verified":
                 if not _evidence_ok(root, stage.get("evidence")):
@@ -135,7 +141,9 @@ def _validate_adapter_contract(document: dict[str, Any], flows: dict[str, dict[s
             fail("adapter-unknown-flow", f"adapter current flow is undeclared: {flow_id}")
             continue
         schema = flow.get("contractSchema")
-        if schema in legacy:
+        if not isinstance(schema, str):
+            fail("adapter-flow-schema", f"{flow_id} must use current schema {current}")
+        elif schema in legacy:
             fail("adapter-legacy-flow", f"{flow_id} uses legacy schema {schema}; compatibility cannot close current integration")
         elif schema != current:
             fail("adapter-flow-schema", f"{flow_id} must use current schema {current}")
@@ -153,7 +161,10 @@ def _comparison_rows(comparison: dict[str, Any], fail) -> dict[tuple[Any, Any], 
     rows = comparison.get("results") if isinstance(comparison.get("results"), list) else []
     by_cell: dict[tuple[Any, Any], dict[str, Any]] = {}
     for row in rows:
-        key = (row.get("baselineId"), row.get("surfaceId")) if isinstance(row, dict) else (None, None)
+        if not isinstance(row, dict) or any(not isinstance(row.get(field), str) or not row[field] for field in ("baselineId", "surfaceId")):
+            fail("comparison-cell-id", "comparison cell requires string baselineId and surfaceId")
+            continue
+        key = (row["baselineId"], row["surfaceId"])
         if key in by_cell:
             fail("comparison-duplicate-cell", f"duplicate comparison cell: {key}")
         by_cell[key] = row
@@ -162,7 +173,7 @@ def _comparison_rows(comparison: dict[str, Any], fail) -> dict[tuple[Any, Any], 
 
 def _measured_cell_valid(row: dict[str, Any], key: tuple[str, str], root: Path, fail) -> bool:
     provenance = row.get("independentGroundTruth") is True and isinstance(row.get("datasetId"), str) and bool(row["datasetId"].strip())
-    samples = isinstance(row.get("sampleCount"), int) and row["sampleCount"] >= 1
+    samples = type(row.get("sampleCount")) is int and row["sampleCount"] >= 1
     if not provenance or not samples:
         fail("comparison-provenance", f"{key} lacks independent truth, dataset or samples")
         return False
@@ -190,9 +201,10 @@ def _validate_comparison(document: dict[str, Any], root: Path, fail) -> tuple[in
     measured_cells = 0
     for key in sorted(expected):
         row = by_cell.get(key)
-        if row is None or row.get("status") in {"diagnostic", "unmeasured"}:
+        status = row.get("status") if row is not None else None
+        if row is None or (isinstance(status, str) and status in {"diagnostic", "unmeasured"}):
             open_cells.append(f"{key[0]}:{key[1]}")
-        elif row.get("status") not in CELL_STATUSES:
+        elif not isinstance(status, str) or status not in CELL_STATUSES:
             fail("comparison-cell-status", f"{key} has invalid status")
         elif _measured_cell_valid(row, key, root, fail):
             measured_cells += 1
@@ -206,10 +218,13 @@ def evaluate(document: dict[str, Any], root: Path) -> dict[str, Any]:
         findings.append({"status": "FAIL", "code": code, "message": message})
 
     root = root.resolve()
-    if document.get("schemaVersion") != 1:
+    if not isinstance(document, dict):
+        fail("invalid-document", "claim contract must be a JSON object")
+        document = {}
+    if type(document.get("schemaVersion")) is not int or document.get("schemaVersion") != 1:
         fail("schema-version", "schemaVersion must be 1")
     claim_status = document.get("claimStatus")
-    if claim_status not in CLAIM_STATUSES:
+    if not isinstance(claim_status, str) or claim_status not in CLAIM_STATUSES:
         fail("claim-status", "claimStatus must be verified or unmeasured")
     if PRIVATE_PATTERN.search(json.dumps(document, ensure_ascii=False)):
         fail("private-data", "contract contains a private absolute or Skill path")
@@ -276,6 +291,22 @@ def run_self_test() -> None:
             },
         }
         assert evaluate(document, root)["claimClosure"] == "GREEN"
+        mutations = [
+            lambda d: d.update(schemaVersion=True),
+            lambda d: d.update(schemaVersion=1.0),
+            lambda d: d.update(claimStatus=[]),
+            lambda d: d["sources"][0].update(revision=True),
+            lambda d: d["comparison"]["results"][0].update(sampleCount=True),
+            lambda d: d["comparison"]["results"][0].update(baselineId=[]),
+            lambda d: d["comparison"]["results"][0].update(status=[]),
+            lambda d: d["flows"][0]["stages"][0].update(status=[]),
+            lambda d: d["flows"][0]["stages"][0].update(evidence=[{"kind":"file","value":"proof.json"}]),
+            lambda d: d["flows"][0]["stages"][0].update(evidence=[{"kind":"file","value":"proof.json","sha256":"0"*64}]),
+        ]
+        for mutate in mutations:
+            invalid = json.loads(json.dumps(document)); mutate(invalid)
+            assert evaluate(invalid, root)["instrumentStatus"] == "BLOCK"
+        assert evaluate([], root)["instrumentStatus"] == "BLOCK"
         honest_open = json.loads(json.dumps(document))
         honest_open["claimStatus"] = "unmeasured"
         honest_open["nextExperiment"] = "run the missing cell"
@@ -296,6 +327,22 @@ def run_self_test() -> None:
         assert any(item["code"] == "adapter-legacy-flow" for item in report["findings"])
 
 
+def load_document(path: Path) -> Any:
+    def unique_keys(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate JSON key: {key}")
+            result[key] = value
+        return result
+    with path.open("rb") as handle:
+        payload = handle.read(8 * 1024 * 1024 + 1)
+    if len(payload) > 8 * 1024 * 1024:
+        raise ValueError("claim metadata exceeds 8 MiB")
+    return json.loads(payload.decode("utf-8-sig"), object_pairs_hook=unique_keys,
+                      parse_constant=lambda value: (_ for _ in ()).throw(ValueError(f"non-finite JSON value: {value}")))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("contract", nargs="?")
@@ -313,7 +360,11 @@ def main() -> int:
         parser.error("contract is required unless --self-test is used")
     contract_path = Path(args.contract).resolve()
     root = Path(args.root).resolve() if args.root else contract_path.parent
-    report = evaluate(json.loads(contract_path.read_text(encoding="utf-8")), root)
+    try:
+        report = evaluate(load_document(contract_path), root)
+    except (OSError, ValueError, UnicodeError) as error:
+        report = evaluate({}, root)
+        report["findings"].append({"status":"FAIL", "code":"invalid-contract-json", "message":str(error)})
     payload = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
     if args.output:
         Path(args.output).resolve().write_text(payload, encoding="utf-8")

@@ -1,5 +1,29 @@
 # Changelog — code-cleanup-helper
 
+## v0.22.0 — scoped reverse analysis and maintainer hardening
+
+Add optional REA discovery and artifact-evidence guidance, a read-only release exposure checker, and typed reverse-analysis routing. The owned Windows JavaScript fixture recovered its static import relationships; native decompilation and resistance to arbitrary reverse engineering remain unmeasured.
+
+Public sync now preflights the complete delta, scans encoded private text and credential candidates, rejects unsafe paths/links and modified managed files, and writes hash ownership. Machine JSON survives non-Unicode consoles. Excluded directory pruning retains the included set; responsibility splits preserve existing CLI entrypoints and strict review behavior.
+
+The included inventory benchmark uses a 4,960-file synthetic warm-cache fixture with 4,800 excluded files and nine interleaved rounds. One Windows run measured 4,405.497 ms → 124.328 ms median (35.434×) for inventory only. This is not a whole-audit speed or game-quality claim.
+
+Sanitized game/3D/visual/state-integrity cards are loaded only for relevant tasks. Single-project art observations remain provisional; raw project notes, target paths, REA output and package caches are excluded.
+
+Learning provenance audit found historical active labels without their immutable experiments in this installation. Rules and original receipt bytes are retained as historical evidence, with current status provisional. The new static-exposure rule includes a sanitized typed record and a bundled replay verifier with hash, traversal, identity and fixture-ledger negative controls.
+
+
+## 2026-10-08 — binary asset machine paths
+
+- Release hygiene item 9: packaged engine assets (UE `.uasset`/`.umap`, `.blend`) embed absolute import source paths with the user name; scan binaries before release and keep sources inside the package with relative paths.
+
+## 2026-10-08 — character provenance and head UV audit
+
+- Added `cleanup.character.registered-current`: lab/demo characters must trace to the registered CURRENT pin via a build manifest; flag downloads/source archives/old repair folders and history-bloated `current` registrations.
+- Added `cleanup.character.head-uv-standard`: four head-skin charts (front face, back of head, two ears) with side and skull-exclusion checks; fragmented AI face atlases fail paintability.
+- Added `cleanup.character.uv-transfer-sharpness`: same-camera close-up A/B after rebake; softer results are rejected even when full-body views match.
+- Shortened existing character card summaries to keep the card within its byte/token budget; every rule's detail text is unchanged.
+
 ## 2026-09-04 — promotion-trustworthy security receipt v2
 
 - Keep receipt v1 parseable but permanently `NOT_CHECKED`; only v2 can become `GREEN`.

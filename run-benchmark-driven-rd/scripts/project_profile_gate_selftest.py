@@ -319,6 +319,102 @@ def test_security_route_matrix(routed: Any, profile: dict[str, Any]) -> None:
             assert_selection_only(route)
 
 
+def _test_explicit_updater_routes(combined, common, router):
+    updater_contract = write_contract(combined, "updater.json", {**common,
+        "projectTypes": ["software"], "taskIntent": "secure-self-update",
+        "stage": "discovery", "artifact": "updater", "risk": "low",
+        "contextBudgetTokens": 6000})
+    updater_route = router.compose_route(combined, contract_path=updater_contract)
+    assert updater_route["selectedTopicIds"] == ["core-experiment",
+        "context-and-learning", "secure-self-update"]
+    assert updater_route["task"]["updateObligation"]["status"] == "REQUIRED_EXPLICIT"
+    assert updater_route["requiredCapabilityObligationIds"] == [
+        "update.client-check", "update.release-channel"]
+    assert updater_route["task"]["safetyAdjustments"] == []
+    assert not set(updater_route["references"]) & {"references/delivery-artifact-gates.md",
+        "references/security-hardening-gates.md", "references/external-change-gates.md"}
+    assert {"rd.updater.safe-client", "rd.updater.side-by-side",
+        "rd.updater.workspace-ownership", "rd.updater.upgrade-matrix",
+        "rd.updater.runtime-entrypoint",
+        "rd.updater.health-rollback", "rd.updater.retirement",
+        "rd.updater.user-control", "rd.updater.receipt"}.issubset(
+            updater_route["criticalRuleIds"])
+    assert_selection_only(updater_route)
+
+    for updater_stage, effective_risk in (("implementation", "high"),
+                                           ("promotion", "high"),
+                                           ("completion", "critical")):
+        staged = router.compose_route(combined, contract_path=updater_contract,
+            stage=updater_stage, risk="standard", context_budget_tokens=50000)
+        assert staged["task"]["declaredRisk"] == "standard"
+        assert staged["task"]["risk"] == effective_risk
+        assert staged["task"]["safetyAdjustments"][0]["ruleId"] == "rd.updater.safe-client"
+        assert {"delivery-artifact", "security-hardening", "security-assessment"}.issubset(
+            staged["selectedTopicIds"])
+        assert staged["task"]["securityAssessmentObligation"]["required"] is True
+        if updater_stage == "completion":
+            assert {"completion-core", "completion-detail"}.issubset(
+                staged["selectedTopicIds"])
+        assert_selection_only(staged)
+
+
+def _test_fallback_and_invalid_routes(combined, common, contract, router):
+    for label, intent_value, reason, budget in (
+        ("missing", None, "task-intent-missing", 512),
+        ("mixed", "mixed", "task-intent-ambiguous:mixed", 12000)):
+        payload = {**common, "projectTypes": ["software"],
+            "contextBudgetTokens": budget, **({"taskIntent": intent_value}
+            if intent_value else {})}
+        fallback = router.compose_route(combined, contract_path=write_contract(
+            combined, f"{label}-intent.json", payload))
+        assert fallback["routingMode"] == "legacy-compatible-fallback"
+        assert fallback["fallbackReason"] == reason
+        assert fallback["references"] == fallback["legacyReferences"]
+        assert_selection_only(fallback)
+    assert fallback["references"]
+
+    cli_route = router.compose_route(combined, contract_path=contract,
+        task_intent="audit", stage="baseline", artifact="source", risk="low",
+        context_budget_tokens=50000)
+    assert cli_route["routingMode"] == "task-aware-v2"
+    assert all(cli_route["task"]["sources"][field] == "cli" for field in
+        ("intent", "stage", "artifact", "risk", "contextBudgetTokens"))
+    assert_selection_only(cli_route)
+    parsed = router.build_parser().parse_args(["--task-intent", "audit", "--stage",
+        "baseline", "--artifact", "source", "--risk", "low",
+        "--context-budget-tokens", "6000"])
+    assert (parsed.task_intent, parsed.context_budget_tokens) == ("audit", 6000)
+
+    valid = {**common, "projectTypes": ["software"], "taskIntent": "audit",
+        "stage": "baseline", "artifact": "source", "risk": "low",
+        "contextBudgetTokens": 6000}
+    for field, value in (("taskIntent", "unknown-intent"),
+                         ("stage", "unknown-stage"),
+                         ("artifact", "unknown-artifact"),
+                         ("risk", "unknown-risk")):
+        payload = dict(valid)
+        payload[field] = value
+        expect_contract_error(combined, f"invalid-{field}.json", payload)
+    malformed = (
+        ("project-type", {"schemaVersion": 1, "projectTypes": ["unknown"]}),
+        ("gate", {"schemaVersion": 1, "projectGates": ["x", "x"]}),
+        ("schema1-task", {"schemaVersion": 1, "taskIntent": "audit"}),
+        ("budget-type", {"schemaVersion": 2, "taskIntent": "audit",
+                         "contextBudgetTokens": True}),
+        ("budget-range", {"schemaVersion": 2, "taskIntent": "audit",
+                          "contextBudgetTokens": 1}),
+        ("budget-overflow", {**valid, "contextBudgetTokens": 512}),
+    )
+    for name, payload in malformed:
+        expect_contract_error(combined, f"invalid-{name}.json", payload)
+    try:
+        router.compose_route(combined, task_intent="unknown-intent")
+    except router.ProfileError:
+        pass
+    else:
+        raise AssertionError("unknown CLI task intent was accepted")
+
+
 def run_self_test(router_api: Any) -> None:
     global _ROUTER
     _ROUTER = router_api
@@ -382,94 +478,5 @@ def run_self_test(router_api: Any) -> None:
             completion_route["criticalRuleIds"])
         assert_selection_only(completion_route)
 
-        updater_contract = write_contract(combined, "updater.json", {**common,
-            "projectTypes": ["software"], "taskIntent": "secure-self-update",
-            "stage": "discovery", "artifact": "updater", "risk": "low",
-            "contextBudgetTokens": 6000})
-        updater_route = router.compose_route(combined, contract_path=updater_contract)
-        assert updater_route["selectedTopicIds"] == ["core-experiment",
-            "context-and-learning", "secure-self-update"]
-        assert updater_route["task"]["updateObligation"]["status"] == "REQUIRED_EXPLICIT"
-        assert updater_route["requiredCapabilityObligationIds"] == [
-            "update.client-check", "update.release-channel"]
-        assert updater_route["task"]["safetyAdjustments"] == []
-        assert not set(updater_route["references"]) & {"references/delivery-artifact-gates.md",
-            "references/security-hardening-gates.md", "references/external-change-gates.md"}
-        assert {"rd.updater.safe-client", "rd.updater.side-by-side",
-            "rd.updater.workspace-ownership", "rd.updater.upgrade-matrix",
-            "rd.updater.runtime-entrypoint",
-            "rd.updater.health-rollback", "rd.updater.retirement",
-            "rd.updater.user-control", "rd.updater.receipt"}.issubset(
-                updater_route["criticalRuleIds"])
-        assert_selection_only(updater_route)
-
-        for updater_stage, effective_risk in (("implementation", "high"),
-                                               ("promotion", "high"),
-                                               ("completion", "critical")):
-            staged = router.compose_route(combined, contract_path=updater_contract,
-                stage=updater_stage, risk="standard", context_budget_tokens=50000)
-            assert staged["task"]["declaredRisk"] == "standard"
-            assert staged["task"]["risk"] == effective_risk
-            assert staged["task"]["safetyAdjustments"][0]["ruleId"] == "rd.updater.safe-client"
-            assert {"delivery-artifact", "security-hardening", "security-assessment"}.issubset(
-                staged["selectedTopicIds"])
-            assert staged["task"]["securityAssessmentObligation"]["required"] is True
-            if updater_stage == "completion":
-                assert {"completion-core", "completion-detail"}.issubset(
-                    staged["selectedTopicIds"])
-            assert_selection_only(staged)
-
-        for label, intent_value, reason, budget in (
-            ("missing", None, "task-intent-missing", 512),
-            ("mixed", "mixed", "task-intent-ambiguous:mixed", 12000)):
-            payload = {**common, "projectTypes": ["software"],
-                "contextBudgetTokens": budget, **({"taskIntent": intent_value}
-                if intent_value else {})}
-            fallback = router.compose_route(combined, contract_path=write_contract(
-                combined, f"{label}-intent.json", payload))
-            assert fallback["routingMode"] == "legacy-compatible-fallback"
-            assert fallback["fallbackReason"] == reason
-            assert fallback["references"] == fallback["legacyReferences"]
-            assert_selection_only(fallback)
-        assert fallback["references"]
-
-        cli_route = router.compose_route(combined, contract_path=contract,
-            task_intent="audit", stage="baseline", artifact="source", risk="low",
-            context_budget_tokens=50000)
-        assert cli_route["routingMode"] == "task-aware-v2"
-        assert all(cli_route["task"]["sources"][field] == "cli" for field in
-            ("intent", "stage", "artifact", "risk", "contextBudgetTokens"))
-        assert_selection_only(cli_route)
-        parsed = router.build_parser().parse_args(["--task-intent", "audit", "--stage",
-            "baseline", "--artifact", "source", "--risk", "low",
-            "--context-budget-tokens", "6000"])
-        assert (parsed.task_intent, parsed.context_budget_tokens) == ("audit", 6000)
-
-        valid = {**common, "projectTypes": ["software"], "taskIntent": "audit",
-            "stage": "baseline", "artifact": "source", "risk": "low",
-            "contextBudgetTokens": 6000}
-        for field, value in (("taskIntent", "unknown-intent"),
-                             ("stage", "unknown-stage"),
-                             ("artifact", "unknown-artifact"),
-                             ("risk", "unknown-risk")):
-            payload = dict(valid)
-            payload[field] = value
-            expect_contract_error(combined, f"invalid-{field}.json", payload)
-        malformed = (
-            ("project-type", {"schemaVersion": 1, "projectTypes": ["unknown"]}),
-            ("gate", {"schemaVersion": 1, "projectGates": ["x", "x"]}),
-            ("schema1-task", {"schemaVersion": 1, "taskIntent": "audit"}),
-            ("budget-type", {"schemaVersion": 2, "taskIntent": "audit",
-                             "contextBudgetTokens": True}),
-            ("budget-range", {"schemaVersion": 2, "taskIntent": "audit",
-                              "contextBudgetTokens": 1}),
-            ("budget-overflow", {**valid, "contextBudgetTokens": 512}),
-        )
-        for name, payload in malformed:
-            expect_contract_error(combined, f"invalid-{name}.json", payload)
-        try:
-            router.compose_route(combined, task_intent="unknown-intent")
-        except router.ProfileError:
-            pass
-        else:
-            raise AssertionError("unknown CLI task intent was accepted")
+        _test_explicit_updater_routes(combined, common, router)
+        _test_fallback_and_invalid_routes(combined, common, contract, router)

@@ -1,0 +1,329 @@
+{
+  "schemaVersion": 1,
+  "tokenizer": {
+    "id": "o200k_base",
+    "version": "0.11.0"
+  },
+  "topics": [
+    {
+      "id": "cleanup.state-integrity",
+      "path": "code-cleanup-helper/references/topics/state-integrity-audit.md",
+      "sha256": "dd29b365fd80c9324b26af509ab7fe6fc21136444aeffba6b9115b2598d75ff7",
+      "tokenCost": 617,
+      "privacy": "sanitized",
+      "ruleIds": [
+        "cleanup.state.commit-ack",
+        "cleanup.state.replay-rollback",
+        "cleanup.state.account-continuity",
+        "cleanup.state.native-authority",
+        "cleanup.state.history-backup"
+      ]
+    },
+    {
+      "id": "rd.state-integrity",
+      "path": "run-benchmark-driven-rd/references/topics/state-integrity.md",
+      "sha256": "1286110acb2c98338819f595161d142de3dd34c5bb06b3c5f8a8caa62fa8ebdb",
+      "tokenCost": 376,
+      "privacy": "sanitized",
+      "ruleIds": [
+        "rd.state.real-chain",
+        "rd.state.adversarial-replay",
+        "rd.state.learning-transfer"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "cleanup.state.commit-ack",
+      "ownerTopic": "cleanup.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    },
+    {
+      "id": "cleanup.state.replay-rollback",
+      "ownerTopic": "cleanup.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    },
+    {
+      "id": "cleanup.state.account-continuity",
+      "ownerTopic": "cleanup.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    },
+    {
+      "id": "cleanup.state.native-authority",
+      "ownerTopic": "cleanup.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    },
+    {
+      "id": "cleanup.state.history-backup",
+      "ownerTopic": "cleanup.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    },
+    {
+      "id": "rd.state.real-chain",
+      "ownerTopic": "rd.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    },
+    {
+      "id": "rd.state.adversarial-replay",
+      "ownerTopic": "rd.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    },
+    {
+      "id": "rd.state.learning-transfer",
+      "ownerTopic": "rd.state-integrity",
+      "positiveFixtureIds": [
+        "accounts.positive.version-drift-preserves-identity",
+        "ack.positive.pending-not-success",
+        "authority.positive.native-role-denies-owner-action",
+        "backup.positive.full-history-inventory",
+        "command.positive.literal-data-in-fixed-child",
+        "ledger.positive.cumulative-refunds-balance",
+        "markup.positive.attribute-identity-preserved",
+        "privacy.positive.display-projection",
+        "retry.positive.original-id-exactly-once",
+        "rollback.positive.complete-snapshot-preserved"
+      ],
+      "negativeFixtureIds": [
+        "accounts.negative.marker-reset-detected",
+        "ack.negative.optimistic-success-detected",
+        "authority.negative.renderer-role-trust-detected",
+        "backup.negative.ui-limit-truncation-detected",
+        "command.negative.interpolated-program-detected",
+        "ledger.negative.pair-exclusion-leaves-negative",
+        "markup.negative.text-only-escaping-detected",
+        "privacy.negative.global-record-leak-detected",
+        "retry.negative.changed-payload-rejected",
+        "retry.negative.new-id-duplicates-detected",
+        "rollback.negative.swallowed-save-success-detected"
+      ],
+      "promotionState": "active",
+      "evidenceState": "verified",
+      "privacy": "sanitized",
+      "experimentIds": [
+        "exp-state-integrity-20261007T092346",
+        "exp-state-integrity-20261007T094052"
+      ]
+    }
+  ],
+  "promotionReceipts": [
+    "state-integrity-promotion.json",
+    "state-integrity-history-receipt.json"
+  ]
+}

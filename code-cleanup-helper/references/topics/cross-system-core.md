@@ -9,4 +9,3 @@ Use this card when multiple components are claimed to form one working product f
 - `cleanup.integration.fresh-final`: after the last relevant change, rerun the delivered journey and freshness/revision gates. Open or unmeasured edges remain `NOT_CHECKED`.
 
 For legacy or unusually broad audits, use `../cross-system-integration-audit.md` as an explicit fallback and record the extra context cost.
-

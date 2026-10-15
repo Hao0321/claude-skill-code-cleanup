@@ -55,6 +55,13 @@ class CaseSpec:
 
 CLASS_SPECS = (
     ClassSpec(
+        "reverse-binary-audit", "reverse-engineering", "discovery", "binary", "low",
+        (*BASE_TOPICS, "reverse-engineering", "delivery-artifact"),
+        (*BASE_RULES, "rd.reverse.authorized", "rd.reverse.epistemic", "rd.reverse.defense"),
+        ("secure-self-update", "benchmark-metrics", "media-evidence"),
+        flags=("reverse-analysis",),
+    ),
+    ClassSpec(
         "mixed-ts-rust-audit",
         "audit",
         "discovery",

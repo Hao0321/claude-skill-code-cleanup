@@ -39,6 +39,32 @@ def _require_dict(value: Any, label: str) -> dict[str, Any]:
     return value
 
 
+def _validate_migration_mappings(errors, files, manifest, resolved_by_id):
+    mappings = manifest.get("mappings")
+    if not isinstance(mappings, list) or not mappings:
+        errors.append("mappings must be a non-empty array")
+    else:
+        covered_sources: set[str] = set()
+        for index, raw in enumerate(mappings):
+            try:
+                mapping = _require_dict(raw, f"mappings[{index}]")
+                source = mapping.get("source")
+                destinations = mapping.get("destinations")
+                if source not in resolved_by_id:
+                    raise ValueError(f"mapping references unknown source: {source!r}")
+                if not isinstance(destinations, list) or not destinations:
+                    raise ValueError(f"mapping destinations invalid for {source!r}")
+                unknown = [item for item in destinations if item not in resolved_by_id]
+                if unknown:
+                    raise ValueError(f"mapping references unknown destinations: {unknown}")
+                covered_sources.add(source)
+            except ValueError as exc:
+                errors.append(str(exc))
+        source_ids = {item["id"] for item in files if item["kind"] == "source"}
+        if source_ids - covered_sources:
+            errors.append(f"unmapped sources: {sorted(source_ids - covered_sources)}")
+
+
 def verify(manifest_path: Path, skills_root: Path) -> dict[str, Any]:
     errors: list[str] = []
     files: list[dict[str, Any]] = []
@@ -94,30 +120,7 @@ def verify(manifest_path: Path, skills_root: Path) -> dict[str, Any]:
             except (OSError, UnicodeError, ValueError) as exc:
                 errors.append(str(exc))
 
-    mappings = manifest.get("mappings")
-    if not isinstance(mappings, list) or not mappings:
-        errors.append("mappings must be a non-empty array")
-    else:
-        covered_sources: set[str] = set()
-        for index, raw in enumerate(mappings):
-            try:
-                mapping = _require_dict(raw, f"mappings[{index}]")
-                source = mapping.get("source")
-                destinations = mapping.get("destinations")
-                if source not in resolved_by_id:
-                    raise ValueError(f"mapping references unknown source: {source!r}")
-                if not isinstance(destinations, list) or not destinations:
-                    raise ValueError(f"mapping destinations invalid for {source!r}")
-                unknown = [item for item in destinations if item not in resolved_by_id]
-                if unknown:
-                    raise ValueError(f"mapping references unknown destinations: {unknown}")
-                covered_sources.add(source)
-            except ValueError as exc:
-                errors.append(str(exc))
-        source_ids = {item["id"] for item in files if item["kind"] == "source"}
-        if source_ids - covered_sources:
-            errors.append(f"unmapped sources: {sorted(source_ids - covered_sources)}")
-
+    _validate_migration_mappings(errors, files, manifest, resolved_by_id)
     return {
         "schemaVersion": 1,
         "status": "GREEN" if not errors else "BLOCK",

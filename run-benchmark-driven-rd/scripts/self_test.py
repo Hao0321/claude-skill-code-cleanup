@@ -23,6 +23,9 @@ from verify_cleanup_evidence import run_self_test as run_cleanup_freshness_self_
 from web_acceptance_gate import run_self_test as run_web_acceptance_self_test
 from build_topic_index import self_test as run_topic_index_self_test
 from verify_router_migration import self_test as run_router_migration_self_test
+from character_checkpoint_selftest import self_test as run_character_checkpoint_self_test
+from reverse_routing_regression import run_self_test as run_reverse_routing_self_test
+from verify_learning_bundle import run_self_test as run_learning_bundle_self_test
 
 
 def test_collision_resistant_ids() -> None:
@@ -51,6 +54,9 @@ def main() -> int:
     test_collision_resistant_ids()
     test_append_only_ledger()
     test_router_memory_helpers()
+    run_reverse_routing_self_test()
+    run_learning_bundle_self_test()
+    assert run_character_checkpoint_self_test()["status"] == "PASS"
     run_command_execution_self_test()
     run_external_change_self_test()
     run_invocation_revision_self_test()

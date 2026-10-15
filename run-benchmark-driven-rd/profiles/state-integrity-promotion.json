@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "promotionState": "active",
+  "privacy": "sanitized",
+  "experimentId": "exp-state-integrity-20261007T094052",
+  "ruleIds": [
+    "cleanup.state.commit-ack",
+    "cleanup.state.replay-rollback",
+    "cleanup.state.account-continuity",
+    "cleanup.state.native-authority",
+    "cleanup.state.history-backup",
+    "rd.state.real-chain",
+    "rd.state.adversarial-replay",
+    "rd.state.learning-transfer"
+  ],
+  "positiveFixtureIds": [
+    "accounts.positive.version-drift-preserves-identity",
+    "ack.positive.pending-not-success",
+    "authority.positive.native-role-denies-owner-action",
+    "backup.positive.full-history-inventory",
+    "command.positive.literal-data-in-fixed-child",
+    "ledger.positive.cumulative-refunds-balance",
+    "markup.positive.attribute-identity-preserved",
+    "privacy.positive.display-projection",
+    "retry.positive.original-id-exactly-once",
+    "rollback.positive.complete-snapshot-preserved"
+  ],
+  "negativeFixtureIds": [
+    "accounts.negative.marker-reset-detected",
+    "ack.negative.optimistic-success-detected",
+    "authority.negative.renderer-role-trust-detected",
+    "backup.negative.ui-limit-truncation-detected",
+    "command.negative.interpolated-program-detected",
+    "ledger.negative.pair-exclusion-leaves-negative",
+    "markup.negative.text-only-escaping-detected",
+    "privacy.negative.global-record-leak-detected",
+    "retry.negative.changed-payload-rejected",
+    "retry.negative.new-id-duplicates-detected",
+    "rollback.negative.swallowed-save-success-detected"
+  ],
+  "topicIndexSha256": "c127513c1193898320838fd6ba898c8f3abcf06f66778a2856d31b1b7b5ba0eb",
+  "generalReplaySha256": "b0b05e6bdf83a7bf617c7fd4fedc711b94f815ff857aeb52b15b3140829c0ff5",
+  "basis": "One project with actual isolated runtime journeys plus generalized regression replay; no public-release or deployed-provider claim."
+}

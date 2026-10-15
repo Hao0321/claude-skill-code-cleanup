@@ -2,18 +2,16 @@
 
 ## Applicability
 
-Use only when the authorized task may create, publish, rename, transfer, archive, delete, deploy, rotate, or otherwise mutate an external resource. Local design, URL review, and updater discovery do not select it. Load `../external-change-gates.md` for unusual provider-specific recovery or destructive deduplication; legacy fallback retains the full contract.
+Use for authorized external mutation: create, publish, rename, transfer, archive, delete, deploy or rotate. Local design, URL review and updater discovery omit it. Provider recovery or destructive deduplication additionally need `../external-change-gates.md`, available through legacy fallback.
 
 ## Rules
 
-- `rd.external.detail-target-resolution`: inventory the exact namespace and aliases before mutation; bind account, owner, service/region, stable resource ID, canonical survivor, mutation target, and rejected alternatives. A guessed-name 404 cannot prove absence.
-- `rd.external.detail-authorization`: separate current user authorization from live technical scope, role, payment, sudo/2FA, and available interaction surface. Approval for one target or reversible write cannot authorize another target, persistence, publication, or deletion.
-- `rd.external.detail-postconditions`: preview the smallest exact delta, recover or rollback when possible, then independently read authoritative remote state. For destructive deduplication prove target absent and canonical survivor present and unchanged except for the approved delta.
+- `rd.external.detail-target-resolution`: inventory namespace/aliases; bind account, owner, service/region, stable ID, canonical survivor, target and rejected alternatives. A guessed 404 proves no absence.
+- `rd.external.detail-authorization`: distinguish user authority from live scope, role, payment, sudo/2FA and interaction surface. One target or reversible write grants no other target, persistence, publication or deletion.
+- `rd.external.detail-postconditions`: preview the smallest delta, recover/rollback where possible and independently read authoritative state. After destructive deduplication, prove target absent and survivor present with only the approved change.
 
 ## Evidence and calibration
 
-Retain request scope, namespace inventory, target IDs, permission preflight without secrets, recovery plan, proposed delta, gate decision, execution receipt, and post-readback. A route or local exit code is not mutation evidence.
+Retain scope, inventory, IDs, secret-free permission preflight, recovery plan, delta, verdict, execution receipt and post-readback. Routing, authentication, exit 0 or guessed lookup failures prove no mutation.
 
-False green: authentication succeeds, a local command exits zero, or one guessed lookup misses, so the workflow claims the correct resource changed.
-
-Negative fixtures: plausible canonical alias omitted; final delete scope unavailable; user becomes mobile-only before a desktop-only confirmation; mutation response succeeds but survivor/postcondition readback is missing. Each must block or remain unmeasured.
+Block or keep unmeasured: omitted canonical alias; unavailable delete scope; mobile-only user with required desktop confirmation; successful response without survivor/postcondition readback.

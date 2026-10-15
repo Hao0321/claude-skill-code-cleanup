@@ -26,4 +26,3 @@ Demotion changes the active index; it does not delete raw evidence. A user may a
 - One aggregate route must exceed its budget while every individual file passes.
 - Removing a critical topic, duplicating a rule owner, changing topic bytes, or promoting private data must fail.
 - New and legacy routes must agree on critical verdicts over the frozen regression corpus.
-

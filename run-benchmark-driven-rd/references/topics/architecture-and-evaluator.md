@@ -6,6 +6,6 @@
 - `rd.arch.one-owner`: each state, command, rule, artifact, and learning has one canonical owner; adapters translate versioned contracts rather than duplicate semantics.
 - `rd.arch.cleanup-provider`: Cleanup remains read-only and owns its PASS/FAIL/REVIEW/NOT_CHECKED semantics. R&D may apply strict promotion policy but may not rewrite provider `NOT_CHECKED` as PASS.
 - `rd.arch.fresh-artifact`: bind generated/packaged artifacts to current input hashes and rebuild receipts; build-directory bytes are not delivered-product authority.
+- `rd.arch.stage-versus-launch`: for an immutable runtime, verify the candidate's closed-world file set, active pointer, and fresh launcher/tool handshake separately. A historical host-migration baseline may reject a changed environment setting while the live host still starts; preserve that failure and measure live configuration independently instead of rewriting the old baseline or declaring the runtime broken.
 
 Select `../tooling-and-architecture-gates.md` only for the full legacy architecture/toolchain contract or a rare edge omitted here.
-

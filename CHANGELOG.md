@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.22.0 — scoped reverse analysis and maintainer hardening
+
+Add optional REA discovery and artifact-evidence guidance, a read-only release exposure checker, and typed reverse-analysis routing. The owned Windows JavaScript fixture recovered its static import relationships; native decompilation and resistance to arbitrary reverse engineering remain unmeasured.
+
+Public sync now preflights the complete delta, scans encoded private text and credential candidates, rejects unsafe paths/links and modified managed files, and writes hash ownership. Machine JSON survives non-Unicode consoles. Excluded directory pruning retains the included set; responsibility splits preserve existing CLI entrypoints and strict review behavior.
+
+The included inventory benchmark uses a 4,960-file synthetic warm-cache fixture with 4,800 excluded files and nine interleaved rounds. One Windows run measured 4,405.497 ms → 124.328 ms median (35.434×) for inventory only. This is not a whole-audit speed or game-quality claim.
+
+Sanitized game/3D/visual/state-integrity cards are loaded only for relevant tasks. Single-project art observations remain provisional; raw project notes, target paths, REA output and package caches are excluded.
+
+Learning provenance audit found historical active labels without their immutable experiments in this installation. Rules and original receipt bytes are retained as historical evidence, with current status provisional. The new static-exposure rule includes a sanitized typed record and a bundled replay verifier with hash, traversal, identity and fixture-ledger negative controls.
+
+
 ## Unreleased — 2026-09-04
 
 - Added a read-only, fail-closed security-assessment receipt contract to Cleanup, including immutable target snapshots, exact authorization and coverage, scanner／rules／adapter identity, bounded execution provenance, non-lossy findings and calibrated negative controls.

@@ -12,4 +12,3 @@ This card is selected only for professional Timeline, creative-library, typograp
 - `cleanup.media.editorial-cardinality`: independent evidence determines expected N editorial units; require N distinct editable projects, renders, receipts, and fingerprints. Prior generated outputs are not self-labeled ground truth.
 
 Use `../cross-system-integration-audit.md` only for the legacy full-detail contract or rare edge not represented here.
-

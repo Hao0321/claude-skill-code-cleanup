@@ -14,6 +14,26 @@ from typing import Any
 
 
 TOPIC_SPECS = {
+    "cleanup.reverse-analysis": "code-cleanup-helper/references/topics/reverse-engineering-audit.md",
+    "rd.reverse-analysis": "run-benchmark-driven-rd/references/topics/reverse-engineering.md",
+    "cleanup.state-integrity": "code-cleanup-helper/references/topics/state-integrity-audit.md",
+    "rd.state-integrity": "run-benchmark-driven-rd/references/topics/state-integrity.md",
+    "cleanup.community": "code-cleanup-helper/references/topics/community-pr-audit.md",
+    "rd.community": "run-benchmark-driven-rd/references/topics/community-pr-adoption.md",
+    "cleanup.visual-quality": "code-cleanup-helper/references/topics/visual-quality-audit.md",
+    "rd.visual-quality": "run-benchmark-driven-rd/references/topics/visual-quality.md",
+    "cleanup.character-3d": "code-cleanup-helper/references/topics/character-3d-audit.md",
+    "rd.character-3d": "run-benchmark-driven-rd/references/topics/character-3d-workflow.md",
+    "rd.character-mesh-repair": "run-benchmark-driven-rd/references/topics/character-mesh-repair.md",
+    "rd.character-retopology": "run-benchmark-driven-rd/references/topics/character-retopology.md",
+    "rd.character-lowpoly-bake": "run-benchmark-driven-rd/references/topics/character-lowpoly-bake.md",
+    "cleanup.character-retopology": "code-cleanup-helper/references/topics/character-retopology-audit.md",
+    "rd.character-npr": "run-benchmark-driven-rd/references/topics/character-npr-normals.md",
+    "rd.character-secondary": "run-benchmark-driven-rd/references/topics/character-secondary-motion.md",
+    "rd.character-locomotion": "run-benchmark-driven-rd/references/topics/character-locomotion.md",
+    "rd.environment-town": "run-benchmark-driven-rd/references/topics/environment-town-layout.md",
+    "rd.water-foam": "run-benchmark-driven-rd/references/topics/water-foam-lace.md",
+    "rd.vfx-impact": "run-benchmark-driven-rd/references/topics/vfx-impact-feel.md",
     "cleanup.context": "code-cleanup-helper/references/topics/context-routing-and-memory.md",
     "cleanup.cross-system": "code-cleanup-helper/references/topics/cross-system-core.md",
     "cleanup.desktop": "code-cleanup-helper/references/topics/desktop-runtime.md",
@@ -87,6 +107,7 @@ def build_index(
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     encoder, tokenizer_id, tokenizer_version = _tokenizer()
     existing_topics, existing_rules = _existing_metadata(output)
+    existing_document = json.loads(output.read_text(encoding='utf-8')) if output.is_file() else {}
     topics: list[dict[str, Any]] = []
     rules: list[dict[str, Any]] = []
     global_owners: dict[str, str] = {}
@@ -141,6 +162,9 @@ def build_index(
         "topics": topics,
         "rules": sorted(rules, key=lambda item: item["id"]),
     }
+    for field in ('promotionReceipts', 'historicalPromotionReceipts', 'experimentRecordSources'):
+        if field in existing_document:
+            index[field] = existing_document[field]
     report = {
         "schemaVersion": 1,
         "status": "PASS",
@@ -172,6 +196,12 @@ def self_test() -> dict[str, Any]:
         index, report = build_index(root, output, {"one": "one.md", "two": "two.md"})
         _atomic_write(output, index)
         stable, stable_report = build_index(root, output, {"one": "one.md", "two": "two.md"})
+        seeded = json.loads(json.dumps(index))
+        seeded['promotionReceipts'] = ['profiles/retained.json']
+        seeded['rules'][0]['experimentIds'] = ['immutable-example']
+        _atomic_write(output, seeded)
+        retained, _ = build_index(root, output, {"one": "one.md", "two": "two.md"})
+        links_retained = retained.get('promotionReceipts') == ['profiles/retained.json'] and retained['rules'][0]['experimentIds'] == ['immutable-example']
         duplicate_failed = False
         second.write_text("- `rd.test.first`: duplicate", encoding="utf-8")
         try:
@@ -184,11 +214,12 @@ def self_test() -> dict[str, Any]:
             and stable == index
             and stable_report["status"] == "PASS"
             and duplicate_failed
+            and links_retained
         )
         return {
             "schemaVersion": 1,
             "status": "PASS" if passed else "BLOCK",
-            "cases": {"build": report["rules"] == 2, "stable": stable == index, "duplicateOwner": duplicate_failed},
+            "cases": {"build": report["rules"] == 2, "stable": stable == index, "duplicateOwner": duplicate_failed,"promotionLinksRetained":links_retained},
         }
 
 

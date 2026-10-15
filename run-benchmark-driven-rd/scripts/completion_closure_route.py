@@ -14,31 +14,7 @@ from run_cleanup_gate import resolve_cleanup_root
 from completion_closure_common import *  # noqa: F403
 
 
-def _check_route_receipt(
-    check: dict[str, Any], path: Path, root: Path, check_id: str, fail: FailureSink,
-) -> dict[str, Any] | None:
-    route, route_identity = _read_json_with_identity(path)
-    _check_observed_identity(route_identity, check, check_id, fail)
-    if (
-        route.get("schemaVersion") != 2
-        or route.get("routerVersion") != "2.0"
-        or route.get("decision") != "ROUTED"
-        or route.get("selectionOnly") is not True
-        or route.get("evidenceStatus") != "NOT_EVALUATED"
-    ):
-        fail("route-receipt-stale", "route receipt is not a current selection-only v2 route", check_id)
-
-    project_root, error = _resolve(root, check.get("projectRoot"), directory=True)
-    if error or project_root is None:
-        fail("unsafe-path", f"route projectRoot: {error}", check_id)
-        return None
-    route_root = route.get("projectRoot")
-    if (
-        not isinstance(route_root, str)
-        or _lexical_absolute(Path(route_root)) != project_root
-    ):
-        fail("route-receipt-stale", "route projectRoot differs from the closure projectRoot", check_id)
-
+def _route_contract_provenance(check, check_id, fail, root, route):
     profile, profile_identity = _read_json_with_identity(DEFAULT_PROFILE)
     validate_profile(profile)
     profile_hash = profile_identity["sha256"]
@@ -68,18 +44,10 @@ def _check_route_receipt(
             route_contract = route.get("contract") if isinstance(route.get("contract"), dict) else {}
             if contract_hash != live_contract_hash or route_contract.get("sha256") != live_contract_hash:
                 fail("route-receipt-stale", "route contract hash differs from current bytes", check_id)
+    return contract_hash, contract_identity, contract_path, hashes, profile, profile_hash, profile_identity
 
-    topics = route.get("selectedTopicIds")
-    task = route.get("task")
-    if not isinstance(topics, list) or any(not isinstance(item, str) or not item for item in topics):
-        fail("route-receipt-stale", "route selectedTopicIds is invalid", check_id)
-        return None
-    if len({item.casefold() for item in topics}) != len(topics):
-        fail("route-receipt-stale", "route selectedTopicIds contains duplicates", check_id)
-    if not isinstance(task, dict):
-        fail("route-receipt-stale", "route task is missing", check_id)
-        return None
 
+def _replay_route_semantics(check_id, contract_identity, contract_path, fail, profile_identity, project_root, route, task):
     replayed = compose_route(
         project_root,
         DEFAULT_PROFILE,
@@ -123,20 +91,10 @@ def _check_route_receipt(
         fail("route-receipt-stale", "typed update obligation differs from current profile", check_id)
     if task.get("securityAssessmentObligation") != expected_security:
         fail("route-receipt-stale", "typed security obligation differs from current profile", check_id)
+    return expected_security, expected_update, observed_bare_task, replayed_task
 
-    security_policy = profile["routing"]["defaultSecurityAssessmentObligation"]
-    if security_policy["requiredCapabilityObligationIds"] != list(SECURITY_CONTROL_IDS):
-        fail("route-profile-stale", "current profile security capability floor drifted", check_id)
-    if security_policy["requiredSecurityControlIds"] != list(SECURITY_CONTROL_IDS):
-        fail("route-profile-stale", "current profile security control floor drifted", check_id)
 
-    expected_floor = _ordered_unique([
-        *expected_update["requiredCapabilityObligationIds"],
-        *expected_security["requiredCapabilityObligationIds"],
-    ])
-    if route.get("requiredCapabilityObligationIds") != expected_floor:
-        fail("route-capability-floor", "route capability floor differs from typed obligations", check_id)
-
+def _validate_routing_input_digest(check_id, contract_hash, fail, hashes, observed_bare_task, profile_hash, route, task, topics):
     task_sources = task.get("sources")
     if not isinstance(task_sources, dict):
         fail("route-receipt-stale", "route task sources are missing", check_id)
@@ -160,6 +118,60 @@ def _check_route_receipt(
         fail("route-receipt-stale", "route routingInputSha256 is inconsistent", check_id)
     if hashes.get("selectedTopicsSha256") != sha256_json(topics):
         fail("route-receipt-stale", "route selectedTopicsSha256 is inconsistent", check_id)
+
+
+def _check_route_receipt(
+    check: dict[str, Any], path: Path, root: Path, check_id: str, fail: FailureSink,
+) -> dict[str, Any] | None:
+    route, route_identity = _read_json_with_identity(path)
+    _check_observed_identity(route_identity, check, check_id, fail)
+    if (
+        route.get("schemaVersion") != 2
+        or route.get("routerVersion") != "2.0"
+        or route.get("decision") != "ROUTED"
+        or route.get("selectionOnly") is not True
+        or route.get("evidenceStatus") != "NOT_EVALUATED"
+    ):
+        fail("route-receipt-stale", "route receipt is not a current selection-only v2 route", check_id)
+
+    project_root, error = _resolve(root, check.get("projectRoot"), directory=True)
+    if error or project_root is None:
+        fail("unsafe-path", f"route projectRoot: {error}", check_id)
+        return None
+    route_root = route.get("projectRoot")
+    if (
+        not isinstance(route_root, str)
+        or _lexical_absolute(Path(route_root)) != project_root
+    ):
+        fail("route-receipt-stale", "route projectRoot differs from the closure projectRoot", check_id)
+
+    contract_hash, contract_identity, contract_path, hashes, profile, profile_hash, profile_identity = _route_contract_provenance(check, check_id, fail, root, route)
+    topics = route.get("selectedTopicIds")
+    task = route.get("task")
+    if not isinstance(topics, list) or any(not isinstance(item, str) or not item for item in topics):
+        fail("route-receipt-stale", "route selectedTopicIds is invalid", check_id)
+        return None
+    if len({item.casefold() for item in topics}) != len(topics):
+        fail("route-receipt-stale", "route selectedTopicIds contains duplicates", check_id)
+    if not isinstance(task, dict):
+        fail("route-receipt-stale", "route task is missing", check_id)
+        return None
+
+    expected_security, expected_update, observed_bare_task, replayed_task = _replay_route_semantics(check_id, contract_identity, contract_path, fail, profile_identity, project_root, route, task)
+    security_policy = profile["routing"]["defaultSecurityAssessmentObligation"]
+    if security_policy["requiredCapabilityObligationIds"] != list(SECURITY_CONTROL_IDS):
+        fail("route-profile-stale", "current profile security capability floor drifted", check_id)
+    if security_policy["requiredSecurityControlIds"] != list(SECURITY_CONTROL_IDS):
+        fail("route-profile-stale", "current profile security control floor drifted", check_id)
+
+    expected_floor = _ordered_unique([
+        *expected_update["requiredCapabilityObligationIds"],
+        *expected_security["requiredCapabilityObligationIds"],
+    ])
+    if route.get("requiredCapabilityObligationIds") != expected_floor:
+        fail("route-capability-floor", "route capability floor differs from typed obligations", check_id)
+
+    _validate_routing_input_digest(check_id, contract_hash, fail, hashes, observed_bare_task, profile_hash, route, task, topics)
     return {
         "checkId": check_id,
         "projectRoot": project_root,

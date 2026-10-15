@@ -6,6 +6,6 @@
 - `rd.core.smallest-decisive`: execute the smallest experiment that can change the decision; preserve stdout/stderr, executable identity, exit, timings, artifacts, and failure taxonomy.
 - `rd.core.truthful-verdict`: distinguish instrument health, product readiness, parity, and leadership. GREEN tooling with zero measured claim cells proves honest reporting only.
 - `rd.core.fresh-decision`: after the final relevant change, rerun the same claim/evaluator/closure gates and bind the decision to current source and artifact hashes.
+- `rd.core.adoption-benefit`: for community PRs, freeze head/current base; independently verify integration, user benefit, regressions, security, licenses and retrievable dependencies. Cover changed files, including CI-excluded tests. Volume and author test counts establish no benefit.
 
 Use `../protocol.md` and `../metrics.md` as legacy/full-detail references only when the task needs a protocol family or metric not represented by the selected topic cards.
-
