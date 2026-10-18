@@ -7,6 +7,20 @@
   "topicRootPolicy": "explicit-skills-root",
   "topics": [
     {
+      "id": "cleanup.agent-workflow",
+      "path": "code-cleanup-helper/references/topics/agent-workflow-audit.md",
+      "sha256": "d9a597e28a5ae41f8d40a5739058a04bc25fd83f5e51ef2ae4a2d6c2d22cd056",
+      "tokenCost": 296,
+      "privacy": "sanitized",
+      "ruleIds": [
+        "cleanup.workflow.driver-proof",
+        "cleanup.workflow.effective-authority",
+        "cleanup.workflow.error-enforcement",
+        "cleanup.workflow.origin",
+        "cleanup.workflow.transitive-scope"
+      ]
+    },
+    {
       "privacy": "sanitized",
       "id": "cleanup.character-3d",
       "path": "code-cleanup-helper/references/topics/character-3d-audit.md",
@@ -150,8 +164,8 @@
       "privacy": "sanitized",
       "id": "cleanup.session-ai",
       "path": "code-cleanup-helper/references/topics/session-native-ai.md",
-      "sha256": "d18fd5f8833bd7ac949573c4bcf68f22302e574f0ca9a81981f5b6b1fdaf6378",
-      "tokenCost": 240,
+      "sha256": "9f4006d53458d8a42a781faf217a86e79e2f827397354d7e5a682e2ea39a1ed4",
+      "tokenCost": 258,
       "ruleIds": [
         "cleanup.ai.forgery-stale-negative",
         "cleanup.ai.human-fallback",
@@ -205,6 +219,19 @@
         "cleanup.visual.contract",
         "cleanup.visual.evidence",
         "cleanup.visual.scope"
+      ]
+    },
+    {
+      "id": "rd.agent-workflow",
+      "path": "run-benchmark-driven-rd/references/topics/agent-workflow-adoption.md",
+      "sha256": "890dacd00c05c6666e8e9cd811cb8fc790a13e2e7c6b3474a40005abf5bc64b2",
+      "tokenCost": 337,
+      "privacy": "sanitized",
+      "ruleIds": [
+        "rd.workflow.load-bearing-fact",
+        "rd.workflow.project-driver",
+        "rd.workflow.selective-adoption",
+        "rd.workflow.structural-correction"
       ]
     },
     {
@@ -1893,6 +1920,56 @@
         "visual-functional-negative",
         "visual-alpha-negative"
       ]
+    },
+    {
+      "id": "cleanup.workflow.driver-proof",
+      "ownerTopic": "cleanup.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.workflow.effective-authority",
+      "ownerTopic": "cleanup.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.workflow.error-enforcement",
+      "ownerTopic": "cleanup.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.workflow.origin",
+      "ownerTopic": "cleanup.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.workflow.transitive-scope",
+      "ownerTopic": "cleanup.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
     },
     {
       "id": "rd.arch.cleanup-provider",
@@ -4002,6 +4079,46 @@
         "visual-functional-negative",
         "visual-alpha-negative"
       ]
+    },
+    {
+      "id": "rd.workflow.load-bearing-fact",
+      "ownerTopic": "rd.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.workflow.project-driver",
+      "ownerTopic": "rd.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.workflow.selective-adoption",
+      "ownerTopic": "rd.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.workflow.structural-correction",
+      "ownerTopic": "rd.agent-workflow",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
     }
   ],
   "promotionReceipts": [

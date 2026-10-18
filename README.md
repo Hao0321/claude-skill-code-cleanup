@@ -5,7 +5,14 @@
 - `code-cleanup-helper`：read-only repository／Skill／release evaluator。
 - `run-benchmark-driven-rd`：定義可證偽目標、保存 baseline、執行實驗、控制 promotion 與外部變更。
 
-目前版本：**v0.22.1**。
+目前版本：**v0.23.0**。
+
+## v0.23.0 重點
+
+- 新增按需讀取的外部 Skill／plugin 審查與採用卡：分辨原作與移植、追查 hooks／helpers 的實際權限，包含省略參數與跨專案紀錄的預設範圍。
+- R&D 建立可操作真實程式的本地驗證配方，保存清理後仍可讀的證據；把已重現的反覆錯誤轉成架構、型別、lint 或行為測試約束。
+- 精簡入口與新專題卡，保留全部 9 條新規則、既有規則及 context 上限。這些原創指引參考固定版本的 MIT [pstack](https://github.com/cursor/plugins/tree/4382e687a50b8d2c5ce4d141d001186589cff8d5/pstack)，不安裝其 runtime、hooks 或自主合併設定；成效標記仍為 provisional。
+- CI 擴大到 Cleanup、R&D、整合／路由回歸、learning replay 與精確 Token 預算，覆蓋 Windows／macOS／Linux、Python 3.10／3.12。測試通過不等於下游產品或整體代理品質已驗證。
 
 ## v0.22.1 重點
 

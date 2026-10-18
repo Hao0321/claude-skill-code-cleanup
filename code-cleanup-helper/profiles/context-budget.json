@@ -3,6 +3,15 @@
   "tokenizer": "o200k_base",
   "routes": [
     {
+      "id": "cleanup-agent-workflow",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 3500, "maxTokens": 1000},
+        {"path": "references/topics/agent-workflow-audit.md", "maxBytes": 3000, "maxTokens": 650}
+      ],
+      "maxBytes": 6500,
+      "maxTokens": 1650
+    },
+    {
       "id": "cleanup-character-retopology",
       "files": [
         {

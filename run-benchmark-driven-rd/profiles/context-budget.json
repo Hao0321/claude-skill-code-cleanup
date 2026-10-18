@@ -3,6 +3,15 @@
   "tokenizer": "o200k_base",
   "routes": [
     {
+      "id": "rd-agent-workflow",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 4000, "maxTokens": 1000},
+        {"path": "references/topics/agent-workflow-adoption.md", "maxBytes": 3000, "maxTokens": 650}
+      ],
+      "maxBytes": 7000,
+      "maxTokens": 1650
+    },
+    {
       "id": "rd-character-game-lowpoly-bake",
       "files": [
         {

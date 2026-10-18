@@ -1,4 +1,4 @@
-name: Provider portability
+name: Skill verification
 
 on:
   push:
@@ -40,5 +40,19 @@ jobs:
                   stream.write(f"{name}={root}\n")
       - name: Provider regressions
         run: python -B code-cleanup-helper/scripts/self_test.py
+      - name: Install validation dependencies
+        run: python -m pip install -r requirements.txt
+      - name: R&D regressions
+        run: python -B run-benchmark-driven-rd/scripts/self_test.py
+      - name: Integration regressions
+        run: python -B run-benchmark-driven-rd/scripts/regression_corpus.py
+      - name: Router regressions
+        run: python -B run-benchmark-driven-rd/scripts/router_quality_corpus.py --output "${{ runner.temp }}/router.json" --quiet
+      - name: Replay bundled learning
+        run: python -B run-benchmark-driven-rd/scripts/verify_learning_bundle.py
+      - name: Cleanup context budget
+        run: python -B code-cleanup-helper/scripts/check_context_budget.py code-cleanup-helper --manifest code-cleanup-helper/profiles/context-budget.json --output "${{ runner.temp }}/cleanup-budget.json" --quiet
+      - name: R&D context budget
+        run: python -B code-cleanup-helper/scripts/check_context_budget.py run-benchmark-driven-rd --manifest run-benchmark-driven-rd/profiles/context-budget.json --output "${{ runner.temp }}/rd-budget.json" --quiet
       - name: Source remains unchanged
         run: git diff --exit-code

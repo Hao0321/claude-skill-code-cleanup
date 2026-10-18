@@ -7,3 +7,5 @@
 - `cleanup.ai.human-fallback`: missing CLI or health failure yields a bounded inspectable copy-command and next-session instruction, never silent success.
 
 Computer Use is fallback evidence when no structured tool exists; stepwise clicking cannot close a promised low-latency/low-Token structured flow.
+
+For external skill/plugin adoption, use [workflow audit](agent-workflow-audit.md).

@@ -34,6 +34,7 @@
     "references/security-hardening-gates.md",
     "references/state-integrity-probes.md",
     "references/tooling-and-architecture-gates.md",
+    "references/topics/agent-workflow-adoption.md",
     "references/topics/architecture-and-evaluator.md",
     "references/topics/character-3d-workflow-detail.md",
     "references/topics/character-3d-workflow.md",
@@ -120,11 +121,11 @@
   ],
   "managed_sha256": {
     "CHANGELOG.md": "9bba00eba123ea8a72294feec10915d131ea269d7ec04955dbf1f54e7b6985c9",
-    "SKILL.md": "62f63dc930c7f16299d3d5aef18023fb5fc77c4ddd1cd9ddd27e23e63e496e59",
+    "SKILL.md": "e029b36770c2ee6b9ec1c56e660384b0659ccd636120a5f278bf5802a9bc9bc4",
     "agents/openai.yaml": "f09adc28df36ee12d954c9cee28231e9897408437c884c6193323fd757033c9e",
-    "profiles/context-budget.json": "9ebb7ba131549f835817f0bc4376260ca9f856cd6fbf2edd2a011f2d12aa35f6",
+    "profiles/context-budget.json": "840957738585f52a661696b7722946eeb3d3686f4169404462db284f63445a20",
     "profiles/project-modules.json": "b7482ef353af3a690530964011c1e45c512bc69f19216540162f5bc67aa2c1c0",
-    "profiles/reverse-exposure-promotion.json": "d47d29329a43686414f305e5f95d7e922764a3f1cb085b29bd5573c913d9a37b",
+    "profiles/reverse-exposure-promotion.json": "e4578f21c716bd9eb9e94bcef63d4fd669529f3716dc13005e7db425ad0cff95",
     "profiles/reverse-exposure-record.json": "825014b6abb24574343459e86457d3ab58cf0f3108a4f00990f60e32466a10c6",
     "profiles/state-integrity-caller-calendar-promotion.json": "1f283bf946ad4a6de0130edb2cf0d1c1c7a2615dca982b180978a3c800387c8a",
     "profiles/state-integrity-fulfilment-promotion.json": "8c559a02d121890384adcee02e14bc1a0ed61a3462fbdf1f6aefaf478827a68a",
@@ -152,6 +153,7 @@
     "references/security-hardening-gates.md": "6624da16d6c526d16199a5ae4277debd7d5c91bbb0822ad535de457e3d1659e8",
     "references/state-integrity-probes.md": "85721c29e3204e7b56756896ec2a5a0114a13814d3312b12c5639f56f2b2eef7",
     "references/tooling-and-architecture-gates.md": "f4e874d83625c4065bd064309bc5f751e8b3401b07f3ffa91c68e468ea456e2d",
+    "references/topics/agent-workflow-adoption.md": "890dacd00c05c6666e8e9cd811cb8fc790a13e2e7c6b3474a40005abf5bc64b2",
     "references/topics/architecture-and-evaluator.md": "e914d95eff96ce9497867091f4cf70743e0e9889ba4513b27d3e84fdb71f1183",
     "references/topics/character-3d-workflow-detail.md": "ff4530fc195ed7d36d01c9304d9cf03f475e68959f21d24b4938cc72d6808576",
     "references/topics/character-3d-workflow.md": "a8e712ea699442de22226c35c01761f4cae20df4daa51db8be3bd1826047f0b9",
@@ -179,7 +181,7 @@
     "references/topics/visual-quality.md": "45bb7d25e2845f743a5eac0f55d73ce63fcf07bc025e7bac445c3194c9597e38",
     "references/topics/water-foam-lace.md": "36d03126ea482afe0d5463c71d02118870864e29f07098dcef8ad836b983edd9",
     "references/web-commerce-acceptance.md": "776bf988e3a26150b94028170552d82c89073432b8735d92d7db97b65416c7be",
-    "scripts/build_topic_index.py": "eeaa534bf134feb64bfa452f2ffb1c3c90775dbea95ee296854f41172b4af21a",
+    "scripts/build_topic_index.py": "817c455ff1a476a5242955619d796f43cebff433196aa81e8e13c0eaa7c6db68",
     "scripts/capability_gate.py": "c4eec1c1145626467023a74a911b76b1b9f8a7e847291a78403858958c441dc0",
     "scripts/capability_gate_selftest.py": "970655173d22dd84d8d2d6abe4ae95cd35eb4af7db1f6922e5f4eb1952705da8",
     "scripts/character_checkpoint_selftest.py": "2f627823742fb9b98a545d1ca46fc1f3e05b5d94ea72ca3d48e0a41242c3f13c",
@@ -234,6 +236,6 @@
     "scripts/verify_learning_bundle.py": "5ead1b7c27c7c5ba5e13b74fd9656039d8b2b2364790962253a6aeddd45c0663",
     "scripts/verify_router_migration.py": "ab940434a00657751d75bb3dab16b3f4c5dbded42567a2446d615d38522ea27e",
     "scripts/web_acceptance_gate.py": "f76871ec31a4130e6f94dddb75995eb5cbfb913faa19e1188e6a96f33118adcb",
-    "topic-index.json": "87735c5e239b8d24ec54f44de824ab4951f12769484c2b7f330b66b04a907545"
+    "topic-index.json": "48fe011ff3428fe7f1700f4924ed93b7beb5e3c95077f445f93951147cea0292"
   }
 }

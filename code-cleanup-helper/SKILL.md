@@ -8,14 +8,14 @@ description: Read-only code／architecture／repo／release／Skill audit；含 
 ## Contract
 
 1. Active private Skill 是唯一權威。開始 `check_skill_revision.py capture`，最終 `verify`；`UNSTABLE` 不混用，`STALE` 重讀重驗。
-2. Audit 永遠 read-only。純診斷先報告等授權；已授權實作只取證，不重複詢問；不自行外部或破壞性 mutation。
+2. Audit 唯讀。診斷先報告等授權；已授權實作直接取證；不自行外部／破壞性 mutation。
 3. `FAIL`=已證明阻擋、`REVIEW`=人工判斷、`NOT_CHECKED`=量尺／環境／證據缺口、`PASS`=僅已執行維度；未量測不得包裝為 PASS。
-4. 外部檢查要保存 child executable identity、真實啟動、child exit 與 success marker；父 shell exit 0 不代表通過。
-5. 解析絕對目標；修後重跑；報告綁 revision、config、route、JSON evidence。
-6. Cleanup 是獨立 provider；選 mode／config 不等於通過。修改、promotion、外部 mutation、完成宣告歸 orchestrator。
+4. 外部檢查保存 child executable identity、真實 launch、exit、success marker；父 shell exit 0 非通過證據。
+5. 解析絕對目標；修後重跑，報告綁 revision／config／route 與 JSON 證據。
+6. Cleanup 是獨立 provider；mode／config 非通過證據。修改、promotion、外部 mutation、完成歸 orchestrator。
 7. 分類更新覆蓋（managed／check-only／safe-auto-update／manual-only／no-origin）；URL／檔案不證明或授權更新能力。
 8. Security v2 每個 target 必須覆蓋六控制 planned/executed cells；零 finding、generic check 或自結不補缺格。
-9. 收尾／大產物前查磁碟空間；依 `references/disk-hygiene.md` 交付清理清單。
+9. 收尾／大產物前查磁碟；依 `references/disk-hygiene.md` 列清理清單。
 
 ## 路由
 
@@ -38,7 +38,8 @@ description: Read-only code／architecture／repo／release／Skill audit；含 
 | 視覺／UI／材質品質 | `references/topics/visual-quality-audit.md` |
 | desktop runtime／背景 job | `references/topics/desktop-runtime.md` |
 | PR／權限 | `references/topics/community-pr-audit.md` |
-| Codex／Claude／MCP 產品流程 | `references/topics/session-native-ai.md` |
+| AI產品 | `references/topics/session-native-ai.md` |
+| 外部 Skill／plugin | `references/topics/agent-workflow-audit.md` |
 | GitHub updater／回滾／淘汰舊版 | `references/topics/secure-self-update.md`；helper／installer／簽章再加 security＋build |
 
 跨類合併。Legacy：`references/cross-system-integration-audit.md`，記錄原因／成本；維護：`references/maintenance.md`。
@@ -49,4 +50,4 @@ description: Read-only code／architecture／repo／release／Skill audit；含 
 python scripts/audit.py <target> --mode all --format json
 ```
 
-僅 CI／fail-fast 加 `--strict`。普通 `REVIEW` 不阻擋；收尾由 R&D 收斂 review、freshness、obligations。未解析 graph 保持 `NOT_CHECKED`。輸出 3–10 個優先 finding，完整清單留 JSON；URL 不授權執行。
+CI／fail-fast 才加 `--strict`。普通 `REVIEW` 不阻擋；R&D 收尾須收斂 review、freshness、obligations。未解析 graph 保持 `NOT_CHECKED`。優先報 3–10 個 finding，其餘留 JSON。

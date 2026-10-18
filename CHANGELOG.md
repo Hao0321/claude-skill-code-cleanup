@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.23.0 — bounded agent-workflow adoption
+
+Add two original, demand-loaded cards informed by Lauren Tan's MIT pstack at fixed commit `4382e687a50b8d2c5ce4d141d001186589cff8d5`. Distinguish original/port provenance and effective instruction/hook/helper authority, including omitted-argument transcript scope. Require real project entry points, durable proof, defect replay and structural correction rather than prose-only prevention claims. No upstream runtime, automatic tool approvals, model defaults or external-write authority is imported.
+
+Slim entrypoints and new cards without removing their nine rule IDs, existing rules, private history or lowering context limits. New rules remain provisional; bounded mechanism checks do not establish general agent-quality gains. Rebind the current learning receipt after replaying its existing controls; immutable experiments remain unchanged.
+
+Expand the existing six-platform/runtime CI matrix to include R&D self-tests, integration and router corpora, bundled learning replay and exact context budgets. Publishing this guidance does not install a background updater or grant permission to mutate users' projects.
+
 ## v0.22.1 — exposure coverage and publication freshness
 
 Fix false-clean results for UTF-16 POSIX private paths, indexed source maps and opaque ZIP envelopes. Bound recursive map traversal, reject ambiguous duplicate keys, and retain unknown external sections and compressed contents as NOT_CHECKED. Credential scanning uses overlapping windows and skips duplicate decoding when no NUL bytes exist; near-miss and window-boundary controls preserve redaction and calibrated matches.
@@ -12,15 +20,9 @@ On one Windows / Python 3.10.6 machine, a frozen 8,388,600-byte clean payload an
 
 ## v0.22.0 — scoped reverse analysis and maintainer hardening
 
-Add optional REA discovery and artifact-evidence guidance, a read-only release exposure checker, and typed reverse-analysis routing. The owned Windows JavaScript fixture recovered its static import relationships; native decompilation and resistance to arbitrary reverse engineering remain unmeasured.
+Introduced optional REA analysis, bounded static-exposure checks, privacy/ownership-safe publication, pruned inventory, UTF-8 machine reports and demand-loaded specialist cards. Historical learning without retrievable experiments remains provisional.
 
-Public sync now preflights the complete delta, scans encoded private text and credential candidates, rejects unsafe paths/links and modified managed files, and writes hash ownership. Machine JSON survives non-Unicode consoles. Excluded directory pruning retains the included set; responsibility splits preserve existing CLI entrypoints and strict review behavior.
-
-The included inventory benchmark uses a 4,960-file synthetic warm-cache fixture with 4,800 excluded files and nine interleaved rounds. One Windows run measured 4,405.497 ms → 124.328 ms median (35.434×) for inventory only. This is not a whole-audit speed or game-quality claim.
-
-Sanitized game/3D/visual/state-integrity cards are loaded only for relevant tasks. Single-project art observations remain provisional; raw project notes, target paths, REA output and package caches are excluded.
-
-Learning provenance audit found historical active labels without their immutable experiments in this installation. Rules and original receipt bytes are retained as historical evidence, with current status provisional. The new static-exposure rule includes a sanitized typed record and a bundled replay verifier with hash, traversal, identity and fixture-ledger negative controls.
+Full behavior, benchmark inputs/results, limitations and learning provenance are retained in the [Cleanup history](code-cleanup-helper/CHANGELOG.md) and [R&D history](run-benchmark-driven-rd/CHANGELOG.md). This index replaces duplicated paragraphs, not those original records; inventory speed measurements are not whole-audit or game-quality claims.
 
 
 ## Unreleased — 2026-09-04

@@ -14,6 +14,8 @@ from typing import Any
 
 
 TOPIC_SPECS = {
+    "cleanup.agent-workflow": "code-cleanup-helper/references/topics/agent-workflow-audit.md",
+    "rd.agent-workflow": "run-benchmark-driven-rd/references/topics/agent-workflow-adoption.md",
     "cleanup.reverse-analysis": "code-cleanup-helper/references/topics/reverse-engineering-audit.md",
     "rd.reverse-analysis": "run-benchmark-driven-rd/references/topics/reverse-engineering.md",
     "cleanup.state-integrity": "code-cleanup-helper/references/topics/state-integrity-audit.md",

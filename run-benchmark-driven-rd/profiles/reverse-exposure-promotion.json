@@ -18,6 +18,6 @@
     "exposure.byte-bound",
     "exposure.no-reflection"
   ],
-  "topicIndexSha256": "87735c5e239b8d24ec54f44de824ab4951f12769484c2b7f330b66b04a907545",
+  "topicIndexSha256": "48fe011ff3428fe7f1700f4924ed93b7beb5e3c95077f445f93951147cea0292",
   "basis": "Current owned static-parser controls only; no arbitrary-target security or anti-reversing claim"
 }
