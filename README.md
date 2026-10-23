@@ -5,7 +5,22 @@
 - `code-cleanup-helper`：read-only repository／Skill／release evaluator。
 - `run-benchmark-driven-rd`：定義可證偽目標、保存 baseline、執行實驗、控制 promotion 與外部變更。
 
-目前版本：**v0.23.0**。
+目前版本：**v0.24.0**。
+
+## v0.24.0 重點
+
+- 新增可執行的 context intake：分開開場索引、任務選讀與重開／壓縮後重新選取，不預載整包參考資料或私人紀錄。
+- 選定路由保留必要指令、共用檔案只輸出一次；沿用逐檔與路由預算，另檢查完整輸出的精確 Token 上限。來源改動、越界路徑與超額會阻擋，不截斷安全規則。
+- 預設只回短摘要；完整收據可留在本機。這不修改 Codex／Claude Code 的宿主設定、hooks 或強制注入，也不把回執／快取當成模型仍記得或免費使用的證明。兩條新增規則維持 provisional。
+
+在本 repo 根目錄試用（輸出為 JSON；`--emit-packet` 才附選讀文字）：
+
+```sh
+python code-cleanup-helper/scripts/context_intake.py run-benchmark-driven-rd --event startup --emit-packet
+python code-cleanup-helper/scripts/context_intake.py run-benchmark-driven-rd --event turn --route rd-context-learning --emit-packet
+```
+
+詳見 [載入時機、預算與限制](code-cleanup-helper/references/context-intake.md)。工具輸出量不等於完整對話上下文、實際帳單或整體代理品質的提升。
 
 ## v0.23.0 重點
 

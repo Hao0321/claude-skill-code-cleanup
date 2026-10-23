@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.24.0 — bounded context lifecycle
+
+Add a source-read-only context intake helper for startup catalogs, explicit task-selected routes and cold resume. Reuse the existing context-budget manifests, retain critical entries, deduplicate shared files, and count complete emitted text with exact `o200k_base` plus an aggregate ceiling. Reject unknown/ambiguous selections, private/link/traversal paths, source drift and budget overflow; unavailable tokenization stays NOT_CHECKED. Compact console summaries avoid dumping full audit receipts by default, and fresh local receipts cannot overwrite existing files.
+
+Calibrate lifecycle, deduplication, invalid inputs, source drift, unavailable measurement, CLI errors and competing receipt writers with owned fixtures. Preserve all 280 existing rule records and both entrypoint files; add two provisional context-intake rules. Slim the R&D context card to retain the existing router budget rather than increasing the ceiling. Replay the unchanged historical calibration before rebinding its current index receipt.
+
+This is workflow guidance and an explicit selection tool, not a host startup hook or an exemption from required instructions. It changes no host configuration, imports no raw transcript and claims no measured billing/cache savings or general agent-quality improvement.
+
 ## v0.23.0 — bounded agent-workflow adoption
 
 Add two original, demand-loaded cards informed by Lauren Tan's MIT pstack at fixed commit `4382e687a50b8d2c5ce4d141d001186589cff8d5`. Distinguish original/port provenance and effective instruction/hook/helper authority, including omitted-argument transcript scope. Require real project entry points, durable proof, defect replay and structural correction rather than prose-only prevention claims. No upstream runtime, automatic tool approvals, model defaults or external-write authority is imported.

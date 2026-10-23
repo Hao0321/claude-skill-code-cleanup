@@ -125,7 +125,7 @@
     "agents/openai.yaml": "f09adc28df36ee12d954c9cee28231e9897408437c884c6193323fd757033c9e",
     "profiles/context-budget.json": "840957738585f52a661696b7722946eeb3d3686f4169404462db284f63445a20",
     "profiles/project-modules.json": "b7482ef353af3a690530964011c1e45c512bc69f19216540162f5bc67aa2c1c0",
-    "profiles/reverse-exposure-promotion.json": "e4578f21c716bd9eb9e94bcef63d4fd669529f3716dc13005e7db425ad0cff95",
+    "profiles/reverse-exposure-promotion.json": "64811690644fc87425cb747e3d4ae4caffe5da3b53ec0993a7b864e21678b87b",
     "profiles/reverse-exposure-record.json": "825014b6abb24574343459e86457d3ab58cf0f3108a4f00990f60e32466a10c6",
     "profiles/state-integrity-caller-calendar-promotion.json": "1f283bf946ad4a6de0130edb2cf0d1c1c7a2615dca982b180978a3c800387c8a",
     "profiles/state-integrity-fulfilment-promotion.json": "8c559a02d121890384adcee02e14bc1a0ed61a3462fbdf1f6aefaf478827a68a",
@@ -166,7 +166,7 @@
     "references/topics/community-pr-adoption.md": "9c0c4f6fd9d8af10a0b11537c7bc24a1d703a4d579580194eb99cf14e1bc0729",
     "references/topics/completion-and-external.md": "bc939d34370a621806a991781f8cdc8252c78317ce09d99de9968e013364d6c8",
     "references/topics/completion-detail.md": "5d13ba3dba70bf250a78f7ecccff1f893354b1acef79eda07cb7a3b49580ab1a",
-    "references/topics/context-and-learning.md": "02b1d83a3e546e3af189de8b98a62f2a8983d57592f1828846fd1e4208d6ba5b",
+    "references/topics/context-and-learning.md": "dbde2d7a233b50b788e2f2406f9a87fb4a5c6856bd035524a8559399c8ee01ad",
     "references/topics/core-experiment.md": "071a6f044acb3dc85dc66ae59c169f513c8b4adf82221bdabea2b9a5e34b9203",
     "references/topics/delivery-artifact.md": "3b986242e90e6bb0e37779d54a8d5d4a89393a19a13edae86f0ae06d24d734f9",
     "references/topics/environment-town-layout.md": "9bd395b7f33b470f98740d029092d009955fcfc48b9f56c971f2d6527de9878a",
@@ -236,6 +236,6 @@
     "scripts/verify_learning_bundle.py": "5ead1b7c27c7c5ba5e13b74fd9656039d8b2b2364790962253a6aeddd45c0663",
     "scripts/verify_router_migration.py": "ab940434a00657751d75bb3dab16b3f4c5dbded42567a2446d615d38522ea27e",
     "scripts/web_acceptance_gate.py": "f76871ec31a4130e6f94dddb75995eb5cbfb913faa19e1188e6a96f33118adcb",
-    "topic-index.json": "48fe011ff3428fe7f1700f4924ed93b7beb5e3c95077f445f93951147cea0292"
+    "topic-index.json": "2e06414a3d0481ecbb7dc359b12fd38ae25fc67c0a59513ec15494cd75b8d13a"
   }
 }

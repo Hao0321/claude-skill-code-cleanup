@@ -11,6 +11,7 @@ This topic owns the rules that make progressive disclosure smaller without turni
 - `cleanup.learning.raw-local`: project observations, names, paths, UI details, and raw evidence stay in the target repo `.rd/` and contribute zero default prompt Tokens.
 - `cleanup.learning.promotion-receipt`: shared active/core rules require one owner, applicability and exclusions, a live content hash, reciprocal experiment linkage, replayable positive and negative fixtures, and a privacy-safe promotion receipt.
 - `cleanup.context.quality-separate`: lower prompt Tokens prove only context efficiency. Compliance recall, verdict parity, false-green detection, and real task quality need separate frozen-corpus evidence.
+- `cleanup.context.intake`: audit startup/catalog, per-turn mandates and selected-only reads using [intake](../context-intake.md). Receipts/cache do not prove residency, host changes or free Tokens.
 
 ## Three tiers
 

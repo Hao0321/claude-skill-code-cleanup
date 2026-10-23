@@ -3,6 +3,15 @@
   "tokenizer": "o200k_base",
   "routes": [
     {
+      "id": "cleanup-context-intake",
+      "files": [
+        {"path": "SKILL.md", "maxBytes": 3500, "maxTokens": 1000},
+        {"path": "references/context-intake.md", "maxBytes": 3500, "maxTokens": 650}
+      ],
+      "maxBytes": 7000,
+      "maxTokens": 1650
+    },
+    {
       "id": "cleanup-agent-workflow",
       "files": [
         {"path": "SKILL.md", "maxBytes": 3500, "maxTokens": 1000},

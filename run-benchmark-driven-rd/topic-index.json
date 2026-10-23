@@ -88,11 +88,12 @@
       "privacy": "sanitized",
       "id": "cleanup.context",
       "path": "code-cleanup-helper/references/topics/context-routing-and-memory.md",
-      "sha256": "972e0a16fa8217a806863f165421c98740c8d1174886da7a770e9a0c4d2f85b4",
-      "tokenCost": 529,
+      "sha256": "3ca3e799639e596ce1ef4669821e63ed5b738e2e8d8ca0381f37e4d11cc9636c",
+      "tokenCost": 572,
       "ruleIds": [
         "cleanup.context.canonical-private",
         "cleanup.context.critical-no-drop",
+        "cleanup.context.intake",
         "cleanup.context.legacy-fallback",
         "cleanup.context.quality-separate",
         "cleanup.context.route-bounded",
@@ -422,10 +423,11 @@
       "privacy": "sanitized",
       "id": "rd.context-learning",
       "path": "run-benchmark-driven-rd/references/topics/context-and-learning.md",
-      "sha256": "02b1d83a3e546e3af189de8b98a62f2a8983d57592f1828846fd1e4208d6ba5b",
-      "tokenCost": 415,
+      "sha256": "dbde2d7a233b50b788e2f2406f9a87fb4a5c6856bd035524a8559399c8ee01ad",
+      "tokenCost": 426,
       "ruleIds": [
         "rd.context.critical-fallback",
+        "rd.context.intake",
         "rd.context.quality-separate",
         "rd.context.typed-route",
         "rd.learning.local-first",
@@ -1040,6 +1042,16 @@
     },
     {
       "id": "cleanup.context.critical-no-drop",
+      "ownerTopic": "cleanup.context",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "cleanup.context.intake",
       "ownerTopic": "cleanup.context",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
@@ -2441,6 +2453,16 @@
     },
     {
       "id": "rd.context.critical-fallback",
+      "ownerTopic": "rd.context-learning",
+      "promotionState": "provisional",
+      "evidenceState": "diagnostic",
+      "privacy": "sanitized",
+      "experimentIds": [],
+      "positiveFixtureIds": [],
+      "negativeFixtureIds": []
+    },
+    {
+      "id": "rd.context.intake",
       "ownerTopic": "rd.context-learning",
       "promotionState": "provisional",
       "evidenceState": "diagnostic",
